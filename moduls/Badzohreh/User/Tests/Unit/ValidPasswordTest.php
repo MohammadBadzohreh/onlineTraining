@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace moduls\Badzoreh\User\Tests\Unit;
 
 use Badzohreh\User\Rules\ValidPassword;
 use PHPUnit\Framework\TestCase;

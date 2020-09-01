@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace moduls\Badzoreh\User\Tests\Feature;
 
 use Badzohreh\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
