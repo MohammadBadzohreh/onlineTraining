@@ -1,24 +1,27 @@
 @extends('User::Front.auth.master')
 
 @section('content')
-<div class="form">
-    <a class="account-logo" href="/">
-        <img src="/img/weblogo.png" alt="">
-    </a>
-    <div class="form-content form-account">
-        @if (session('resent'))
-            <div class="alert alert-success" role="alert">
-                یک لینک تایید ایمیل جدید به ایمیلتان ارسال شد.
-            </div>
-        @endif
+    <form action="{{route('verification.verify')}}" class="form" method="post">
+        <a class="account-logo" href="index.html">
+            <img src="img/weblogo.png" alt="">
+        </a>
+        <div class="card-header">
+            <p class="activation-code-title">کد فرستاده شده به ایمیل <span>Mohammadniko3@gmail.com</span> را وارد کنید
+            </p>
+        </div>
+        <div class="form-content form-content1">
+            <input class="activation-code-input" placeholder="فعال سازی">
+            <br>
+            <button class="btn i-t">تایید</button>
 
-        قبل از ادامه لطفا ایمیلتان را چک کنید
-        اگر ایمیلی دریافت نکرده اید درخواست ارسال مجدد لینک بدهید.
-        <form class="d-inline center" method="POST" action="{{ route('verification.resend') }}">
-            @csrf
-            <button type="submit" class="btn btn-link p-0 m-0 align-baseline">ارسال مجددا کد لینک تایید</button>
-            <a href="/" class="">بازگشت به صفحه ی اصلی</a>
-        </form>
-    </div>
-</div>
+        </div>
+        <div class="form-footer">
+            <a href="{{route('login')}}">صفحه ورود</a>
+        </div>
+    </form>
+@endsection
+
+@section('js')
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/activation-code.js"></script>
 @endsection
