@@ -3,6 +3,7 @@
 namespace moduls\Badzoreh\User\Tests\Feature;
 
 use Badzohreh\User\Models\User;
+use Badzohreh\User\Services\VerifyService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -42,6 +43,33 @@ class RegisterationTest extends TestCase
         $this->assertCount(1, User::all());
     }
 
+
+    public function test_user_can_verify()
+    {
+        $user = User::create([
+            'name' => $this->faker->name,
+            'email' => $this->faker->safeEmail,
+            'password' => bcrypt('aA1!!23'),
+        ]);
+
+        $code = VerifyService::generate();
+
+        VerifyService::store($user->id, $code);
+
+        auth()->loginUsingId($user->id);
+
+        $this->assertAuthenticated();
+
+        $response = $this->post(route('verification.verify'), [
+            'verification_code' => $code
+        ]);
+
+        $response->assertRedirect(route('home'));
+
+        $this->assertEquals(true, $user->fresh()->hasVerifiedEmail());
+
+    }
+
     public function test_have_to_verify_account()
     {
         $this->registerNewUser();
@@ -57,7 +85,6 @@ class RegisterationTest extends TestCase
         $response = $this->get(route("home"));
         $response->assertOk();
     }
-
 
 
 }

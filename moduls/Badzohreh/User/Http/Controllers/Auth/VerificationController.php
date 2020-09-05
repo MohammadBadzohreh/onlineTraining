@@ -1,8 +1,11 @@
 <?php
 
 namespace Badzohreh\User\Http\Controllers\Auth;
+
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Badzohreh\User\Http\Requests\verificationCodeRequest;
+use Badzohreh\User\Services\VerifyService;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 
@@ -47,6 +50,15 @@ class VerificationController extends Controller
             : view('User::Front.auth.verify');
     }
 
+    public function verify(verificationCodeRequest $request)
+    {
+
+        if (!VerifyService::check(auth()->id(), $request->verification_code))
+            return back()->withErrors(['verification_code'=>'کد وارد شده درست نیست.']);
+
+        auth()->user()->markEmailAsVerified();
+        return redirect('/home');
+    }
 
 
 }
