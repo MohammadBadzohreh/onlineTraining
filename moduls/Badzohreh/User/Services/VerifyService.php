@@ -3,10 +3,14 @@
 namespace Badzohreh\User\Services;
 
 
+use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
+use phpDocumentor\Reflection\Types\Self_;
+
 class VerifyService
 {
     private static $min = 100000;
     private static $max = 999999;
+    private static $prefix = 'verificaionCode';
 
     public static function generate()
     {
@@ -14,26 +18,32 @@ class VerifyService
     }
 
 
-    public static function store($id, $code)
+    public static function store($id, $code,$time)
     {
-        cache()->set("verificaionCode" . $id,
+        cache()->set(self::$prefix . $id,
             $code,
-            now()->addDay());
+            $time
+        );
 
     }
 
 
     public static function get($id)
     {
-        return cache()->get("verificaionCode" . $id);
+        return cache()->get(self::$prefix . $id);
     }
 
     public static function delete($id)
     {
-        cache()->delete("verificaionCode" . $id);
+        cache()->delete(self::$prefix . $id);
 
     }
 
+
+    public static function has($id)
+    {
+        return cache()->has(self::$prefix.$id) == true;
+    }
 
     public static function getRule()
     {

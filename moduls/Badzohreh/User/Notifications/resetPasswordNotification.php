@@ -2,14 +2,12 @@
 
 namespace Badzohreh\User\Notifications;
 
-use Badzohreh\User\Mail\VerificationCode;
-use Badzohreh\User\Services\VerifyService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class VerifyMail extends Notification
+class resetPasswordNotification extends Notification
 {
     use Queueable;
 
@@ -20,13 +18,13 @@ class VerifyMail extends Notification
      */
     public function __construct()
     {
-
+        //
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -37,23 +35,23 @@ class VerifyMail extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed $notifiable
+     * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
         $code = VerifyService::generate();
-
-        VerifyService::store($notifiable->id,$code,now()->addDay());
-
-        return (new VerificationCode($notifiable,$code))
+        VerifyService::store($notifiable->id,$code,120);
+        return (new resetPasswordNotification($notifiable,$code))
             ->to($notifiable->email);
+
+
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function toArray($notifiable)

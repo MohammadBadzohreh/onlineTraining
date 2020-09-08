@@ -2,11 +2,66 @@
 
 Route::group(['namespace' => 'Badzohreh\User\Http\Controllers',
     'middleware' => 'web'], function ($router) {
-    Auth::routes(['verify' => true]);
 
-    $router->post("email/verify", "Auth\VerificationController@verify")
+
+//    user email routes
+
+    Route::post("email/resend", "Auth\VerificationController@resend")
+        ->name("verification.resend")
+        ->middleware('auth');
+
+
+    Route::post("email/verify", "Auth\VerificationController@verify")
         ->name("verification.verify");
 
+    Route::get("email/verify", "Auth\VerificationController@show")
+        ->name("verification.notice")
+        ->middleware('auth');
+//    login routes
+
+
+    Route::post("login", "Auth\LoginController@login");
+
+    Route::get("login", "Auth\LoginController@showLoginForm")
+        ->name("login");
+
+//    register
+
+
+    Route::post("register", "Auth\RegisterController@register")
+        ->name("register");
+
+    Route::get("register", "Auth\RegisterController@showRegistrationForm")
+        ->name("register");
+//    logout
+
+
+    Route::post("logout", "Auth\LoginController@logout")
+        ->name("logoutt");
+
+
+//reset password
+
+
+
+    Route::get("password/reset", "Auth\ForgotPasswordController@showVerifyCodeRequestForm")
+        ->name("password.request");
+
+    Route::get("password/reset/send", "Auth\ForgotPasswordController@sendVerifyCodeEmail")
+        ->name("password.sendVerifyCodeEmail");
+
+    Route::post("password/reset/check", "Auth\ForgotPasswordController@checkResetPassword")
+        ->middleware('throttle:5,1')
+        ->name("reset.password.check");
+
+
+    Route::get("/password/change","Auth\ResetPasswordController@showResetForm")
+        ->middleware("auth")
+        ->name("password.showResetForm");
+
+    Route::post("/change/passowrd",
+        "Auth\ResetPasswordController@changePassowrd")
+        ->name("password.update");
 });
 
 

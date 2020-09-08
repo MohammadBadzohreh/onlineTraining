@@ -1,8 +1,8 @@
-@extends('master')
+@extends('User::Front.auth.master')
 
 @section('content')
-    <form method="POST" action="{{ route('password.email') }}" class="form">
-        @csrf
+    <form method="get" action="{{ route("password.sendVerifyCodeEmail") }}" class="form">
+
         <a class="account-logo" href="index.html">
             <img src="/img/weblogo.png" alt="">
         </a>
@@ -12,7 +12,7 @@
                     {{ session('status') }}
                 </div>
             @endif
-            <input type="email" name="email"  id="email" class="txt-l txt @error('email') is-invalid @enderror" placeholder="ایمیل"
+            <input type="text" name="email"  id="email" class="txt-l txt @error('email') is-invalid @enderror" placeholder="ایمیل"
                    value="{{ old('email') }}" required autocomplete="email" autofocus
             >
             @error('email')
@@ -24,7 +24,7 @@
             <button type="submit" class="btn btn-recoverpass">بازیابی</button>
         </div>
         <div class="form-footer">
-            <a href="login.html">صفحه ورود</a>
+            <a href="{{ route("login") }}">صفحه ورود</a>
         </div>
     </form>
 @endsection

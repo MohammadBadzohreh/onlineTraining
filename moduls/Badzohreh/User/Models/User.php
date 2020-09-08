@@ -2,6 +2,9 @@
 
 namespace Badzohreh\User\Models;
 
+use Badzohreh\User\Notifications\resetPasswordNotification;
+use Badzohreh\User\Notifications\sendForgotPasswordCodeNotification;
+use Badzohreh\User\Notifications\sendVerificationCodeNotification;
 use Badzohreh\User\Notifications\VerifyMail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -42,10 +45,19 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sendEmailVerificationNotification()
     {
-
         $this->notify(new VerifyMail());
-
     }
+
+
+    public function sendResetPasswordNotifications()
+    {
+        $this->notify(new resetPasswordNotification());
+        
+    }
+
+
+
+
 
 
 }

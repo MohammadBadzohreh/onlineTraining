@@ -1,8 +1,10 @@
 <?php
 
 namespace Badzohreh\User\Http\Controllers\Auth;
+
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Badzohreh\User\Services\UserService;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class ResetPasswordController extends Controller
@@ -27,9 +29,16 @@ class ResetPasswordController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
-    public function showResetForm(Request $request, $token = null)
+    public function showResetForm()
     {
         return view('User::Front.auth.passwords.reset');
+    }
+
+
+    public function changePassowrd(changePasswordRequest $request)
+    {
+        UserService::changePassword(auth()->user(),$request->password);
+        return redirect()->route("home");
     }
 
 
