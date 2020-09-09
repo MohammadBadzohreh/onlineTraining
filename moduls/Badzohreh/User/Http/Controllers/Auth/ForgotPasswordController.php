@@ -3,13 +3,11 @@
 namespace Badzohreh\User\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\changePasswordRequest;
 use Badzohreh\User\Http\Requests\checkFrogotPasswordRequest;
 use Badzohreh\User\Http\Requests\checkResetPasswordRequest;
 use Badzohreh\User\Http\Requests\forgotEmailRequest;
 use Badzohreh\User\Http\Requests\sendForgotPasswordEmailRequest;
 use Badzohreh\User\Http\Requests\sendResetPasswordVerifyCodeRequest;
-use Badzohreh\User\Models\User;
 use Badzohreh\User\Notifications\sendForgotPasswordCodeNotification;
 use Badzohreh\User\Repositories\UserRepo;
 use Badzohreh\User\Services\VerifyService;
@@ -37,10 +35,10 @@ class ForgotPasswordController extends Controller
 
     public function sendVerifyCodeEmail(sendResetPasswordVerifyCodeRequest $request)
     {
-
         $user = resolve(UserRepo::class)->findgByEmail($request->email);
 
-        if ($user && ! VerifyService::has($user->id)) {
+
+        if ($user && !VerifyService::has($user->id)) {
             $user->sendResetPasswordNotifications();
         }
         return view("User::Front.auth.passwords.forgot-verification-code");
@@ -49,17 +47,18 @@ class ForgotPasswordController extends Controller
 
     public function checkResetPassword(checkResetPasswordRequest $request)
     {
+
         $user = resolve(UserRepo::class)->findgByEmail($request->email);
 
 
-        if (!VerifyService::check($user->id, $request->verification_code)) {
+        if ($user == null ||
+            !VerifyService::check($user->id, $request->verification_code)) {
             return back()
                 ->withErrors(["verification_code" => "کد وارد شده معتبر نمی باشد."]);
         }
         auth()->loginUsingId($user->id);
 
         return redirect()->route("password.showResetForm");
-
 
 
     }

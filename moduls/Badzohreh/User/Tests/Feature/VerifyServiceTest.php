@@ -20,9 +20,7 @@ class VerifyServiceTest extends TestCase
     public function test_cache_can_store()
     {
         $code = VerifyService::generate();
-        VerifyService::store(1, $code);
+        VerifyService::store(1, $code,now()->addDay());
         $this->assertEquals($code,cache()->get('verificaionCode1'));
-
-
     }
 }

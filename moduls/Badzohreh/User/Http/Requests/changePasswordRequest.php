@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Badzohreh\User\Http\Requests;
 
 use Badzohreh\User\Rules\ValidPassword;
 use Illuminate\Foundation\Http\FormRequest;
@@ -25,7 +25,7 @@ class changePasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'password' => ['reuqired', new ValidPassword(), 'confirmed']
+            'password' => ['required', new ValidPassword(), 'confirmed']
         ];
     }
 }

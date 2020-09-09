@@ -4,6 +4,7 @@ namespace Badzohreh\User\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Badzohreh\User\Http\Requests\changePasswordRequest;
 use Badzohreh\User\Services\UserService;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 

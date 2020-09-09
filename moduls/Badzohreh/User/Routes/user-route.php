@@ -3,13 +3,11 @@
 Route::group(['namespace' => 'Badzohreh\User\Http\Controllers',
     'middleware' => 'web'], function ($router) {
 
-
 //    user email routes
 
     Route::post("email/resend", "Auth\VerificationController@resend")
         ->name("verification.resend")
         ->middleware('auth');
-
 
     Route::post("email/verify", "Auth\VerificationController@verify")
         ->name("verification.verify");
@@ -19,7 +17,6 @@ Route::group(['namespace' => 'Badzohreh\User\Http\Controllers',
         ->middleware('auth');
 //    login routes
 
-
     Route::post("login", "Auth\LoginController@login");
 
     Route::get("login", "Auth\LoginController@showLoginForm")
@@ -27,22 +24,16 @@ Route::group(['namespace' => 'Badzohreh\User\Http\Controllers',
 
 //    register
 
-
     Route::post("register", "Auth\RegisterController@register")
         ->name("register");
 
     Route::get("register", "Auth\RegisterController@showRegistrationForm")
         ->name("register");
 //    logout
-
-
     Route::post("logout", "Auth\LoginController@logout")
-        ->name("logoutt");
-
+        ->name("logout");
 
 //reset password
-
-
 
     Route::get("password/reset", "Auth\ForgotPasswordController@showVerifyCodeRequestForm")
         ->name("password.request");

@@ -54,7 +54,7 @@ class RegisterationTest extends TestCase
 
         $code = VerifyService::generate();
 
-        VerifyService::store($user->id, $code);
+        VerifyService::store($user->id, $code,now()->addDay());
 
         auth()->loginUsingId($user->id);
 
