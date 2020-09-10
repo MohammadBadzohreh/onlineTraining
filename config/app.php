@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         \Badzohreh\User\Providers\UserServiceProvider::class,
+        \Badzohreh\Dashboard\Providers\DashboardServiceProvider::class,
 
         /*
          * Package Service Providers...
