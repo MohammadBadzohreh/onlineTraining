@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         \Badzohreh\User\Providers\UserServiceProvider::class,
         \Badzohreh\Dashboard\Providers\DashboardServiceProvider::class,
+        \Badzohreh\Category\Providers\CategoryServiceProvider::class,
 
         /*
          * Package Service Providers...

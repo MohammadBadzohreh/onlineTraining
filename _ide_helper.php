@@ -2611,7 +2611,7 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getCompiledPath($path)
         {
-            //Method inherited from \Illuminate\View\Compilers\Compiler            
+            //Method inherited from \Illuminate\Views\Compilers\Compiler
                         /** @var \Illuminate\View\Compilers\BladeCompiler $instance */
                         return $instance->getCompiledPath($path);
         }
@@ -2625,7 +2625,7 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function isExpired($path)
         {
-            //Method inherited from \Illuminate\View\Compilers\Compiler            
+            //Method inherited from \Illuminate\Views\Compilers\Compiler
                         /** @var \Illuminate\View\Compilers\BladeCompiler $instance */
                         return $instance->isExpired($path);
         }

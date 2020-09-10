@@ -38,7 +38,8 @@
         "psr-4": {
             "App\\": "app/",
             "Badzohreh\\User\\": "moduls/Badzohreh/User/",
-            "Badzohreh\\Dashboard\\": "moduls/Badzohreh/Dashboard/"
+            "Badzohreh\\Dashboard\\": "moduls/Badzohreh/Dashboard/",
+            "Badzohreh\\Category\\": "moduls/Badzohreh/Category/"
         },
         "classmap": [
             "database/seeds",
