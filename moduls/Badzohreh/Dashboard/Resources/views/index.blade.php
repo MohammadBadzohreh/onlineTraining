@@ -2,11 +2,9 @@
 @section("content")
     <div class="content">
         @include("Dashboard::layouts.header")
-        <div class="breadcrumb">
-            <ul>
-                <li><a href="index.html" title="پیشخوان">پیشخوان</a></li>
-            </ul>
-        </div>
+
+        @include("Dashboard::layouts.breadcrumb")
+
         <div class="main-content">
             <div class="row no-gutters font-size-13 margin-bottom-10">
                 <div class="col-3 padding-20 border-radius-3 bg-white margin-left-10 margin-bottom-10">

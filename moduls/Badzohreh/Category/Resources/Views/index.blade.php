@@ -5,7 +5,14 @@
 @endsection
 
 
+
 @section('content')
+
+@section("breadcrumb")
+
+    <li><a href="{{route("categories.index")}}" title="دسته بندی">دسته بندی</a></li>
+
+@endsection
     <div class="content">
         @include("Dashboard::layouts.header")
         <div class="breadcrumb">

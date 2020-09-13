@@ -9,4 +9,13 @@ class CategoryServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__."/../Resources/Views","Categories");
         $this->loadMigrationsFrom(__DIR__."/../DataBase/Migrations");
     }
+
+    public function boot()
+    {
+        config()->set("sidebar.items.category",[
+            'icon'=>'i-categories',
+            'title'=>'دسته بندی',
+            'link'=>route("categories.index")
+        ]);
+    }
 }
