@@ -4,52 +4,47 @@ namespace Badzohreh\Category\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Badzohreh\Category\Http\Requests\CategorySotreRequest;
-use Badzohreh\Category\Models\Category;
-use function GuzzleHttp\Promise\queue;
-use Illuminate\Http\Response;
+use Badzohreh\Category\Repositories\CategoryRepo;
+use Badzohreh\Category\Responses\AjaxResponses;
 
 class CategoryController extends Controller
 {
+
+    private $repo;
+    public function __construct(CategoryRepo $categoryRepo)
+    {
+        $this->repo = $categoryRepo;
+    }
+
     public function index()
     {
-        //todo move categoryRepository
-
-        $categories = Category::all();
-
+        $categories = $this->repo->all();
         return view("Categories::index", compact('categories'));
     }
 
     public function store(CategorySotreRequest $request)
     {
-        Category::create([
-            "title" => $request->title,
-            "slug" => $request->slug,
-            "parent_id" => $request->parent_id
-        ]);
+        $this->repo->store($request);
         return back();
     }
 
 
-    public function edit(Category $category)
+    public function edit($categoryId)
     {
-        $categories = Category::query()->where("id","!=",$category->id)->get();
+        $category=$this->repo->findById($categoryId);
+        $categories = $this->repo->allExpectId($categoryId);
         return view("Categories::edit", compact('category', 'categories'));
     }
 
-    public function update(Category $category, CategorySotreRequest $request)
+    public function update($categoryId, CategorySotreRequest $request)
     {
-        $category->update([
-            'title' => $request->title,
-            'slug' => $request->slug,
-            'parent_id' => $request->parent_id,
-        ]);
+        $this->repo->update($categoryId,$request);
         return back();
     }
 
-    public function destroy(Category $category)
+    public function destroy($categoryId)
     {
-        $category->delete();
-        return response()->json(['message'=>'عملیات با موفقیت انجام شد.'],
-            Response::HTTP_OK);
+        $this->repo->delete($categoryId);
+        return AjaxResponses::successResponses();
     }
 }
