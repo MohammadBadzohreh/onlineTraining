@@ -180,6 +180,8 @@ return [
         \Badzohreh\User\Providers\UserServiceProvider::class,
         \Badzohreh\Dashboard\Providers\DashboardServiceProvider::class,
         \Badzohreh\Category\Providers\CategoryServiceProvider::class,
+        \Badzohreh\RolePermissions\Providers\RolePermissionsProvider::class,
+
 
     ],
 

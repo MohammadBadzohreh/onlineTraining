@@ -18,6 +18,9 @@ class CategoryController extends Controller
 
     public function index()
     {
+
+        $user  =auth()->user();
+
         $categories = $this->repo->all();
         return view("Categories::index", compact('categories'));
     }

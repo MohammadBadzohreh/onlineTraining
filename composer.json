@@ -40,7 +40,8 @@
             "App\\": "app/",
             "Badzohreh\\User\\": "moduls/Badzohreh/User/",
             "Badzohreh\\Dashboard\\": "moduls/Badzohreh/Dashboard/",
-            "Badzohreh\\Category\\": "moduls/Badzohreh/Category/"
+            "Badzohreh\\Category\\": "moduls/Badzohreh/Category/",
+            "Badzohreh\\RolePermissions\\": "moduls/Badzohreh/RolePermissions/"
         },
         "classmap": [
             "database/seeds",
