@@ -1,17 +1,16 @@
 <div class="col-4 bg-white">
-    <p class="box__title">ایجاد دسته بندی جدید</p>
-    <form action="{{ route("categories.store") }}" method="post" class="padding-30">
+    <p class="box__title">ایجاد نقش کاربری جدید</p>
+    <form action="{{ route("permissions.store") }}" method="post" class="padding-30">
         @csrf
-        <input type="text" name="title" required placeholder="نام دسته بندی" class="text">
-        <input type="text" name="slug" required placeholder="نام انگلیسی دسته بندی" class="text">
-        <p class="box__title margin-bottom-15">انتخاب دسته پدر</p>
-        <select name="parent_id">
-            <option value="">ندارد</option>
-            @foreach($categories as $category)
-                <option value="{{$category->id}}">{{$category->title}}</option>
+        <input type="text" name="name" required placeholder="نام نقش کاربری" class="text">
+        <p class="box__title margin-bottom-15">مجوز ها</p>
+        @foreach($permissions as $permission)
+            <label class="ui-checkbox">
+                <input type="checkbox" class="sub-checkbox" data-id="1">
+                <span class="checkmark"></span>
+                @lang($permission->name)
+            </label>
             @endforeach
-
-        </select>
         <button type="submit" class="btn btn-webamooz_net">اضافه کردن</button>
     </form>
 </div>
