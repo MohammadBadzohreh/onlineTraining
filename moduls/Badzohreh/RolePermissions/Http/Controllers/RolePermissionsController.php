@@ -8,7 +8,6 @@ use Badzohreh\RolePermissions\Http\Requests\RolePermissionStoreRequest;
 use Badzohreh\RolePermissions\http\Requests\UpdateRolerequest;
 use Badzohreh\RolePermissions\Repositories\PermissionsRepo;
 use Badzohreh\RolePermissions\Repositories\RoleRepo;
-use Illuminate\Http\Response;
 
 class RolePermissionsController extends Controller
 {
@@ -55,7 +54,7 @@ class RolePermissionsController extends Controller
 
 
 
-    
+
 
 
 }
