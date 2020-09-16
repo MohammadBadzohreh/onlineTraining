@@ -23,15 +23,23 @@
                             @foreach($roles as $role)
                                 <tr role="row" class="">
                                     <td><a href="">{{$role->id}}</a></td>
-                                    <td><a href="">{{$role->title}}</a></td>
-                                    <td>{{$role->slug}}</td>
-                                    <td>{{$role->parent}}</td>
+                                    <td><a href="">{{$role->name}}</a></td>
+                                    <td>
+                                        <ul>
+                                        @foreach($role->permissions as $permission)
+
+                                            <li>@lang($permission->name)</li>
+                                            @endforeach
+
+                                        </ul>
+
+
+                                    </td>
                                     <td>
                                         <a href="" class="item-delete mlg-15"
                                            onclick="handleDeleteItem(event,'{{route('categories.destroy',$role->id)}}')"
                                            title="حذف"></a>
-                                        <a href="" target="_blank" class="item-eye mlg-15" title="مشاهده"></a>
-                                        <a href="{{route("categories.edit",$role->id)}}" class="item-edit "
+                                        <a href="{{route("permissions.edit",$role->id)}}" class="item-edit "
                                            title="ویرایش"></a>
                                     </td>
                                 </tr>

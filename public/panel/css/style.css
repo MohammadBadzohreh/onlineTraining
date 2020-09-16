@@ -1888,3 +1888,10 @@ select {
 .notification__box .title__noti{
     padding: 15px 0;
 }
+.invalid-feedback{
+    color: red;
+    font-size: 14px;
+}
+.is-invalid{
+    border: 1px solid red;
+}
