@@ -3,10 +3,12 @@
 namespace Badzohreh\RolePermissions\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Badzohreh\Category\Responses\AjaxResponses;
 use Badzohreh\RolePermissions\Http\Requests\RolePermissionStoreRequest;
 use Badzohreh\RolePermissions\http\Requests\UpdateRolerequest;
 use Badzohreh\RolePermissions\Repositories\PermissionsRepo;
 use Badzohreh\RolePermissions\Repositories\RoleRepo;
+use Illuminate\Http\Response;
 
 class RolePermissionsController extends Controller
 {
@@ -45,7 +47,15 @@ class RolePermissionsController extends Controller
         return redirect(route("permissions.index"));
     }
 
+    public function destroy($roleId)
+    {
+        $this->RoleRepo->delete($roleId);
+        return AjaxResponses::successResponses();
+    }
 
+
+
+    
 
 
 }

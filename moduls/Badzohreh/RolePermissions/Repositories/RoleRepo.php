@@ -26,4 +26,9 @@ class RoleRepo{
         $role=$this->findById($id);
         $role->syncPermissions($request->permissions)->update(["name"=>$request->name]);
     }
+
+    public function delete($id)
+    {
+        Role::where("id",$id)->delete();
+    }
 }

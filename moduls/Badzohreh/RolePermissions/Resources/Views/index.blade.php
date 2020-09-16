@@ -1,4 +1,9 @@
 @extends("Dashboard::master")
+@section("css")
+    <link rel="stylesheet" href="/panel/css/jquery.toast.min.css" type="text/css">
+@endsection
+
+
 
 @section('content')
     <div class="content">
@@ -26,9 +31,9 @@
                                     <td><a href="">{{$role->name}}</a></td>
                                     <td>
                                         <ul>
-                                        @foreach($role->permissions as $permission)
+                                            @foreach($role->permissions as $permission)
 
-                                            <li>@lang($permission->name)</li>
+                                                <li>@lang($permission->name)</li>
                                             @endforeach
 
                                         </ul>
@@ -37,7 +42,7 @@
                                     </td>
                                     <td>
                                         <a href="" class="item-delete mlg-15"
-                                           onclick="handleDeleteItem(event,'{{route('categories.destroy',$role->id)}}')"
+                                           onclick="handleDeleteItem(event,'{{route('permissions.destroy',$role->id)}}')"
                                            title="حذف"></a>
                                         <a href="{{route("permissions.edit",$role->id)}}" class="item-edit "
                                            title="ویرایش"></a>
@@ -54,6 +59,45 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section("js")
+    <script src="/panel/js/jquery.toast.min.js" type="text/javascript"></script>
+
+    <script>
+
+
+
+
+    function handleDeleteItem(event, route) {
+            event.preventDefault();
+            if (confirm("ایا از حذف این ایتم مطمئن هستید؟")) {
+
+                $.post(route, {_method: "delete", _token: "{{csrf_token()}}"})
+                    .done(function (response) {
+
+                        console.log("dd");
+                        event.target.closest('tr').remove();
+
+                        $.toast({
+                            heading: 'عملیات موفقیت آمیز',
+                            text: 'ایتم مورد نظر با موفقیت حذف شد.',
+                            showHideTransition: 'slide',
+                            icon: 'success'
+                        });
+                    })
+                    .fail(function (response) {
+                        console.log("dd");
+                        $.toast({
+                            heading: 'خطایی به وجود آمده است',
+                            showHideTransition: 'fade',
+                            icon: 'error'
+                        })
+                    });
+            }
+        }
+
+    </script>
 @endsection
 
 
