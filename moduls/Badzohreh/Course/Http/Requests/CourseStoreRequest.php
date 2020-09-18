@@ -23,10 +23,25 @@ class CourseStoreRequest extends FormRequest
             "price"=>"required|numeric|min:0|max:10000000",
             "percent"=>"required|numeric|min:0|max:100",
             "teacher_id"=>["required","exists:users,id"],
-            "type"=>["requried",Rule::in(Course::$TYPES)],
+            "type"=>["required",Rule::in(Course::$TYPES)],
             "status"=>["required",Rule::in(Course::$STATUSES)],
-            "category_id"=>"nullable,exists:categoris,id",
+            "category_id"=>"nullable|exists:categoris,id",
             "image"=>"required|mimes:jpeg,png"
         ];
+
     }
+
+    public function attributes()
+    {
+        return[
+            "slug"=>"نام انگلیسی دوره",
+            "priority"=>"ردیف دوره",
+            "price"=>"قیمت",
+            "percent"=>"درصد",
+            "teacher_id"=>"نام مدرس",
+            "type"=>"نوع دوره",
+            "status"=>"وضعیت",
+        ];
+    }
+
 }

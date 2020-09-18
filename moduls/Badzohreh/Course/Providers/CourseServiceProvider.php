@@ -11,6 +11,7 @@ class CourseServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'./../Database/Migrations');
         $this->loadJsonTranslationsFrom(__DIR__."./../Resources/Lang");
         $this->loadViewsFrom(__DIR__.'./../Resources/views',"Course");
+        $this->loadTranslationsFrom(__DIR__.'/../Resources/Lang',"Course");
     }
 
     public function boot()

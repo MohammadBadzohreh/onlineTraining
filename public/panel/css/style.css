@@ -1895,3 +1895,19 @@ select {
 .is-invalid{
     border: 1px solid red;
 }
+
+
+/*custom*/
+
+.pr-5{
+    padding-right: 5px;
+}
+.w-100{
+    width: 100%;
+}
+.mb-0{
+    margin-bottom: 0;
+}
+.mt-15{
+    margin-top: 15px;
+}
