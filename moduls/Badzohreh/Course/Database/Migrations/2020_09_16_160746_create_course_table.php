@@ -28,7 +28,6 @@ class CreateCourseTable extends Migration
             $table->float("percent");
             $table->enum("type", Course::$TYPES);
             $table->enum("status",Course::$STATUSES);
-            $table->string("image");
             $table->text("body")->nullable();
             $table->timestamps();
 
