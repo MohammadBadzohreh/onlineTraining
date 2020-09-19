@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
+    protected $guarded=[];
   const TYPE_FREE = 'free';
   const TYPE_CASH="cash";
   static $TYPES=[self::TYPE_FREE,self::TYPE_CASH];

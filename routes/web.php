@@ -17,4 +17,9 @@ Route::get("/test",function (){
 });
 
 
+Route::get("/add-user",function (){
+  return bcrypt("Mohammad100%");
+});
+
+
 

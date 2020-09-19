@@ -19,15 +19,15 @@ class CreateCourseTable extends Migration
 
             $table->bigInteger("teacher_id")->unsigned();
             $table->bigInteger("category_id")->unsigned()->nullable();
-
+            $table->bigInteger("banner_id")->unsigned();
 
             $table->string("title");
             $table->string("slug");
             $table->float("priority")->nullable();
-            $table->string("price",10);
+            $table->string("price", 10);
             $table->float("percent");
             $table->enum("type", Course::$TYPES);
-            $table->enum("status",Course::$STATUSES);
+            $table->enum("status", Course::$STATUSES);
             $table->text("body")->nullable();
             $table->timestamps();
 
@@ -40,6 +40,11 @@ class CreateCourseTable extends Migration
                 ->references("id")
                 ->on("categories")
                 ->onDelete("SET NULL");
+
+            $table->foreign("banner_id")
+                ->references("id")
+                ->on("media")
+                ->onDelete("CASCADE");
         });
     }
 

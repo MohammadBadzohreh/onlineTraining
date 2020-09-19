@@ -22,8 +22,11 @@ class CourseController extends Controller
 
     public function store(CourseStoreRequest $request,CourseRepo $CourseRepo)
     {
+
         $request->request
-            ->add(['banner_id'=>MediaService::uplaod($request->file("image"))]);
+            ->add(['banner_id'=>MediaService::uplaod($request->file("image"))->id]);
+
+
         $course = $CourseRepo->store($request);
         return $course;
     }

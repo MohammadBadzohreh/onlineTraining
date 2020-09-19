@@ -11,7 +11,10 @@ class CourseRepo
 
 //        add banner_id
 
-        Course::create([
+
+
+
+        $course = Course::create([
             "teacher_id"=>$values->teacher_id,
             "category_id"=>$values->category_id,
             "title"=>$values->title,
@@ -23,5 +26,7 @@ class CourseRepo
             "body"=>$values->body,
             "banner_id"=>$values->banner_id
         ]);
+
+        return $course;
     }
 }
