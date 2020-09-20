@@ -44,7 +44,7 @@ class CreateCourseTable extends Migration
             $table->foreign("banner_id")
                 ->references("id")
                 ->on("media")
-                ->onDelete("CASCADE");
+                ->onDelete("SET NULL");
         });
     }
 
