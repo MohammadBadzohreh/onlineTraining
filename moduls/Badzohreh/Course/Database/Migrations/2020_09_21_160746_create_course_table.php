@@ -19,7 +19,7 @@ class CreateCourseTable extends Migration
 
             $table->bigInteger("teacher_id")->unsigned();
             $table->bigInteger("category_id")->unsigned()->nullable();
-            $table->bigInteger("banner_id")->unsigned();
+            $table->bigInteger("banner_id")->unsigned()->nullable();
 
             $table->string("title");
             $table->string("slug");
@@ -45,6 +45,7 @@ class CreateCourseTable extends Migration
                 ->references("id")
                 ->on("media")
                 ->onDelete("SET NULL");
+
         });
     }
 

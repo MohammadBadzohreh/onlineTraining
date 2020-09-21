@@ -4,6 +4,7 @@ namespace Badzohreh\Course\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Badzohreh\Category\Repositories\CategoryRepo;
+use Badzohreh\Category\Responses\AjaxResponses;
 use Badzohreh\Course\Http\Requests\CourseStoreRequest;
 use Badzohreh\Course\Repositories\CourseRepo;
 use Badzohreh\Media\Services\MediaService;
@@ -12,23 +13,71 @@ use Badzohreh\User\Repositories\UserRepo;
 class CourseController extends Controller
 {
 
-    public function create(UserRepo $UserRepo,CategoryRepo $CategoryRepo)
-    {
-        $teachers = $UserRepo->getTeacher();
-        $categories = $CategoryRepo->all();
+    public $CourseRepo;
+    public $UserRepo;
 
-        return view("Course::create",compact("teachers","categories"));
+    public $CategoryRepo;
+
+    public function __construct(CourseRepo $CourseRepo, UserRepo $UserRepo, CategoryRepo $CategoryRepo)
+    {
+        $this->CourseRepo = $CourseRepo;
+        $this->UserRepo = $UserRepo;
+        $this->CategoryRepo = $CategoryRepo;
     }
 
-    public function store(CourseStoreRequest $request,CourseRepo $CourseRepo)
+    public function create()
     {
+        $teachers = $this->UserRepo->getTeacher();
+        $categories = $this->CategoryRepo->all();
 
+        return view("Course::create", compact("teachers", "categories"));
+    }
+
+    public function index()
+    {
+        $courses = $this->CourseRepo->all();
+        return view("Course::index", compact("courses"));
+    }
+
+    public function store(CourseStoreRequest $request)
+    {
         $request->request
-            ->add(['banner_id'=>MediaService::uplaod($request->file("image"))->id]);
-
-
-        $course = $CourseRepo->store($request);
-        return $course;
+            ->add(['banner_id' => MediaService::uplaod($request->file("image"))->id]);
+        $this->CourseRepo->store($request);
+        return redirect()->route("course.index");
     }
+
+    public function edit($id)
+    {
+        $teachers = $this->UserRepo->getTeacher();
+        $course = $this->CourseRepo->findById($id);
+        $categories = $this->CategoryRepo->all();
+        return view("Course::edit", compact("course", 'teachers', "categories"));
+    }
+
+
+    public function update($id, CourseStoreRequest $request)
+    {
+        if ($request->file("image")) {
+
+            $this->CourseRepo->findById($id)->banner->delete();
+            $request->banner_id = MediaService::uplaod($request->file("image"))->id;
+        }else{
+            $request->banner_id = $this->CourseRepo->findById($id)->banner_id;
+        }
+        $this->CourseRepo->update($id, $request);
+        return redirect()->route("course.index");
+    }
+
+    public function destroy($id)
+    {
+        $course = $this->CourseRepo->findById($id);
+        if ($course->banner){
+            $course->banner->delete();
+        }
+        $course->delete();
+        return AjaxResponses::successResponses();
+    }
+
 
 }

@@ -8,6 +8,7 @@
 
 namespace Badzohreh\User\Providers;
 
+use Badzohreh\User\Database\Seeds\UserTableSeeder;
 use Badzohreh\User\Models\User;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,14 +16,18 @@ class UserServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        config()->set("auth.providers.users.model",User::class);
+        config()->set("auth.providers.users.model", User::class);
+
+        \DatabaseSeeder::$seeders[] = UserTableSeeder::class;
+
     }
+
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__ . "/../Routes/user-route.php");
-        $this->loadMigrationsFrom(__DIR__."/../Database/Migrations");
-        $this->loadFactoriesFrom(__DIR__."/../Database/Factories");
-        $this->loadViewsFrom(__DIR__."./../Resources/Views",'User');
+        $this->loadMigrationsFrom(__DIR__ . "/../Database/Migrations");
+        $this->loadFactoriesFrom(__DIR__ . "/../Database/Factories");
+        $this->loadViewsFrom(__DIR__ . "./../Resources/Views", 'User');
 
     }
 }

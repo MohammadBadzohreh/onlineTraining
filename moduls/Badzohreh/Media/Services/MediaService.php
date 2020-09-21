@@ -2,6 +2,7 @@
 namespace Badzohreh\Media\Services;
 
 use Badzohreh\Media\Models\Media;
+use Faker\Provider\Image;
 
 class MediaService
 {
@@ -30,5 +31,14 @@ class MediaService
                 VideoServices::upload();
                 break;
         }
+    }
+
+
+    public static function delete($media){
+        switch ($media->type){
+            case "image":
+                ImageServices::delete($media->files);
+        }
+
     }
 }
