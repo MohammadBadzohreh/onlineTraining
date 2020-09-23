@@ -7,15 +7,11 @@ Route::get('/', function () {
 
 
 Route::get("/test",function (){
-    \Spatie\Permission\Models\Permission::create([
-        "name"=>"manage role_permissions",
-    ]);
     $user = auth()->user();
-    $user->givePermissionTo('manage permisions');
+    $user->givePermissionTo('manage categories');
     return auth()->user()->permissions;
 
 });
-
 
 
 
