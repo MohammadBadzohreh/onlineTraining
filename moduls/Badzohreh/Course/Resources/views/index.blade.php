@@ -25,6 +25,7 @@
                                 <th>ردیف</th>
                                 <th>مدرس دوره</th>
                                 <th>قیمت دوره</th>
+                                <th>حالت دوره</th>
                                 <th>درصد مدرس</th>
                                 <th>وضعیت دوره</th>
                                 <th>عملیات</th>
@@ -42,16 +43,52 @@
                                     <td><a href="">{{$course->priority}}</a></td>
                                     <td>{{$course->teacher->name}}</td>
                                     <td>{{$course->price}}</td>
+                                    <td class="confirmation_status">@lang($course->confirmation_status)</td>
                                     <td>{{$course->percent}}</td>
-                                    <td>{{$course->status}}</td>
+                                    <td class="status">@lang($course->status)</td>
                                     <td>
                                         <a href="" class="item-delete mlg-15"
                                            onclick="handleDeleteItem(event,'{{route('course.destroy',$course->id)}}')"
                                            title="حذف"></a>
                                         <a href="" target="_blank" class="item-eye mlg-15" title="مشاهده"></a>
-                                        <a href="{{route("course.edit",$course->id)}}" class="item-edit "
+                                        <a href="{{route("course.edit",$course->id)}}" class="item-edit mlg-15"
                                            title="ویرایش"></a>
+
+                                        <a href=""
+                                           onclick="handleChangeStatus(event,
+                                                   '{{route("course.change.accept",
+                                                   $course->id)}}',
+                                                   'ایا از تایید این دوره مطمئن هستید؟',
+                                                   'تایید'
+                                                   )"
+                                           class="item-confirm mlg-15"
+                                           title="تایید"></a>
+
+
+                                        <a href=""
+                                           onclick="handleChangeStatus(event,
+                                                   '{{route("course.change.rejected",
+                                                   $course->id)}}',
+                                                   'ایا از رد این دوره مطمئن هستید؟',
+                                                   'رد'
+                                                   )"
+                                           class="item-reject mlg-15" title="رد"></a>
+
+
+                                        <a href="" class="item-lock mlg-15"
+
+                                           onclick="handleChangeStatus(event,
+                                                   '{{route("course.change.locked",
+                                                   $course->id)}}',
+                                                   'ایا از قفل این دوره مطمئن هستید؟',
+                                                   'قفل',
+                                                   true
+                                                   )"
+
+                                           title="قفل کردن"></a>
+
                                     </td>
+
                                 </tr>
 
                             @endforeach
@@ -70,6 +107,40 @@
 
     <script src="/panel/js/jquery.toast.min.js" type="text/javascript"></script>
     <script>
+
+
+        function handleChangeStatus(event, route, alertText,text,status = false) {
+            event.preventDefault();
+            if (confirm(alertText)) {
+                $.post(route, {_method: "PATCH", _token: "{{csrf_token()}}"})
+                    .done(function (response) {
+
+                        if (!status){
+                            $(".confirmation_status").text(text);
+                        } else {
+                            $(".status").text(text);
+                        }
+                        $.toast({
+                            heading: response.message,
+                            text: text,
+                            showHideTransition: 'slide',
+                            icon: 'success'
+                        });
+                    }).fail(function (response) {
+                    $.toast({
+                        heading: response.message,
+                        text: "خطا در عملیات",
+                        showHideTransition: 'fade',
+                        icon: 'error'
+                    })
+                });
+
+
+            }
+
+        }
+
+
         function handleDeleteItem(event, route) {
 
             event.preventDefault();

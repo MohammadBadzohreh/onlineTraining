@@ -13,4 +13,10 @@ class AjaxResponses
             Response::HTTP_OK);
     }
 
+    public static function failResponses()
+    {
+        return response()->json(['message'=>'خطا در عملیات.'],
+            Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Badzohreh\Category\Repositories\CategoryRepo;
 use Badzohreh\Category\Responses\AjaxResponses;
 use Badzohreh\Course\Http\Requests\CourseStoreRequest;
+use Badzohreh\Course\Models\Course;
 use Badzohreh\Course\Repositories\CourseRepo;
 use Badzohreh\Media\Services\MediaService;
 use Badzohreh\User\Repositories\UserRepo;
@@ -15,7 +16,6 @@ class CourseController extends Controller
 
     public $CourseRepo;
     public $UserRepo;
-
     public $CategoryRepo;
 
     public function __construct(CourseRepo $CourseRepo, UserRepo $UserRepo, CategoryRepo $CategoryRepo)
@@ -62,7 +62,7 @@ class CourseController extends Controller
 
             $this->CourseRepo->findById($id)->banner->delete();
             $request->banner_id = MediaService::uplaod($request->file("image"))->id;
-        }else{
+        } else {
             $request->banner_id = $this->CourseRepo->findById($id)->banner_id;
         }
         $this->CourseRepo->update($id, $request);
@@ -72,12 +72,47 @@ class CourseController extends Controller
     public function destroy($id)
     {
         $course = $this->CourseRepo->findById($id);
-        if ($course->banner){
+        if ($course->banner) {
             $course->banner->delete();
         }
         $course->delete();
         return AjaxResponses::successResponses();
     }
+
+
+    public function accpet($id)
+    {
+        $course = $this->CourseRepo->findById($id);
+        if ($course->update(["confirmation_status"=>Course::ACCEPTED_CONFIRMATION_STATUS])) {
+            return AjaxResponses::successResponses();
+        }
+        return AjaxResponses::failResponses();
+    }
+
+
+
+    public function reject($id)
+    {
+        $course = $this->CourseRepo->findById($id);
+        if ($course->update(["confirmation_status"=>Course::REJECTED_CONFIRMATION_STATUS])) {
+            return AjaxResponses::successResponses();
+        }
+        return AjaxResponses::failResponses();
+    }
+
+
+
+    public function lock($id)
+    {
+        $course = $this->CourseRepo->findById($id);
+        if ($course->update(["status"=>Course::STATUS_LOCKED])) {
+            return AjaxResponses::successResponses();
+        }
+        return AjaxResponses::failResponses();
+    }
+
+
+
 
 
 }
