@@ -34,7 +34,7 @@ class CourseRepo
         return Course::findOrFail($id);
     }
 
-    public function update($id,$values)
+    public function update($id, $values)
     {
         $this->findById($id)->update([
             "teacher_id" => $values->teacher_id,
@@ -48,5 +48,34 @@ class CourseRepo
             "status" => $values->status,
             "body" => $values->body,
         ]);
+    }
+
+
+    public function destory($id)
+    {
+        $course = $this->findById($id);
+        if ($course->banner) {
+            $course->banner->delete();
+        }
+        $course->delete();
+    }
+
+
+    public function change_confirmation_status($id,$status)
+    {
+        $course = $this->findById($id);
+        if ($course->update(["confirmation_status" =>$status])) {
+            return true;
+        }
+        return false;
+    }
+
+    public function change_status($id,$status)
+    {
+        $course = $this->findById($id);
+        if ($course->update(["status" =>$status])) {
+            return true;
+        }
+        return false;
     }
 }

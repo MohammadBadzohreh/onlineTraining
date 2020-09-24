@@ -74,7 +74,6 @@ class CategoryTest extends TestCase
     private function activeAsAdmin()
     {
         return $this->actingAs(factory(User::class)->create());
-
     }
 
     private function create_category()

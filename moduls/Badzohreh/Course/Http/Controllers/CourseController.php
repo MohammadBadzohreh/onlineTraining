@@ -71,19 +71,14 @@ class CourseController extends Controller
 
     public function destroy($id)
     {
-        $course = $this->CourseRepo->findById($id);
-        if ($course->banner) {
-            $course->banner->delete();
-        }
-        $course->delete();
+        $this->CourseRepo->destory($id);
         return AjaxResponses::successResponses();
     }
 
 
     public function accpet($id)
     {
-        $course = $this->CourseRepo->findById($id);
-        if ($course->update(["confirmation_status"=>Course::ACCEPTED_CONFIRMATION_STATUS])) {
+        if ($this->CourseRepo->change_confirmation_status($id,Course::ACCEPTED_CONFIRMATION_STATUS)){
             return AjaxResponses::successResponses();
         }
         return AjaxResponses::failResponses();
@@ -93,8 +88,8 @@ class CourseController extends Controller
 
     public function reject($id)
     {
-        $course = $this->CourseRepo->findById($id);
-        if ($course->update(["confirmation_status"=>Course::REJECTED_CONFIRMATION_STATUS])) {
+
+        if ($this->CourseRepo->change_confirmation_status($id,Course::REJECTED_CONFIRMATION_STATUS)){
             return AjaxResponses::successResponses();
         }
         return AjaxResponses::failResponses();
@@ -104,8 +99,7 @@ class CourseController extends Controller
 
     public function lock($id)
     {
-        $course = $this->CourseRepo->findById($id);
-        if ($course->update(["status"=>Course::STATUS_LOCKED])) {
+        if ($this->CourseRepo->change_status($id,Course::STATUS_LOCKED)){
             return AjaxResponses::successResponses();
         }
         return AjaxResponses::failResponses();
