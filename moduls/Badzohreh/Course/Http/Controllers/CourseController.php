@@ -25,19 +25,23 @@ class CourseController extends Controller
         $this->CategoryRepo = $CategoryRepo;
     }
 
+
+    public function index()
+    {
+        $this->authorize('manage',Course::class);
+        $courses = $this->CourseRepo->all();
+        return view("Course::index", compact("courses"));
+    }
+
+
     public function create()
     {
         $teachers = $this->UserRepo->getTeacher();
         $categories = $this->CategoryRepo->all();
-
         return view("Course::create", compact("teachers", "categories"));
     }
 
-    public function index()
-    {
-        $courses = $this->CourseRepo->all();
-        return view("Course::index", compact("courses"));
-    }
+
 
     public function store(CourseStoreRequest $request)
     {

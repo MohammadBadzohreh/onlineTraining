@@ -5,16 +5,14 @@
 namespace Badzohreh\User\Repositories;
 
 
+use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\User\Models\User;
 
 class UserRepo
 {
-
     public function getTeacher()
     {
-        return[
-
-        ];
+        return User::permission(Permission::PERMISSION_TEACH);
     }
     public function findgByEmail($email)
     {
