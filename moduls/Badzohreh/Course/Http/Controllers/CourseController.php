@@ -83,19 +83,13 @@ class CourseController extends Controller
         }
         return AjaxResponses::failResponses();
     }
-
-
-
     public function reject($id)
     {
-
         if ($this->CourseRepo->change_confirmation_status($id,Course::REJECTED_CONFIRMATION_STATUS)){
             return AjaxResponses::successResponses();
         }
         return AjaxResponses::failResponses();
     }
-
-
 
     public function lock($id)
     {
@@ -104,9 +98,5 @@ class CourseController extends Controller
         }
         return AjaxResponses::failResponses();
     }
-
-
-
-
 
 }

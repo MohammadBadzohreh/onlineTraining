@@ -3,10 +3,11 @@
 namespace Badzohreh\Category\Tests\Feature;
 
 use Badzohreh\Category\Models\Category;
+use Badzohreh\RolePermissions\Database\Seeds\RolePermissionTableSeeder;
+use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
@@ -14,32 +15,32 @@ class CategoryTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
-    public function test_user_has_manage_categories_permission_can_see_categories_panel()
+    public function test_permitted_user_can_see_category_panel()
     {
         $this->activeAsAdmin();
-        Permission::findOrCreate("manage categories");
-        auth()->user()->givePermissionTo("manage categories");
+
+        $this->seed(RolePermissionTableSeeder::class);
+        auth()->user()->givePermissionTo(Permission::PERMISSION_MANAGE_CATEGORY);
         $this->get(route("categories.index"))->assertOk();
     }
 
-    public function test_user_has_not_manage_category_permission_can_not_see_categories_panel()
+    public function test_not_permitted_user_can_not_see_category_panel()
     {
         $this->activeAsAdmin();
         $this->get(route("categories.index"))->assertStatus(403);
-
     }
 
-    public function test_user_has_manage_categories_permission_can_create_category()
+    public function test_permitted_user_can_create_category()
     {
         $this->activeAsAdmin();
-        Permission::findOrCreate("manage categories");
-        auth()->user()->givePermissionTo("manage categories");
+        $this->seed(RolePermissionTableSeeder::class);
+        auth()->user()->givePermissionTo(Permission::PERMISSION_MANAGE_CATEGORY);
         $this->create_category();
         $this->assertEquals(1, Category::all()->count());
     }
 
 
-    public function test_user_has_not_manage_categorories_can_not_create_category()
+    public function test_not_permitted_user_can_not_create_category()
     {
         $this->activeAsAdmin();
         $response = $this->create_category();
@@ -50,8 +51,8 @@ class CategoryTest extends TestCase
     public function test_authenticated_user_can_edit_category()
     {
         $this->activeAsAdmin();
-        Permission::findOrCreate("manage categories");
-        auth()->user()->givePermissionTo("manage categories");
+        $this->seed(RolePermissionTableSeeder::class);
+        auth()->user()->givePermissionTo(Permission::PERMISSION_MANAGE_CATEGORY);
         $this->create_category();
         $this->put(route("categories.update", 1), [
             'title' => "php",
@@ -63,8 +64,8 @@ class CategoryTest extends TestCase
     public function test_authtenticated_user_can_delete_category()
     {
         $this->activeAsAdmin();
-        Permission::findOrCreate("manage categories");
-        auth()->user()->givePermissionTo("manage categories");
+        $this->seed(RolePermissionTableSeeder::class);
+        auth()->user()->givePermissionTo(Permission::PERMISSION_MANAGE_CATEGORY);
         $this->create_category();
         $this->assertEquals(1, Category::all()->count());
         $this->delete(route("categories.destroy", 1));

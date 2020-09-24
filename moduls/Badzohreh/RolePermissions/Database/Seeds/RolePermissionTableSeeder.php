@@ -2,8 +2,8 @@
 
 
 namespace Badzohreh\RolePermissions\Database\Seeds;
+use Badzohreh\RolePermissions\Models\Permission;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RolePermissionTableSeeder extends Seeder
@@ -15,9 +15,12 @@ class RolePermissionTableSeeder extends Seeder
      */
     public function run()
     {
-        Permission::findOrCreate("manage categories");
-        Permission::findOrCreate("manage role permissions");
-        Permission::findOrCreate("teach");
+
+
+        foreach (Permission::$PERMISSIONS as $PERMISSION) {
+
+            Permission::findOrCreate($PERMISSION);
+        }
 
 
         Role::findOrCreate("teacher")->givePermissionTo("teach");
