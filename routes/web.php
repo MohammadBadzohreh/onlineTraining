@@ -8,7 +8,7 @@ Route::get('/', function () {
 
 Route::get("/test",function (){
     $user = auth()->user();
-    $user->givePermissionTo(\Badzohreh\RolePermissions\Models\Permission::PERMISSION_MANAGE_COURSES);
+    $user->givePermissionTo(\Badzohreh\RolePermissions\Models\Permission::PERMISSION_SUPER_ADMIN);
     return auth()->user()->permissions;
 
 });

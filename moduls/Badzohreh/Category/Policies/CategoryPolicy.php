@@ -1,15 +1,20 @@
 <?php
 
-namespace Badzohreh\Course\Policies;
+namespace Badzohreh\Category\Policies;
 
 use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\User\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CoursePolicy
+class CategoryPolicy
 {
     use HandlesAuthorization;
 
+    /**
+     * Create a new policy instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         //
@@ -19,6 +24,6 @@ class CoursePolicy
     public function manage(User $user)
     {
 
-        return $user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES);
+        return $user->hasPermissionTo(Permission::PERMISSION_MANAGE_CATEGORY);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Badzohreh\Category\Tests\Feature;
+namespace moduls\Badzoreh\Category\Tests\Feature;
 
 use Badzohreh\Category\Models\Category;
 use Badzohreh\RolePermissions\Database\Seeds\RolePermissionTableSeeder;
@@ -12,76 +12,134 @@ use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
+    use RefreshDatabase;
 
-    public function test_permitted_user_can_see_category_panel()
+    public function test_super_admin_can_see_category_panel()
     {
-        $this->activeAsAdmin();
-
-        $this->seed(RolePermissionTableSeeder::class);
-        auth()->user()->givePermissionTo(Permission::PERMISSION_MANAGE_CATEGORY);
+        $this->actAsSuperAdmin();
         $this->get(route("categories.index"))->assertOk();
     }
 
+
+
+    public function test_super_admin_can_create_category()
+    {
+        $this->actAsSuperAdmin();
+       $this->post(route("categories.store"),[
+           "title"=>$this->faker->word,
+           "slug"=>$this->faker->word,
+       ]);
+       $this->assertEquals(1,Category::all()->count());
+    }
+
+    public function test_super_admin_can_edit_categories()
+    {
+        $title="mohammad";
+        $this->actAsSuperAdmin();
+        $this->create_category();
+        $this->assertEquals(1,Category::all()->count());
+        $this->assertEquals(0,Category::where(['title'=>$title])->count());
+        $this->patch(route("categories.update",1),[
+            "title"=>$title,
+            "slug"=>"msfdflddvmvl"
+        ]);
+        $this->assertEquals(1,Category::where(['title'=>$title])->count());
+    }
+    public function test_super_admin_can_delete_category()
+    {
+        $this->actAsSuperAdmin();
+        $this->create_category();
+        $this->assertEquals(1,Category::all()->count());
+        $this->delete(route("categories.destroy",1));
+        $this->assertEquals(0,Category::all()->count());
+    }
+
+
+    public function test_permitted_user_can_see_category_panel()
+    {
+        $this->act_as_admin();
+        $this->get(route("categories.index"))->assertOk();
+    }
     public function test_not_permitted_user_can_not_see_category_panel()
     {
-        $this->activeAsAdmin();
+        $this->actAsUser();
         $this->get(route("categories.index"))->assertStatus(403);
     }
-
     public function test_permitted_user_can_create_category()
     {
-        $this->activeAsAdmin();
-        $this->seed(RolePermissionTableSeeder::class);
-        auth()->user()->givePermissionTo(Permission::PERMISSION_MANAGE_CATEGORY);
+        $this->act_as_admin();
         $this->create_category();
-        $this->assertEquals(1, Category::all()->count());
+        $this->assertEquals(1,Category::all()->count());
     }
-
-
     public function test_not_permitted_user_can_not_create_category()
     {
-        $this->activeAsAdmin();
-        $response = $this->create_category();
-        $response->assertStatus(403);
+        $this->actAsUser();
+        $this->create_category();
+        $this->assertEquals(0,Category::all()->count());
+    }
+
+    public function test_permitted_user_can_edit_category(){
+
+        $title = "mohammad";
+        $this->act_as_admin();
+        $this->create_category();
+        $this->assertEquals(0,Category::where(["title"=>$title])->count());
+        $this->patch(route("categories.update",1),[
+            "title"=>$title,
+            "slug"=>"asasssass",
+        ]);
+        $this->assertEquals(1,Category::where(["title"=>$title])->count());
+    }
+
+    public function test_permitted_user_can_delete_category()
+    {
+        $this->act_as_admin();
+        $this->create_category();
+        $this->assertEquals(1,Category::all()->count());
+        $this->delete(route("categories.destroy",1));
+        $this->assertEquals(0,Category::all()->count());
     }
 
 
-    public function test_authenticated_user_can_edit_category()
-    {
-        $this->activeAsAdmin();
+
+
+
+
+    private function actAsUser(){
+        $this->actingAs(factory(User::class)->create());
+        $this->seed(RolePermissionTableSeeder::class);
+
+    }
+    private function act_as_admin(){
+        $this->actingAs(factory(User::class)->create());
         $this->seed(RolePermissionTableSeeder::class);
         auth()->user()->givePermissionTo(Permission::PERMISSION_MANAGE_CATEGORY);
-        $this->create_category();
-        $this->put(route("categories.update", 1), [
-            'title' => "php",
-            'slug' => $this->faker->word
-        ]);
-        $this->assertEquals(1, Category::whereTitle("php")->count());
     }
 
-    public function test_authtenticated_user_can_delete_category()
+
+    private function actAsSuperAdmin()
     {
-        $this->activeAsAdmin();
+        $this->actingAs(factory(User::class)->create());
         $this->seed(RolePermissionTableSeeder::class);
-        auth()->user()->givePermissionTo(Permission::PERMISSION_MANAGE_CATEGORY);
-        $this->create_category();
-        $this->assertEquals(1, Category::all()->count());
-        $this->delete(route("categories.destroy", 1));
-        $this->assertEquals(0, Category::all()->count());
-    }
+        auth()->user()->givePermissionTo(Permission::PERMISSION_SUPER_ADMIN);
 
-    private function activeAsAdmin()
-    {
-        return $this->actingAs(factory(User::class)->create());
     }
+    private function create_category(){
 
-    private function create_category()
-    {
-        return $this->post(route("categories.store"), [
-            'title' => $this->faker->word,
-            'slug' => $this->faker->word,
+         $this->post(route("categories.store"),[
+            "title"=>$this->faker->word,
+            "slug"=>$this->faker->word
         ]);
+
     }
+
+
+
+
+
+
+
+
+
 }

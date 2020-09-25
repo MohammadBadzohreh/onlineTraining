@@ -6,7 +6,7 @@ use Badzohreh\Course\Models\Course;
 use Badzohreh\Course\Policies\CoursePolicy;
 use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\User\Models\User;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class CourseServiceProvider extends ServiceProvider
@@ -23,7 +23,6 @@ class CourseServiceProvider extends ServiceProvider
             return $user->hasPermissionTo(Permission::PERMISSION_SUPER_ADMIN) ? true : null;
         });
     }
-
     public function boot()
     {
         config()->set("sidebar.items.course", [

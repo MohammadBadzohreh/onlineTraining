@@ -3,6 +3,9 @@
 namespace Badzohreh\Category\Providers;
 
 use Badzohreh\Category\DataBase\Seeds\CategoryTableSeeder;
+use Badzohreh\Category\Models\Category;
+use Badzohreh\Category\Policies\CategoryPolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class CategoryServiceProvider extends ServiceProvider
@@ -14,6 +17,7 @@ class CategoryServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . "/../DataBase/Migrations");
 
         \DatabaseSeeder::$seeders  [] = CategoryTableSeeder::class;
+        Gate::policy(Category::class,CategoryPolicy::class);
     }
 
     public function boot()
