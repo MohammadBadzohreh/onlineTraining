@@ -36,6 +36,7 @@ class CourseController extends Controller
 
     public function create()
     {
+        $this->authorize("create",Course::class);
         $teachers = $this->UserRepo->getTeacher();
         $categories = $this->CategoryRepo->all();
         return view("Course::create", compact("teachers", "categories"));
@@ -45,6 +46,8 @@ class CourseController extends Controller
 
     public function store(CourseStoreRequest $request)
     {
+        $this->authorize("create",Course::class);
+
         $request->request
             ->add(['banner_id' => MediaService::uplaod($request->file("image"))->id]);
         $this->CourseRepo->store($request);
@@ -53,6 +56,8 @@ class CourseController extends Controller
 
     public function edit($id)
     {
+        $course = $this->CourseRepo->findById($id);
+        $this->authorize("edit",$course);
         $teachers = $this->UserRepo->getTeacher();
         $course = $this->CourseRepo->findById($id);
         $categories = $this->CategoryRepo->all();
@@ -62,6 +67,8 @@ class CourseController extends Controller
 
     public function update($id, CourseStoreRequest $request)
     {
+        $course = $this->CourseRepo->findById($id);
+        $this->authorize("edit",$course);
         if ($request->file("image")) {
 
             $this->CourseRepo->findById($id)->banner->delete();

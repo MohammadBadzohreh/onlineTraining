@@ -25,6 +25,7 @@ class CourseRepo
             "type" => $values->type,
             "status" => $values->status,
             "body" => $values->body,
+            "confirmation_status"=>Course::PENDING_CONFIRMATION_STATUS,
         ]);
         return $course;
     }

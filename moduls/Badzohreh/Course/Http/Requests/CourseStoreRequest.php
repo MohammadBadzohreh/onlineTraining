@@ -25,7 +25,7 @@ class CourseStoreRequest extends FormRequest
             "teacher_id" => ["required", "exists:users,id"],
             "type" => ["required", Rule::in(Course::$TYPES)],
             "status" => ["required", Rule::in(Course::$STATUSES)],
-            "category_id" => "nullable|exists:categories,id",
+            "category_id" => "required|exists:categories,id",
             "image" => "required|mimes:jpeg,png"
         ];
 
