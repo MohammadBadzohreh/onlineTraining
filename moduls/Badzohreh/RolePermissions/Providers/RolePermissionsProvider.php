@@ -4,6 +4,11 @@
 namespace Badzohreh\RolePermissions\Providers;
 
 use Badzohreh\RolePermissions\Database\Seeds\RolePermissionTableSeeder;
+use Badzohreh\RolePermissions\Models\Permission;
+use Badzohreh\RolePermissions\Models\Role;
+use Badzohreh\RolePermissions\Policies\RolePermissionPolicy;
+use Badzohreh\User\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class RolePermissionsProvider extends ServiceProvider{
@@ -15,6 +20,8 @@ class RolePermissionsProvider extends ServiceProvider{
         $this->loadViewsFrom(__DIR__.'./../Resources/Views','RolePermissions');
         $this->loadJsonTranslationsFrom(__DIR__."/../Resources/Lang");
         \DatabaseSeeder::$seeders[]=RolePermissionTableSeeder::class;
+
+        Gate::policy(Role::class,RolePermissionPolicy::class);
     }
 
     public function boot()
