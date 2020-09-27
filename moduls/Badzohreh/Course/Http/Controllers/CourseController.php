@@ -82,6 +82,7 @@ class CourseController extends Controller
 
     public function destroy($id)
     {
+        $this->authorize("delete",Course::class);
         $this->CourseRepo->destory($id);
         return AjaxResponses::successResponses();
     }
@@ -89,6 +90,7 @@ class CourseController extends Controller
 
     public function accpet($id)
     {
+        $this->authorize("change_status_confirmation",Course::class);
         if ($this->CourseRepo->change_confirmation_status($id,Course::ACCEPTED_CONFIRMATION_STATUS)){
             return AjaxResponses::successResponses();
         }
@@ -96,6 +98,8 @@ class CourseController extends Controller
     }
     public function reject($id)
     {
+        $this->authorize("change_status_confirmation",Course::class);
+
         if ($this->CourseRepo->change_confirmation_status($id,Course::REJECTED_CONFIRMATION_STATUS)){
             return AjaxResponses::successResponses();
         }
@@ -104,6 +108,8 @@ class CourseController extends Controller
 
     public function lock($id)
     {
+        $this->authorize("change_status_confirmation",Course::class);
+
         if ($this->CourseRepo->change_status($id,Course::STATUS_LOCKED)){
             return AjaxResponses::successResponses();
         }

@@ -33,8 +33,21 @@ class CoursePolicy
     public function edit(User $user, Course $course)
     {
         if (($user->hasPermissionTo(Permission::PERMISSION_MANAGE_OWN_COURSE) &&
-            $user->id == $course->user_id) || $user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES))
+                $user->id == $course->user_id) || $user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES))
             return true;
+        return null;
+    }
+
+
+    public function change_status_confirmation(User $user)
+    {
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES)) return true;
+        return null;
+    }
+
+    public function delete(User $user)
+    {
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES)) return true;
         return null;
     }
 }
