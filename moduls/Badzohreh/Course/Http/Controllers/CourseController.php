@@ -4,7 +4,7 @@ namespace Badzohreh\Course\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Badzohreh\Category\Repositories\CategoryRepo;
-use Badzohreh\Category\Responses\AjaxResponses;
+use Badzohreh\Common\Responses\AjaxResponses;
 use Badzohreh\Course\Http\Requests\CourseStoreRequest;
 use Badzohreh\Course\Models\Course;
 use Badzohreh\Course\Repositories\CourseRepo;

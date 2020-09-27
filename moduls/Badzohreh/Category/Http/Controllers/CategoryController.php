@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Badzohreh\Category\Http\Requests\CategorySotreRequest;
 use Badzohreh\Category\Models\Category;
 use Badzohreh\Category\Repositories\CategoryRepo;
-use Badzohreh\Category\Responses\AjaxResponses;
+use Badzohreh\Common\Responses\AjaxResponses;
 
 class CategoryController extends Controller
 {

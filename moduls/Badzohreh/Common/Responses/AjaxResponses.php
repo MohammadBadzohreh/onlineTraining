@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Badzohreh\Category\Responses;
+namespace Badzohreh\Common\Responses;
 
 use Illuminate\Http\Response;
 class AjaxResponses

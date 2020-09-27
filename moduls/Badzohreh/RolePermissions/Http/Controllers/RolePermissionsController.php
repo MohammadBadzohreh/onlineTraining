@@ -3,7 +3,7 @@
 namespace Badzohreh\RolePermissions\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Badzohreh\Category\Responses\AjaxResponses;
+use Badzohreh\Common\Responses\AjaxResponses;
 use Badzohreh\RolePermissions\Http\Requests\RolePermissionStoreRequest;
 use Badzohreh\RolePermissions\http\Requests\UpdateRolerequest;
 use Badzohreh\RolePermissions\Models\Role;
