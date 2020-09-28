@@ -9,7 +9,8 @@ Route::get('/', function () {
 Route::get("/test",function (){
     $user = auth()->user();
     $user->givePermissionTo(\Badzohreh\RolePermissions\Models\Permission::PERMISSION_SUPER_ADMIN);
-    return auth()->user()->permissions;
+    $user->assignRole(\Badzohreh\RolePermissions\Models\Role::ROLE_TEACHER);
+    return $user->roles;
 
 });
 

@@ -5,6 +5,11 @@ Route::group(['namespace' => 'Badzohreh\User\Http\Controllers',
 
 //    user email routes
 
+
+    Route::resource("users",UserController::class);
+
+    $router->post("user/{user}/add-role","UserController@addRole")->name("add.role");
+
     Route::post("email/resend", "Auth\VerificationController@resend")
         ->name("verification.resend")
         ->middleware('auth');

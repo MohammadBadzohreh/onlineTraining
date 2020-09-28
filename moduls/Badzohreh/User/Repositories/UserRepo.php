@@ -10,6 +10,11 @@ use Badzohreh\User\Models\User;
 
 class UserRepo
 {
+
+    public function paginate()
+    {
+        return User::paginate();
+    }
     public function getTeacher()
     {
         return User::permission(Permission::PERMISSION_TEACH);

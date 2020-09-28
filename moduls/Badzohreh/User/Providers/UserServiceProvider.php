@@ -10,6 +10,8 @@ namespace Badzohreh\User\Providers;
 
 use Badzohreh\User\Database\Seeds\UserTableSeeder;
 use Badzohreh\User\Models\User;
+use Badzohreh\User\Policies\UserPollicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class UserServiceProvider extends ServiceProvider
@@ -19,6 +21,9 @@ class UserServiceProvider extends ServiceProvider
         config()->set("auth.providers.users.model", User::class);
 
         \DatabaseSeeder::$seeders[] = UserTableSeeder::class;
+
+        Gate::policy(User::class, UserPollicy::class);
+
 
     }
 
