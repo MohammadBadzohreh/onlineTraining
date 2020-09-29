@@ -52,7 +52,10 @@
                                               onclick="setFormAction('{{$user->id}}')" data-modal>افزودن نقش کاربری</a>
                                         </p>
                                     </td>
-                                    <td>delete,edit</td>
+                                    <td>
+                                        <a href="{{route("users.edit",$user->id)}}" class="item-edit mlg-15"></a>
+                                        <a href="" class="item-delete mlg-15"></a>
+                                    </td>
 
 
                                 </tr>

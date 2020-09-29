@@ -8,7 +8,6 @@ use Badzohreh\RolePermissions\Http\Requests\AddRoleRequest;
 use Badzohreh\RolePermissions\Repositories\RoleRepo;
 use Badzohreh\User\Models\User;
 use Badzohreh\User\Repositories\UserRepo;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -43,5 +42,19 @@ class UserController extends Controller
         }
         return AjaxResponses::failResponses();
     }
+
+    public function edit($userId)
+    {
+
+        $user = $this->userRepo->findById($userId);
+
+        return view("User::users.edit",compact("user"));
+    }
+
+    public function update($userId)
+    {
+
+    }
+
 
 }

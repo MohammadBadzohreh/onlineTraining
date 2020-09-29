@@ -19,11 +19,8 @@ class UserServiceProvider extends ServiceProvider
     public function register()
     {
         config()->set("auth.providers.users.model", User::class);
-
         \DatabaseSeeder::$seeders[] = UserTableSeeder::class;
-
         Gate::policy(User::class, UserPollicy::class);
-
 
     }
 
@@ -33,6 +30,12 @@ class UserServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . "/../Database/Migrations");
         $this->loadFactoriesFrom(__DIR__ . "/../Database/Factories");
         $this->loadViewsFrom(__DIR__ . "./../Resources/Views", 'User');
+        $this->loadJsonTranslationsFrom(__DIR__."./../Resources/Lang");
 
+        config()->set("sidebar.items.users", [
+            'icon' => 'i-users',
+            'title' => 'کاربران',
+            'link' => route("users.index")
+        ]);
     }
 }

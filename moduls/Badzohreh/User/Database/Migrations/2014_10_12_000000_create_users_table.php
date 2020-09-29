@@ -1,5 +1,6 @@
 <?php
 
+use Badzohreh\User\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -31,7 +32,7 @@ class CreateUsersTable extends Migration
 
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('status', ['active', 'inactive', 'ban'])->default("active");
+            $table->enum('status', User::$STATUSES)->default("active");
             $table->rememberToken();
             $table->timestamps();
         });
