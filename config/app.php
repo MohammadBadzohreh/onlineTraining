@@ -183,6 +183,7 @@ return [
         \Badzohreh\RolePermissions\Providers\RolePermissionsProvider::class,
         \Badzohreh\Course\Providers\CourseServiceProvider::class,
         \Badzohreh\Media\Providers\MediaServiceProvider::class,
+        \Badzohreh\Common\Providers\CommonServiceProvider::class
 
 
     ],

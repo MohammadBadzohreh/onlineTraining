@@ -211,3 +211,38 @@ $('.discounts #discounts-field-2').on('click', function (e) {
 $('.discounts #discounts-field-1').on('click', function (e) {
     $('.discounts .dropdown-select').removeClass('is-active')
 });
+
+
+
+
+
+function handleChangeStatus(event, route, alertText,text,status = false) {
+    event.preventDefault();
+    if (confirm(alertText)) {
+        $.post(route, {_method: "PATCH", _token: "{{csrf_token()}}"})
+            .done(function (response) {
+
+                if (!status){
+                    $(".confirmation_status").text(text);
+                } else {
+                    $(".status").text(text);
+                }
+                $.toast({
+                    heading: response.message,
+                    text: text,
+                    showHideTransition: 'slide',
+                    icon: 'success'
+                });
+            }).fail(function (response) {
+            $.toast({
+                heading: response.message,
+                text: "خطا در عملیات",
+                showHideTransition: 'fade',
+                icon: 'error'
+            })
+        });
+
+
+    }
+
+}

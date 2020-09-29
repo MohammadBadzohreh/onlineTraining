@@ -139,8 +139,6 @@
             }
 
         }
-
-
         function handleDeleteItem(event, route) {
 
             event.preventDefault();

@@ -7,6 +7,7 @@ Route::group(['namespace' => 'Badzohreh\User\Http\Controllers',
 
 
     Route::resource("users",UserController::class);
+    Route::delete("/{user}/giveRole/{role}","UserController@giveRole")->name("give.role.user");
 
     $router->post("user/{user}/add-role","UserController@addRole")->name("add.role");
 

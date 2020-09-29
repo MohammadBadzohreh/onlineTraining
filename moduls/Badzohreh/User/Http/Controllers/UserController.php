@@ -3,10 +3,12 @@
 namespace Badzohreh\User\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Badzohreh\Common\Responses\AjaxResponses;
 use Badzohreh\RolePermissions\Http\Requests\AddRoleRequest;
 use Badzohreh\RolePermissions\Repositories\RoleRepo;
 use Badzohreh\User\Models\User;
 use Badzohreh\User\Repositories\UserRepo;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -20,18 +22,26 @@ class UserController extends Controller
 
     public function index(RoleRepo $roleRepo)
     {
-        $this->authorize("index",User::class);
-        $users=$this->userRepo->paginate();
+        $this->authorize("index", User::class);
+        $users = $this->userRepo->paginate();
         $roles = $roleRepo->all();
-        return view("User::users.index",compact("users","roles"));
+        return view("User::users.index", compact("users", "roles"));
     }
-
-    public function addRole($userId,AddRoleRequest $request)
+    public function addRole($userId, AddRoleRequest $request)
     {
-        $this->authorize("addRole",User::class);
         $user = $this->userRepo->findById($userId);
         $user->assignRole($request->role);
+        showFeedbacks("عملیات موفقیت آمیز","با موفقیت اضافه شد.");
         return back();
+    }
+
+    public function giveRole($user, $role)
+    {
+        $user = $this->userRepo->findById($user);
+        if ($user->removeRole($role)) {
+            return AjaxResponses::successResponses();
+        }
+        return AjaxResponses::failResponses();
     }
 
 }
