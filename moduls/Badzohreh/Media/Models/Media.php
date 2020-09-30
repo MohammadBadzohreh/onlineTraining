@@ -3,6 +3,7 @@
 namespace Badzohreh\Media\Models;
 
 use Badzohreh\Media\Services\MediaService;
+use Badzohreh\User\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Media extends Model
@@ -14,6 +15,14 @@ class Media extends Model
     public function getThumbAttribute()
     {
         return "/storage/".$this->files[300];
+    }
+
+
+    public function user()
+    {
+//        todo maybe need to chnage
+        return $this->hasOne(User::class,"user_id","id");
+
     }
 
 protected static function booted()

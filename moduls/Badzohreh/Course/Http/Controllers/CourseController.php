@@ -70,9 +70,8 @@ class CourseController extends Controller
         $course = $this->CourseRepo->findById($id);
         $this->authorize("edit",$course);
         if ($request->file("image")) {
-
             $this->CourseRepo->findById($id)->banner->delete();
-            $request->banner_id = MediaService::uplaod($request->file("image"))->id;
+            $request->image_id = MediaService::uplaod($request->file("image"))->id;
         } else {
             $request->banner_id = $this->CourseRepo->findById($id)->banner_id;
         }

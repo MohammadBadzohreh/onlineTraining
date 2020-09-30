@@ -2,6 +2,7 @@
 
 namespace Badzohreh\User\Models;
 
+use Badzohreh\Media\Models\Media;
 use Badzohreh\User\Notifications\resetPasswordNotification;
 use Badzohreh\User\Notifications\sendForgotPasswordCodeNotification;
 use Badzohreh\User\Notifications\sendVerificationCodeNotification;
@@ -15,6 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use HasRoles;
+    protected $guarded=[];
     const STATUS_ACTIVE = 'active';
     const STATUS_INACTIVE = 'inactive';
     const STATUS_BAN = 'ban';
@@ -40,6 +42,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new resetPasswordNotification());
 
+    }
+
+
+    public function banner()
+    {
+        return $this->belongsTo(Media::class,"image_id","id");
     }
 
 

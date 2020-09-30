@@ -1,0 +1,251 @@
+[33mcommit f92a0a02be8cffb5b820ede2b3a215018eb14b22[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Wed Sep 30 00:36:41 2020 +0330
+
+    =create edit user page
+
+[33mcommit 09aa7f7ff1e9bda3635398c0aeedf7b07a3b655c[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Tue Sep 29 18:07:46 2020 +0330
+
+    =added role to user and remove role from user
+
+[33mcommit f45339adf2b7322f5b296a0e4ad4f123a1c80d3d[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Tue Sep 29 00:13:33 2020 +0330
+
+    -aded manage user index page
+
+[33mcommit 191b465297c6f91a0b2e402ae259a3adf63d4730[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Mon Sep 28 00:37:01 2020 +0330
+
+    =add common module
+
+[33mcommit 48e88ce3a61a59462dad0ebe55a4f04f0f62b1c8[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Sun Sep 27 22:43:43 2020 +0330
+
+    =autrorize role permissions and finish role permissions tests
+
+[33mcommit 2946a852d6c241091b07a37fe1301508e7b6992c[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Sun Sep 27 12:06:27 2020 +0330
+
+    =finish course test
+
+[33mcommit 2f9d105011c15cb017194ebf05eb40cc0a8f9e68[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Sun Sep 27 00:21:08 2020 +0330
+
+    =added course test
+
+[33mcommit 76d431f01d43aedbecb9de1a3ea4935205fd2357[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Fri Sep 25 13:26:00 2020 +0330
+
+    =refactor and added new categorytest
+
+[33mcommit e102b7db209b473f8ed4414714afaae3031c0986[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Thu Sep 24 15:21:47 2020 +0330
+
+    =add course policy and handle policy
+
+[33mcommit 5f969a02e5d31c0421d1223624897ed65ad39429[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Thu Sep 24 13:08:43 2020 +0330
+
+    =refactor Permission model
+
+[33mcommit 9a76d7254bbeb2e73cf56626c6f527c3f7a5c521[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Thu Sep 24 09:36:31 2020 +0330
+
+    =move course database actions to CourseRepo
+
+[33mcommit 53bedd5d8ffbfb4ddaa00bc7c5a7ceb35adb1ae8[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Wed Sep 23 22:44:08 2020 +0330
+
+    =refactor categories tests
+
+[33mcommit 94f255b38ccbdfa23765d4bbd1f95d795471983d[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Wed Sep 23 12:02:04 2020 +0330
+
+    =change course status
+
+[33mcommit f1283cd3fc712def2dc0b7bc849967092ed9787e[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Mon Sep 21 13:45:03 2020 +0330
+
+    =add delete and update courses
+
+[33mcommit 3cf6ce7c9cd71252ec8b7daae5071e1ba1da7c25[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Sun Sep 20 12:50:46 2020 +0430
+
+    =solve migrations problem
+
+[33mcommit 7a532862de5a7cd9bb44973f675d7b27119f0a9c[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Sat Sep 19 23:29:53 2020 +0430
+
+    =store courses
+
+[33mcommit ebbf21421cc2ec171488e78be0eb84b963837988[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Sat Sep 19 21:37:21 2020 +0430
+
+    =add migrations models and servcies and media module
+
+[33mcommit f81ce20c1db978fd74bfc24cfa3071723ea2365c[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Fri Sep 18 21:11:01 2020 +0430
+
+    =refactor codes
+
+[33mcommit 850811f7d73ab9927d4bdfd97bde723d236beae5[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Fri Sep 18 19:00:29 2020 +0430
+
+    =add course request and translate validation
+
+[33mcommit 32525c736bae888e48310c11e83cc1f7609cfacd[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Thu Sep 17 22:26:02 2020 +0430
+
+    =create course validation
+
+[33mcommit 359d9bf1aaacec8d1e696293b761fae2ebac077c[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Thu Sep 17 22:24:36 2020 +0430
+
+    =added rolepremission seeder
+
+[33mcommit fed22e524b59b9f98f5d75de548d1e98f9d88cfe[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Wed Sep 16 20:49:40 2020 +0430
+
+    =modular Course
+
+[33mcommit 6b3e50aa7dfd6467bad66c35826d3748185f8d0f[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Wed Sep 16 19:20:22 2020 +0430
+
+    =delete permission ajax
+
+[33mcommit 87c5c41122a25739816ee795a56b1546856c23fa[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Wed Sep 16 19:19:37 2020 +0430
+
+    =delete category permission
+
+[33mcommit f6f9a92e891963511d60afc1646d227592ebb4bf[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Wed Sep 16 18:41:27 2020 +0430
+
+    =refactor codes
+
+[33mcommit 6e13c148f5028756692dd58d14ef927d52d096aa[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Wed Sep 16 18:40:48 2020 +0430
+
+    =create permission repository
+
+[33mcommit c35b719eb1bfb7c8d06066a389c9fc86eaad6649[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Wed Sep 16 18:40:15 2020 +0430
+
+    =add update permissions
+
+[33mcommit 1453c661a5352df35038528beb0765dad9666755[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Tue Sep 15 23:23:36 2020 +0430
+
+    =add permissions lang and config provider for json translation
+
+[33mcommit 70dc4c830807f30a0a61f15da560a1b83f868c58[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Mon Sep 14 23:11:13 2020 +0430
+
+    =create rolePremission module
+
+[33mcommit ce94df8d6d5a358f6a907084b448ecdfe85117d2[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Mon Sep 14 01:57:42 2020 +0430
+
+    =installation and config permisssions
+
+[33mcommit fe9ae424fd43630370653a3c1a13b789bab72a14[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Mon Sep 14 01:56:56 2020 +0430
+
+    =dynamic dashboard sidebar
+
+[33mcommit 923010d60cc9c2ee9e716b8a7a60bab5a1aa48d1[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Mon Sep 14 00:01:55 2020 +0430
+
+    =add categories crud and categroy tests
+
+[33mcommit 32b17236fc1b0e92e9931a2afb3bdd2fe8d83d04[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Sun Sep 13 01:22:35 2020 +0430
+
+    =added edit and delete category
+
+[33mcommit 001647f09459a91fd2320d320be4318aed97c55f[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Fri Sep 11 00:16:29 2020 +0430
+
+    =add category module
+
+[33mcommit 524720151f55eb5ed98d9dffe7f2618f4bc90fe0[m[33m ([m[1;33mtag: v5.0[m[33m)[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Thu Sep 10 22:55:34 2020 +0430
+
+    =added dashboard routes
+
+[33mcommit edd4615a5f2647e0bbc8950a6df64101d29b6c1b[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Thu Sep 10 22:54:37 2020 +0430
+
+    =added dashboard module
+
+[33mcommit 63c4552d566c191074fba3ca221930a441d2f47d[m[33m ([m[1;33mtag: v4.9[m[33m)[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Wed Sep 9 19:03:45 2020 +0430
+
+    =add reset password and reset tests
+
+[33mcommit 16d6acc8c5ad33e7e1582d31dc38e4473e544863[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Wed Sep 9 01:55:38 2020 +0430
+
+    =add reset password
+
+[33mcommit f22dcc5374154c30a21a39c6a4d1aa22a41b2646[m[33m ([m[1;33mtag: v4.7[m[33m)[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Sat Sep 5 15:53:33 2020 +0430
+
+    =add verify(finish)
+
+[33mcommit 0eca90113c7a3a0d51c9732bfe084169ef4f002f[m[33m ([m[1;33mtag: v4.6[m[33m)[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Sat Sep 5 01:55:13 2020 +0430
+
+    =verification code _not finish_
+
+[33mcommit 2bb75eca3c278c23f85659ae46200baa6403ae74[m[33m ([m[1;33mtag: v4.5[m[33m)[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Tue Sep 1 15:37:19 2020 +0430
+
+    =change tests path(modular user tests)
+
+[33mcommit 714a58d81a5b92e89cc7645b40d46397143aaff7[m[33m ([m[1;33mtag: v4.4[m[33m)[m
+Author: Mohammad Badzohreh <badzohreee@gmail.com>
+Date:   Tue Sep 1 14:38:38 2020 +0430
+
+    =installation

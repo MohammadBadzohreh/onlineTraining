@@ -15,11 +15,17 @@ class CreateMediaTable extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger("user_id")->unsigned();
+            $table->bigInteger("user_id")->unsigned()->nullable();
             $table->json("files");
             $table->enum("type",["image","video","audio","doc","zip"]);
             $table->string("file_name",255);
             $table->timestamps();
+
+            $table->foreign("user_id")
+                ->references("id")
+                ->on("users")
+                ->onDelete("SET NULL");
+
         });
     }
 

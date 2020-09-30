@@ -1,5 +1,8 @@
 @extends("Dashboard::master")
-
+@section("css")
+    <link rel="stylesheet" href="/panel/css/jquery.toast.min.css" type="text/css">
+@endsection
+s
 @section("content")
     <div class="content">
         @include("Dashboard::layouts.header")
@@ -23,22 +26,22 @@
                                      placeholder="نام کاربری"/>
                             <x-input type="text" name="mobile" placeholder="شماره تلفن کاربر" value="{{$user->mobile}}"
                                      class="text-left text mlg-15"
-                                     required/>
+                            />
                             <x-input type="text" name="headline" placeholder="عنوان کاربر" value="{{$user->percent}}"
                                      class="text mlg-15"
-                                     required/>
+                            />
                         </div>
 
 
                         <div class="d-flex multi-text">
-                            <x-input type="text" name="website" class="text-left mlg-15" value="{{$user->username}}"
+                            <x-input type="text" name="website" class="text-left mlg-15" value="{{$user->website}}"
                                      placeholder="وب سایت"/>
                             <x-input type="text" name="facebook" placeholder="facebook" value="{{$user->mobile}}"
                                      class="text-left text mlg-15"
-                                     required/>
+                            />
                             <x-input type="text" name="likedin" placeholder="likedin" value="{{$user->percent}}"
                                      class="text mlg-15"
-                                     required/>
+                            />
                         </div>
 
 
@@ -47,18 +50,18 @@
                                      placeholder="twitter"/>
                             <x-input type="text" name="youtube" placeholder="youtube" value="{{$user->youtube}}"
                                      class="text-left text mlg-15"
-                                     required/>
+                            />
                             <x-input type="text" name="instagram" placeholder="instagram" value="{{$user->instagram}}"
                                      class="text mlg-15"
-                                     required/>
+                            />
                         </div>
 
 
-                        <x-input type="text" name="telegram" class="text-left mlg-15" value="{{$user->telegram}}"
+                        <x-input type="text" name="telegram" class="text-left mlg-15"
                                  placeholder="پسورد جدید"/>
 
 
-                        <x-input type="password" name="password" class="text-left mlg-15"
+                        <x-input type="text" name="password" class="text-left mlg-15" value="{{$user->telegram}}"
                                  placeholder="telegram"/>
 
 
@@ -88,6 +91,19 @@
 @endsection
 
 @section("js")
-    <script src="js/tagsInput.js"></script>
+    <script src="/panel/js/jquery.toast.min.js" type="text/javascript"></script>
+
+    <script>
+
+        @if(session()->has("feedbacks"))
+        $.toast({
+            heading: "{{session()->get("feedbacks")["title"]}}",
+            text: "{{session()->get("feedbacks")["body"]}}",
+            showHideTransition: 'slide',
+            icon: 'success'
+        });
+        @endif
+
+    </script>
 
 @endsection

@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+
             $table->string('username', 50)->nullable();
             $table->string('mobile', 14)->nullable();
             $table->string('headline')->nullable();
@@ -29,12 +30,19 @@ class CreateUsersTable extends Migration
             $table->string('youtube')->nullable();
             $table->string('instagram')->nullable();
             $table->string('telegram')->nullable();
-
+            $table->bigInteger("image_id")->unsigned()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('status', User::$STATUSES)->default("active");
+
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign("image_id")
+                ->references("id")
+                ->on("media")
+                ->onDelete("SET NULL");
+
         });
     }
 
