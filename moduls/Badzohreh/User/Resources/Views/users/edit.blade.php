@@ -36,7 +36,7 @@ s
                         <div class="d-flex multi-text">
                             <x-input type="text" name="website" class="text-left mlg-15" value="{{$user->website}}"
                                      placeholder="وب سایت"/>
-                            <x-input type="text" name="facebook" placeholder="facebook" value="{{$user->mobile}}"
+                            <x-input type="text" name="facebook" placeholder="facebook" value="{{$user->facebook}}"
                                      class="text-left text mlg-15"
                             />
                             <x-input type="text" name="likedin" placeholder="likedin" value="{{$user->percent}}"

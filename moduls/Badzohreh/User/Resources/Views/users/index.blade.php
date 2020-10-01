@@ -37,16 +37,18 @@
                                     <td>{{$user->mobile}}</td>
                                     <td>
                                         <ul>
-                                        @foreach($user->roles as $userRole)
-                                            <li>
-                                                <a href="">{{$userRole->name}}</a>
-                                                <a href=""
-                                                   onclick="handleDeleteItem(event,
-                                                           '{{route("give.role.user",["user"=>$user->id,"role"=>$userRole->name])}}')"
-                                                   class="item-delete mlg-15 deleteRole"></a>
-                                            </li>
-                                            <br>
-                                        @endforeach
+                                            @foreach($user->roles as $userRole)
+                                                <li>
+                                                    <a href="">{{$userRole->name}}</a>
+                                                    <a href=""
+                                                       onclick="handleDeleteItem(event,
+                                                               '{{route("give.role.user",["user"=>$user->id,"role"=>$userRole->name])}}')"
+                                                       class="item-delete mlg-15 deleteRole"></a>
+
+
+                                                </li>
+                                                <br>
+                                            @endforeach
                                         </ul>
                                         <p><a href="#rolsModal" rel="modal:open"
                                               onclick="setFormAction('{{$user->id}}')" data-modal>افزودن نقش کاربری</a>
@@ -54,7 +56,9 @@
                                     </td>
                                     <td>
                                         <a href="{{route("users.edit",$user->id)}}" class="item-edit mlg-15"></a>
-                                        <a href="" class="item-delete mlg-15"></a>
+                                        <a href="" onclick="handleDeleteItem(event,'{{route("users.destroy",$user->id)}}')" class="item-delete mlg-15"></a>
+
+                                        <a href="" onclick="manualConfirm(event,'{{route("users.manualConfirm",$user->id)}}')" class="item-confirm mlg-15"></a>
                                     </td>
 
 
@@ -94,12 +98,13 @@
     <script>
 
         @if(session()->has("feedbacks"))
-                $.toast({
-                    heading: "{{session()->get("feedbacks")["title"]}}",
-                    text: "{{session()->get("feedbacks")["body"]}}",
-                    showHideTransition: 'slide',
-                    icon: 'success'
-                });
+        $.toast({
+            heading: "{{session()->get("feedbacks")["title"]}}",
+            text: "{{session()->get("feedbacks")["body"]}}",
+            showHideTransition: 'slide',
+            icon: 'success'
+        });
+
         @endif
 
 
@@ -116,7 +121,7 @@
             if (confirm('ایتم مورد نظر حذف شود؟')) {
                 $.post(route, {_method: "delete", _token: "{{csrf_token()}}"})
                     .done(function (response) {
-                        event.target.closest('li').remove();
+                        event.target.closest('tr').remove();
 
                         $.toast({
                             heading: response.message,
@@ -133,6 +138,26 @@
                         })
                     });
             }
+        }
+
+        function manualConfirm(event,route) {
+            event.preventDefault();
+            $.post(route, {_method: "PATCH", _token: "{{csrf_token()}}"})
+                .done(function (response) {
+                    $.toast({
+                        heading: response.message,
+                        text: 'کاربر با موفقیت تغییر پیدا کرد.',
+                        showHideTransition: 'slide',
+                        icon: 'success'
+                    });
+                })
+                .fail(function (response) {
+                    $.toast({
+                        heading: 'خطایی به وجود آمده است',
+                        showHideTransition: 'fade',
+                        icon: 'error'
+                    })
+                });
         }
 
 

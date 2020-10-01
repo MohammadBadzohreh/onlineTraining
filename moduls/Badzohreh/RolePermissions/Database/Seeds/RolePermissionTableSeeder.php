@@ -4,6 +4,7 @@
 namespace Badzohreh\RolePermissions\Database\Seeds;
 use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\RolePermissions\Models\Role;
+use Badzohreh\User\Models\User;
 use Illuminate\Database\Seeder;
 
 class RolePermissionTableSeeder extends Seeder

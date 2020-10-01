@@ -55,6 +55,15 @@ class UserRepo
         }
         $user->update($data);
     }
+
+    public function delete($userId)
+    {
+        $user = $this->findById($userId);
+        if ($user->banner){
+            $user->banner->delete();
+        }
+        $user->delete();
+    }
 }
 
 

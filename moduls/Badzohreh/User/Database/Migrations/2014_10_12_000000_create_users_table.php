@@ -37,11 +37,11 @@ class CreateUsersTable extends Migration
 
             $table->rememberToken();
             $table->timestamps();
-
-            $table->foreign("image_id")
-                ->references("id")
-                ->on("media")
-                ->onDelete("SET NULL");
+//
+//            $table->foreign("image_id")
+//                ->references("id")
+//                ->on("media")
+//                ->onDelete("SET NULL");
 
         });
     }

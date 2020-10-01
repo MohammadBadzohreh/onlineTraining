@@ -9,6 +9,9 @@ Route::group(['namespace' => 'Badzohreh\User\Http\Controllers',
     Route::resource("users",UserController::class);
     Route::delete("/{user}/giveRole/{role}","UserController@giveRole")->name("give.role.user");
 
+
+    Route::patch("manualConfirm/{user}@UserController@manualConfirm")->name("manualConfirm");
+
     $router->post("user/{user}/add-role","UserController@addRole")->name("add.role");
 
     Route::post("email/resend", "Auth\VerificationController@resend")

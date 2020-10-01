@@ -69,5 +69,12 @@ class UserController extends Controller
         return redirect()->back();
     }
 
+    public function destroy($userId)
+    {
+
+        $this->userRepo->delete($userId);
+    }
+
+    
 
 }
