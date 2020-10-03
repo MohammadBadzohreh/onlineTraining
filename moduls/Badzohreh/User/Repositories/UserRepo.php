@@ -34,23 +34,18 @@ class UserRepo
     {
         $user = $this->findById($userId);
         $data = [
-            "name" =>$values->name ,
-            "email" =>$values->email ,
-            "image_id"=>$values->image_id,
-            "username" =>$values->username,
-            "mobile" =>$values->mobile ,
-            "headline" =>$values->headline ,
-            "website" =>$values->website ,
-            "facebook" =>$values->facebook ,
-            "linkedin" =>$values->likedin ,
-            "twitter" =>$values->twitter ,
-            "youtube" =>$values->youtube ,
-            "instagram" =>$values->instagram ,
-            "telegram" =>$values->telegram ,
-            "status" =>$values->status ,
-            "bio" =>$values->bio ,
+            "name" => $values->name,
+            "email" => $values->email,
+            "image_id" => $values->image_id,
+            "username" => $values->username,
+            "mobile" => $values->mobile,
+            "headline" => $values->headline,
+            "website" => $values->website,
+            "telegram" => $values->telegram,
+            "status" => $values->status,
+            "bio" => $values->bio,
         ];
-        if (!is_null($values->password)){
+        if (!is_null($values->password)) {
             $data['password'] = bcrypt($values->password);
         }
         $user->update($data);
@@ -59,7 +54,7 @@ class UserRepo
     public function delete($userId)
     {
         $user = $this->findById($userId);
-        if ($user->banner){
+        if ($user->banner) {
             $user->banner->delete();
         }
         $user->delete();

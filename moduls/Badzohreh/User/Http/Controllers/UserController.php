@@ -75,6 +75,11 @@ class UserController extends Controller
         $this->userRepo->delete($userId);
     }
 
-    
+    public function manualConfirm($userId)
+    {
+        $user = $this->userRepo->findById($userId);
+        $user->markEmailAsVerified();
+        return AjaxResponses::successResponses();
+    }
 
 }

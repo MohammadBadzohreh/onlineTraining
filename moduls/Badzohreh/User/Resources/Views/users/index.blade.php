@@ -23,7 +23,11 @@
                                 <th>ای دی</th>
                                 <th>نام</th>
                                 <th>شماره همراه</th>
+                                <th>ایمیل</th>
                                 <th>نقش کاربری</th>
+                                <th>ip</th>
+                                <th>تاریخ عضویت</th>
+                                <th>وضعیت تایید</th>
                                 <th>عملیات</th>
                             </tr>
                             </thead>
@@ -35,6 +39,7 @@
                                     <td><a href="">{{$user->id}}</a></td>
                                     <td><a href="">{{$user->name}}</a></td>
                                     <td>{{$user->mobile}}</td>
+                                    <td>{{$user->email}}</td>
                                     <td>
                                         <ul>
                                             @foreach($user->roles as $userRole)
@@ -54,11 +59,18 @@
                                               onclick="setFormAction('{{$user->id}}')" data-modal>افزودن نقش کاربری</a>
                                         </p>
                                     </td>
+                                    <td>{{$user->ip}}</td>
+                                    <td>{{$user->created_at}}</td>
+                                    <td class="confirmation-status">{!! $user->hasVerifiedEmail() ? "<span class='text-success'>تایید شده</span>" : "<span class='text-error'>تایید نشده</span>" !!}</td>
                                     <td>
                                         <a href="{{route("users.edit",$user->id)}}" class="item-edit mlg-15"></a>
-                                        <a href="" onclick="handleDeleteItem(event,'{{route("users.destroy",$user->id)}}')" class="item-delete mlg-15"></a>
+                                        <a href=""
+                                           onclick="handleDeleteItem(event,'{{route("users.destroy",$user->id)}}')"
+                                           class="item-delete mlg-15"></a>
 
-                                        <a href="" onclick="manualConfirm(event,'{{route("users.manualConfirm",$user->id)}}')" class="item-confirm mlg-15"></a>
+                                        <a href=""
+                                           onclick="manualConfirm(event,'{{route("users.manualConfirm",$user->id)}}')"
+                                           class="item-confirm mlg-15"></a>
                                     </td>
 
 
@@ -140,10 +152,11 @@
             }
         }
 
-        function manualConfirm(event,route) {
+        function manualConfirm(event, route) {
             event.preventDefault();
             $.post(route, {_method: "PATCH", _token: "{{csrf_token()}}"})
                 .done(function (response) {
+                    $(".confirmation-status").html("<span class='text-success'>تایید شده</span>");
                     $.toast({
                         heading: response.message,
                         text: 'کاربر با موفقیت تغییر پیدا کرد.',

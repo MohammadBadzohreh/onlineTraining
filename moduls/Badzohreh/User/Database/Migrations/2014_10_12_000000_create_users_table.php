@@ -23,12 +23,8 @@ class CreateUsersTable extends Migration
             $table->string('mobile', 14)->nullable();
             $table->string('headline')->nullable();
             $table->text('bio')->nullable();
+            $table->string("ip",255)->nullable();
             $table->string('website')->nullable();
-            $table->string('linkedin')->nullable();
-            $table->string('facebook')->nullable();
-            $table->string('twitter')->nullable();
-            $table->string('youtube')->nullable();
-            $table->string('instagram')->nullable();
             $table->string('telegram')->nullable();
             $table->bigInteger("image_id")->unsigned()->nullable();
             $table->timestamp('email_verified_at')->nullable();

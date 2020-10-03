@@ -10,7 +10,7 @@ Route::group(['namespace' => 'Badzohreh\User\Http\Controllers',
     Route::delete("/{user}/giveRole/{role}","UserController@giveRole")->name("give.role.user");
 
 
-    Route::patch("manualConfirm/{user}@UserController@manualConfirm")->name("manualConfirm");
+    Route::patch("{user}/manualConfirm","UserController@manualConfirm")->name("users.manualConfirm");
 
     $router->post("user/{user}/add-role","UserController@addRole")->name("add.role");
 
