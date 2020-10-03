@@ -16,7 +16,6 @@ class MediaService
             case "png":
             case "jpg":
             case "jpeg":
-
                 $media = new Media();
                 $media->user_id = auth()->id();
                 $media->files = ImageServices::upload($file);

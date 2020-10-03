@@ -12,6 +12,8 @@ Route::group(['namespace' => 'Badzohreh\User\Http\Controllers',
 
     Route::patch("{user}/manualConfirm","UserController@manualConfirm")->name("users.manualConfirm");
 
+    Route::post("/userProfileImage","UserController@userProfileImage")->name("userProfileImage");
+
     $router->post("user/{user}/add-role","UserController@addRole")->name("add.role");
 
     Route::post("email/resend", "Auth\VerificationController@resend")
