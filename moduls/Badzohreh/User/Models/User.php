@@ -2,6 +2,7 @@
 
 namespace Badzohreh\User\Models;
 
+use Badzohreh\Course\Models\Season;
 use Badzohreh\Media\Models\Media;
 use Badzohreh\User\Notifications\resetPasswordNotification;
 use Badzohreh\User\Notifications\sendForgotPasswordCodeNotification;
@@ -53,6 +54,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function profilePath()
     {
         return $this->username ? route("viewProfile",$this->username) : route("viewProfile",'username');
+    }
+
+    public function seassons()
+    {
+        return $this->hasMany(Season::class,"user_id","id");
     }
 
 

@@ -169,8 +169,7 @@
     </script>
 @endsection
 
-
-
+{{--todo detail course--}}
 
 
 

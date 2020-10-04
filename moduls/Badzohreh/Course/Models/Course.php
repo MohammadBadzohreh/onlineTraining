@@ -42,5 +42,10 @@ class Course extends Model
         return $this->belongsTo(Media::class, "banner_id", "id");
     }
 
+    public function seassons()
+    {
+        return $this->hasMany(Season::class,"course_id","id");
+    }
+
 
 }
