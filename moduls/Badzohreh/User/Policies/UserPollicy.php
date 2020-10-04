@@ -17,8 +17,28 @@ class UserPollicy
     }
     public function addRole(User $user)
     {
-        return false;
         if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_USERS)) return true;
         return null;
+    }
+    public function removeRole(User $user)
+    {
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_USERS)) return true;
+        return null;
+
+    }
+    public function update(User $user){
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_USERS)) return true;
+        return null;
+    }
+    public function delete(User $user){
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_USERS)) return true;
+        return null;
+    }
+
+    public function manaualConfirm(User $user)
+    {
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_USERS)) return true;
+        return null;
+
     }
 }
