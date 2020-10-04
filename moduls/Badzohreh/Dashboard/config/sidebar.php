@@ -7,6 +7,7 @@ return [
         "category"=>[],
         "Rolepermissions"=>[],
         "course"=>[],
-        "users"=>[]
+        "users"=>[],
+        "profile"=>[],
     ]
 ];

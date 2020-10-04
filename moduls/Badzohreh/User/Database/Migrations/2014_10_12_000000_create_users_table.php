@@ -27,6 +27,8 @@ class CreateUsersTable extends Migration
             $table->string('website')->nullable();
             $table->string('telegram')->nullable();
             $table->bigInteger("image_id")->unsigned()->nullable();
+            $table->string("shaba",24)->nullable();
+            $table->string("card_number",16)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('status', User::$STATUSES)->default("active");

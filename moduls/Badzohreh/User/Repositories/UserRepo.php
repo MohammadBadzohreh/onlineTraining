@@ -59,6 +59,31 @@ class UserRepo
         }
         $user->delete();
     }
+
+
+    public function updateCurrentProfile($values)
+    {
+        $user = auth()->user();
+        $user->name = $values->name;
+        if ($user->email != $values->email) {
+            $user->email = $values->email;
+            $user->email_verified_at = null;
+        }
+        $user->mobile = $values->mobile;
+        $user->headline = $values->headline;
+        $user->username = $values->username;
+        if ($values->password) {
+            $user->password = bcrypt($values->password);
+        }
+        if ($user->hasPermissionTo(Permission::PERMISSION_TEACH)) {
+            $user->shaba = $values->shaba;
+            $user->card_number = $values->card_number;
+            $user->bio = $values->bio;
+        }
+        $user->save();
+    }
+
+
 }
 
 

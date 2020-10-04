@@ -7,7 +7,9 @@ use Badzohreh\Common\Responses\AjaxResponses;
 use Badzohreh\Media\Models\Media;
 use Badzohreh\Media\Services\MediaService;
 use Badzohreh\RolePermissions\Http\Requests\AddRoleRequest;
+use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\RolePermissions\Repositories\RoleRepo;
+use Badzohreh\User\Http\Requests\UpdateUser;
 use Badzohreh\User\Http\Requests\UpdateUserProfile;
 use Badzohreh\User\Http\Requests\UpdateUserRequest;
 use Badzohreh\User\Models\User;
@@ -99,5 +101,16 @@ class UserController extends Controller
         return redirect()->back();
     }
 
+    public function profile()
+    {
+        return view("User::users.information");
+    }
+
+    public function updateProfile(UpdateUser $request)
+    {
+        $this->userRepo->updateCurrentProfile($request);
+        showFeedbacks();
+        return back();
+    }
 
 }

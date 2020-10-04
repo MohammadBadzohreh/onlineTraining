@@ -2,7 +2,7 @@
 @section("css")
     <link rel="stylesheet" href="/panel/css/jquery.toast.min.css" type="text/css">
 @endsection
-s
+
 @section("content")
     <div class="content">
         @include("Dashboard::layouts.header")

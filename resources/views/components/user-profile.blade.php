@@ -1,7 +1,13 @@
 <form id="profileForm" action="{{route("userProfileImage")}}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="profile__info border cursor-pointer text-center">
-        <div class="avatar__img"><img src="{{auth()->user()->banner->thumb}}" class="avatar___img">
+        <div class="avatar__img"><img src="
+        @if(auth()->user()->banner)
+            {{auth()->user()->banner->thumb}}
+            @else
+                    /panel/img/pro.jpg
+                    @endif
+                    " class="avatar___img">
             <input type="file" accept="image/*"
                    class="hidden avatar-img__input"
                    name="image"

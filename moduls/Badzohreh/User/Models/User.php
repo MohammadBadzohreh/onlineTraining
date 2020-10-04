@@ -50,5 +50,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Media::class,"image_id","id");
     }
 
+    public function profilePath()
+    {
+        return $this->username ? route("viewProfile",$this->username) : route("viewProfile",'username');
+    }
+
 
 }

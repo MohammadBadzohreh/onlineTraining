@@ -14,6 +14,7 @@ class Textarea extends Component
     {
         $this->name = $name;
         $this->placeholder = $placeholder;
+
     }
 
     public function render()
