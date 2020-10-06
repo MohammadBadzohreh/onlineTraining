@@ -9,11 +9,17 @@ class Season extends Model
 {
 
     protected $guarded = [];
-    const STATUS_ACCEPTED = 'accepted';
-    const STATUS_REJECTED = 'rejected';
-    const STATUS_PENDING = 'pending';
+    const CONFIRMATION_STATUS_ACCEPTED = 'accepted';
+    const CONFIRMATION_STATUS_REJECTED = 'rejected';
+    const CONFIRMATION_STATUS_PENDING = 'pending';
+    static $CONFIRMATION_STATUS= [self::CONFIRMATION_STATUS_ACCEPTED,self::CONFIRMATION_STATUS_ACCEPTED,self::CONFIRMATION_STATUS_ACCEPTED];
 
-    static $STATUSES = [self::STATUS_PENDING,self::STATUS_REJECTED,self::STATUS_ACCEPTED];
+
+    const STATUS_OPENED = "opened";
+    const STATUS_CLOSED = "closed";
+
+    static $STATUSES =[self::STATUS_OPENED,self::STATUS_CLOSED];
+
     public function course()
     {
         return $this->belongsTo(Course::class,"course_id","id");

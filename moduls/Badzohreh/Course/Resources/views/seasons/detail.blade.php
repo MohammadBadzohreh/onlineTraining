@@ -7,8 +7,8 @@
 
 @section('content')
     <div class="content">
-    @include("Dashboard::layouts.header")
-    @include("Dashboard::layouts.breadcrumb")
+        @include("Dashboard::layouts.header")
+        @include("Dashboard::layouts.breadcrumb")
         <div class="main-content padding-0 course__detial">
             <div class="row no-gutters  ">
                 <div class="col-8 bg-white padding-30 margin-left-10 margin-bottom-15 border-radius-3">
@@ -114,9 +114,9 @@
                 <div class="col-4">
 
                     <div class="col-12 bg-white margin-bottom-15 border-radius-3">
-                    @include("Course::seasons.create")
+                        @include("Course::seasons.create")
 
-                     @include("Course::seasons.showSeasson")
+                        @include("Course::seasons.showSeasson")
                     </div>
                     <div class="col-12 bg-white margin-bottom-15 border-radius-3">
 
@@ -127,7 +127,22 @@
                                 <option value="0">انتخاب کاربر</option>
                                 <option value="1">mohammadniko3@gmail.com</option>
                                 <option value="2">sayad@gamil.com</option>
-                            </select><div class="dropdown-select wide " tabindex="0"><span class="current">انتخاب کاربر</span><div class="list"><div class="dd-search"><input id="txtSearchValue" autocomplete="off" onkeyup="filter()" class="dd-searchbox" type="text"></div><ul><li class="option selected" data-value="0" data-display-text="">انتخاب کاربر</li><li class="option " data-value="1" data-display-text="">mohammadniko3@gmail.com</li><li class="option " data-value="2" data-display-text="">sayad@gamil.com</li></ul></div></div>
+                            </select>
+                            <div class="dropdown-select wide " tabindex="0"><span class="current">انتخاب کاربر</span>
+                                <div class="list">
+                                    <div class="dd-search"><input id="txtSearchValue" autocomplete="off"
+                                                                  onkeyup="filter()" class="dd-searchbox" type="text">
+                                    </div>
+                                    <ul>
+                                        <li class="option selected" data-value="0" data-display-text="">انتخاب کاربر
+                                        </li>
+                                        <li class="option " data-value="1" data-display-text="">
+                                            mohammadniko3@gmail.com
+                                        </li>
+                                        <li class="option " data-value="2" data-display-text="">sayad@gamil.com</li>
+                                    </ul>
+                                </div>
+                            </div>
                             <input type="text" placeholder="مبلغ دوره" class="text">
                             <p class="box__title">کارمزد مدرس ثبت شود ؟</p>
                             <div class="notificationGroup">
@@ -176,6 +191,48 @@
         </div>
 
     </div>
+@endsection
 
 
-    @endsection
+
+@section("js")
+    <script src="/panel/js/jquery.toast.min.js" type="text/javascript"></script>
+
+        <script>
+        function handleChangeStatus(event, route, alertText,text,status = false) {
+            event.preventDefault();
+            if (confirm(alertText)) {
+                $.post(route, {_method: "PATCH", _token: "{{csrf_token()}}"})
+                    .done(function (response) {
+
+                        if (!status){
+                            $(event.target).closest('.confirmation_status').text(status);
+                            $(".confirmation_status").text(text);
+                        } else {
+                            $(".status").text(text);
+                        }
+                        $.toast({
+                            heading: response.message,
+                            text: text,
+                            showHideTransition: 'slide',
+                            icon: 'success'
+                        });
+                    }).fail(function (response) {
+                    $.toast({
+                        heading: response.message,
+                        text: "خطا در عملیات",
+                        showHideTransition: 'fade',
+                        icon: 'error'
+                    })
+                });
+
+
+            }
+
+        }
+
+
+    </script>
+
+
+@endsection

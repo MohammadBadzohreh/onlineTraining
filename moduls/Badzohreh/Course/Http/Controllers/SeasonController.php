@@ -3,7 +3,9 @@
 namespace Badzohreh\Course\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Badzohreh\Common\Responses\AjaxResponses;
 use Badzohreh\Course\Http\Requests\SeasonStoreRequest;
+use Badzohreh\Course\Models\Season;
 use Badzohreh\Course\Repositories\CourseRepo;
 use Badzohreh\Course\Repositories\SeassonRepo;
 
@@ -43,4 +45,43 @@ class SeasonController extends Controller
         $this->seassonRepo->update($id,$request);
         return back();
     }
+
+    public function accept($id)
+    {
+        if ($this->seassonRepo->updateConfirmationStatus($id,Season::CONFIRMATION_STATUS_ACCEPTED)){
+            showFeedbacks();
+            AjaxResponses::successResponses();
+        }
+        AjaxResponses::failResponses();
+    }
+    public function reject($id)
+    {
+        if ($this->seassonRepo->updateConfirmationStatus($id,Season::CONFIRMATION_STATUS_REJECTED)){
+            showFeedbacks();
+            AjaxResponses::successResponses();
+        }
+        AjaxResponses::failResponses();
+    }
+
+
+    public function open($id)
+    {
+        if ($this->seassonRepo->updateStatus($id,Season::STATUS_OPENED)){
+            showFeedbacks();
+            AjaxResponses::successResponses();
+        }
+        AjaxResponses::failResponses();
+    }
+
+
+    public function close($id)
+    {
+        if ($this->seassonRepo->updateStatus($id,Season::STATUS_CLOSED)){
+            showFeedbacks();
+            AjaxResponses::successResponses();
+        }
+        AjaxResponses::failResponses();
+    }
+
+
 }

@@ -4,6 +4,7 @@ namespace Badzohreh\Course\Repositories;
 
 
 use Badzohreh\Course\Models\Season;
+use Doctrine\DBAL\Schema\View;
 
 class SeassonRepo
 {
@@ -32,6 +33,24 @@ class SeassonRepo
             "number"=>$this->generate_number($values->number,$id),
         ]);
     }
+
+    public function updateConfirmationStatus($id,$status)
+    {
+        $season = $this->findById($id);
+        if ($season->update(["confirmation_status"=>$status])){
+            return true;
+        }
+        return false;
+    }
+    public function updateStatus($id, $status)
+    {
+        $season = $this->findById($id);
+        if ($season->update(["status"=>$status])){
+            return true;
+        }
+        return false;
+    }
+
      private function generate_number($number,$id)
      {
          $courseRepo = new CourseRepo();
@@ -41,4 +60,6 @@ class SeassonRepo
          }
          return $number;
      }
+
+
 }

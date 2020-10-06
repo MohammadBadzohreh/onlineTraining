@@ -16,7 +16,8 @@ class CreateSeasonsTable extends Migration
             $table->bigInteger("course_id")->unsigned();
             $table->string("title",255);
             $table->integer("number")->nullable();
-            $table->enum("confirmation_status", Season::$STATUSES)->default(Season::STATUS_PENDING);
+            $table->enum("confirmation_status", Season::$CONFIRMATION_STATUS)->default(Season::CONFIRMATION_STATUS_PENDING);
+            $table->enum("status",['locked','opened'])->default("opend");
             $table->timestamps();
 
             $table->foreign("user_id")
