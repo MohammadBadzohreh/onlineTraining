@@ -17,31 +17,30 @@
                 <td><a href="" class="confirmation_status">@lang($season->confirmation_status)</a></td>
                 <td><a href="" class="status">@lang($season->status)</a></td>
                 <td>
-                    <a href="" class="item-delete mlg-15" title="حذف"></a>
-                    <a href="" class="item-reject mlg-15" title="رد"
-                       onclick="handleChangeStatus(event,'{{route("season.reject",$season->id)}}','ایا مطمئن هستید؟','رد شده')"
-                    ></a>
-                    <a href="" class="item-confirm mlg-15" title="تایید"
-                       onclick="handleChangeStatus(event,'{{route("season.accpet",$season->id)}}','ایا مطمئن هستید؟','تایید شده')"></a>
+
+                    @can(\Badzohreh\RolePermissions\Models\Permission::PERMISSION_MANAGE_COURSES)
+                        <a href="" class="item-delete mlg-15" title="حذف"></a>
+                        <a href="" class="item-reject mlg-15" title="رد"
+                           onclick="handleChangeStatus(event,'{{route("season.reject",$season->id)}}','ایا مطمئن هستید؟','رد شده')"
+                        ></a>
+                        <a href="" class="item-confirm mlg-15" title="تایید"
+                           onclick="handleChangeStatus(event,'{{route("season.accpet",$season->id)}}','ایا مطمئن هستید؟','تایید شده')"></a>
 
 
 
-                    <a href="" class="item-lock mlg-15 text-error"  title="قفل"
-                       onclick="handleChangeStatus(event,'{{route("season.closed",$season->id)}}','ایا مطمئن هستید؟','قفل شده')"></a>
+                        <a href="" class="item-lock mlg-15 text-error" title="قفل"
+                           onclick="handleChangeStatus(event,'{{route("season.closed",$season->id)}}','ایا مطمئن هستید؟','قفل شده')"></a>
 
 
-                    <a href="" class="item-lock mlg-15 text-success" title="باز"
-                       onclick="handleChangeStatus(event,'{{route("season.opened",$season->id)}}','ایا مطمئن هستید؟','باز')"></a>
-
-
-
-
+                        <a href="" class="item-lock mlg-15 text-success" title="باز"
+                           onclick="handleChangeStatus(event,'{{route("season.opened",$season->id)}}','ایا مطمئن هستید؟','باز')"></a>
+                    @endcan
 
 
                     <a href="{{route("season.edit",$season->id)}}" class="item-edit " title="ویرایش"></a>
                 </td>
             </tr>
-            @endforeach
+        @endforeach
         </tbody>
     </table>
 </div>

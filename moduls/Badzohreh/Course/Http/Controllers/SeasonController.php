@@ -16,7 +16,7 @@ class SeasonController extends Controller
     private $seassonRepo;
     private $courseRepo;
 
-    public function __construct(SeassonRepo $seassonRepo,CourseRepo $courseRepo)
+    public function __construct(SeassonRepo $seassonRepo, CourseRepo $courseRepo)
     {
 
         $this->seassonRepo = $seassonRepo;
@@ -25,44 +25,48 @@ class SeasonController extends Controller
 
     public function index($id)
     {
-        $this->authorize("detail",$this->courseRepo->findById($id));
+        $this->authorize("detail", $this->courseRepo->findById($id));
         $course = $this->courseRepo->findById($id);
         return view("Course::seasons.detail", compact("course"));
     }
 
     public function store($id, SeasonStoreRequest $request)
     {
-        $this->authorize("createSeason",$this->courseRepo->findById($id));
-        $this->seassonRepo->create($id,$request);
+        $this->authorize("createSeason", $this->courseRepo->findById($id));
+        $this->seassonRepo->create($id, $request);
         return back();
     }
 
     public function edit($id)
     {
-        $season =$this->seassonRepo->findById($id);
-        $this->authorize("edit",$season);
-        return view("Course::seasons.edit",compact("season"));
+        $season = $this->seassonRepo->findById($id);
+        $this->authorize("edit", $season);
+        return view("Course::seasons.edit", compact("season"));
     }
 
 
-    public function update($id,SeasonStoreRequest $request)
+    public function update($id, SeasonStoreRequest $request)
     {
-        $this->update('update',Season::class);
-        $this->seassonRepo->update($id,$request);
+        $this->authorize("edit", $this->seassonRepo->findById($id));
+        $this->seassonRepo->update($id, $request);
         return back();
     }
 
     public function accept($id)
     {
-        if ($this->seassonRepo->updateConfirmationStatus($id,Season::CONFIRMATION_STATUS_ACCEPTED)){
+        $this->authorize("changeConfirmation_status", $this->seassonRepo->findById($id));
+        if ($this->seassonRepo->updateConfirmationStatus($id, Season::CONFIRMATION_STATUS_ACCEPTED)) {
             showFeedbacks();
             AjaxResponses::successResponses();
         }
         AjaxResponses::failResponses();
     }
+
     public function reject($id)
     {
-        if ($this->seassonRepo->updateConfirmationStatus($id,Season::CONFIRMATION_STATUS_REJECTED)){
+        $this->authorize("changeConfirmation_status", $this->seassonRepo->findById($id));
+
+        if ($this->seassonRepo->updateConfirmationStatus($id, Season::CONFIRMATION_STATUS_REJECTED)) {
             showFeedbacks();
             AjaxResponses::successResponses();
         }
@@ -72,7 +76,9 @@ class SeasonController extends Controller
 
     public function open($id)
     {
-        if ($this->seassonRepo->updateStatus($id,Season::STATUS_OPENED)){
+        $this->authorize("changeConfirmation_status", $this->seassonRepo->findById($id));
+
+        if ($this->seassonRepo->updateStatus($id, Season::STATUS_OPENED)) {
             showFeedbacks();
             AjaxResponses::successResponses();
         }
@@ -82,7 +88,9 @@ class SeasonController extends Controller
 
     public function close($id)
     {
-        if ($this->seassonRepo->updateStatus($id,Season::STATUS_CLOSED)){
+        $this->authorize("changeConfirmation_status", $this->seassonRepo->findById($id));
+
+        if ($this->seassonRepo->updateStatus($id, Season::STATUS_CLOSED)) {
             showFeedbacks();
             AjaxResponses::successResponses();
         }
