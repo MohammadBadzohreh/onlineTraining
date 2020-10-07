@@ -225,14 +225,7 @@
                         icon: 'error'
                     })
                 });
-
-
             }
-
         }
-
-
     </script>
-
-
 @endsection

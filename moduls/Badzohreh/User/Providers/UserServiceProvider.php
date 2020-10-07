@@ -8,6 +8,7 @@
 
 namespace Badzohreh\User\Providers;
 
+use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\User\Database\Seeds\UserTableSeeder;
 use Badzohreh\User\Http\Middleware\StoreUserIp;
 use Badzohreh\User\Models\User;
@@ -36,7 +37,8 @@ class UserServiceProvider extends ServiceProvider
         config()->set("sidebar.items.users", [
             'icon' => 'i-users',
             'title' => 'کاربران',
-            'link' => route("users.index")
+            'link' => route("users.index"),
+            'permission'=>Permission::PERMISSION_MANAGE_USERS
         ]);
         $this->app->booted(function (){
             config()->set("sidebar.items.profile", [

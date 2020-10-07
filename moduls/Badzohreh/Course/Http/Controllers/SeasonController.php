@@ -14,21 +14,25 @@ class SeasonController extends Controller
 
 
     private $seassonRepo;
+    private $courseRepo;
 
-    public function __construct(SeassonRepo $seassonRepo)
+    public function __construct(SeassonRepo $seassonRepo,CourseRepo $courseRepo)
     {
 
         $this->seassonRepo = $seassonRepo;
+        $this->courseRepo = $courseRepo;
     }
 
-    public function index($id, CourseRepo $courseRepo)
+    public function index($id)
     {
-        $course = $courseRepo->findById($id);
+        $this->authorize("detail",$this->courseRepo->findById($id));
+        $course = $this->courseRepo->findById($id);
         return view("Course::seasons.detail", compact("course"));
     }
 
     public function store($id, SeasonStoreRequest $request)
     {
+        $this->authorize("createSeason",$this->courseRepo->findById($id));
         $this->seassonRepo->create($id,$request);
         return back();
     }
@@ -36,12 +40,14 @@ class SeasonController extends Controller
     public function edit($id)
     {
         $season =$this->seassonRepo->findById($id);
+        $this->authorize("edit",$season);
         return view("Course::seasons.edit",compact("season"));
     }
 
 
     public function update($id,SeasonStoreRequest $request)
     {
+        $this->update('update',Season::class);
         $this->seassonRepo->update($id,$request);
         return back();
     }

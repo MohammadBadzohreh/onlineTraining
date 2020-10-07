@@ -3,7 +3,9 @@
 namespace Badzohreh\Course\Providers;
 
 use Badzohreh\Course\Models\Course;
+use Badzohreh\Course\Models\Season;
 use Badzohreh\Course\Policies\CoursePolicy;
+use Badzohreh\Course\Policies\SeasonPolicy;
 use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\User\Models\User;
 use Illuminate\Support\Facades\Gate;
@@ -20,6 +22,7 @@ class CourseServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . './../Resources/views', "Course");
         $this->loadTranslationsFrom(__DIR__ . '/../Resources/Lang', "Course");
         Gate::policy(Course::class, CoursePolicy::class);
+        Gate::policy(Season::class,SeasonPolicy::class);
         Gate::before(function (User $user) {
             return $user->hasPermissionTo(Permission::PERMISSION_SUPER_ADMIN) ? true : null;
         });
@@ -29,7 +32,8 @@ class CourseServiceProvider extends ServiceProvider
         config()->set("sidebar.items.course", [
             'icon' => 'i-courses',
             'title' => 'دوره ها',
-            'link' => route("course.index")
+            'link' => route("course.index"),
+            'permission'=>Permission::PERMISSION_MANAGE_COURSES,
         ]);
     }
 }

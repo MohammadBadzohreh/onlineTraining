@@ -23,6 +23,7 @@
                                 <th>ای دی</th>
                                 <th>عنوان دوره</th>
                                 <th>ردیف</th>
+                                <th>جزییات</th>
                                 <th>مدرس دوره</th>
                                 <th>قیمت دوره</th>
                                 <th>حالت دوره</th>
@@ -41,6 +42,7 @@
                                     <td><a href="">{{$course->id}}</a></td>
                                     <td><a href="">{{$course->title}}</a></td>
                                     <td><a href="">{{$course->priority}}</a></td>
+                                    <td><a href="{{route("seassons.index",$course->id)}}">جزییات</a></td>
                                     <td>{{$course->teacher->name}}</td>
                                     <td>{{$course->price}}</td>
                                     <td class="confirmation_status">@lang($course->confirmation_status)</td>

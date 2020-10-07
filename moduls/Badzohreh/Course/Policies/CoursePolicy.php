@@ -3,6 +3,7 @@
 namespace Badzohreh\Course\Policies;
 
 use Badzohreh\Course\Models\Course;
+use Badzohreh\Course\Repositories\CourseRepo;
 use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\User\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -48,6 +49,30 @@ class CoursePolicy
     public function delete(User $user)
     {
         if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES)) return true;
+        return null;
+    }
+
+    public function detail(User $user, Course $course)
+    {
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES)) {
+            return true;
+        }
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_OWN_COURSE)
+            && $course->teacher_id == $user->id) {
+            return true;
+        }
+        return null;
+    }
+
+    public function createSeason(User $user, Course $course)
+    {
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES)) {
+            return true;
+        }
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_OWN_COURSE) &&
+            $course->teacher_id == $user->id) {
+            return true;
+        }
         return null;
     }
 }

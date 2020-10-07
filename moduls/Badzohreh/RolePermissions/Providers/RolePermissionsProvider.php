@@ -29,7 +29,8 @@ class RolePermissionsProvider extends ServiceProvider{
         config()->set("sidebar.items.Rolepermissions",[
             'icon'=>'i-categories',
             'title'=>'نقش کاربری',
-            'link'=>route("permissions.index")
+            'link'=>route("permissions.index"),
+            'permission'=>Permission::PERMISSION_MANAGE_ROLE_PERMISSION,
         ]);
     }
 }

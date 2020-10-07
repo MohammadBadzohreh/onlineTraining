@@ -22,6 +22,11 @@ Route::get("addRole",function (){
 
 });
 
+Route::get("/getPermissions",function (){
+   $user = auth()->user();
+    dd($user->permissions);
+});
+
 
 Route::get("per",function (){
 })->name("user.permissions");
