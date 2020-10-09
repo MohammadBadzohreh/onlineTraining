@@ -2,6 +2,7 @@
 
 namespace moduls\Badzoreh\User\Tests\Feature;
 
+use Badzohreh\RolePermissions\Database\Seeds\RolePermissionTableSeeder;
 use Badzohreh\User\Models\User;
 use Badzohreh\User\Services\VerifyService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -79,6 +80,7 @@ class RegisterationTest extends TestCase
 
     public function test_verfied_user_can_see_home_page()
     {
+        $this->seed(RolePermissionTableSeeder::class);
         $this->registerNewUser();
         auth()->user()->markEmailAsVerified();
         $this->assertAuthenticated();

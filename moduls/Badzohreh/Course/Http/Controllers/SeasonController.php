@@ -33,6 +33,7 @@ class SeasonController extends Controller
     public function store($id, SeasonStoreRequest $request)
     {
         $this->authorize("createSeason", $this->courseRepo->findById($id));
+
         $this->seassonRepo->create($id, $request);
         return back();
     }
