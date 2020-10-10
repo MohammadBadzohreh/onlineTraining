@@ -41,9 +41,10 @@ class MediaService
 
     public static function delete($media)
     {
-        switch ($media->type) {
-            case "image":
-                ImageServices::delete($media->files);
+        foreach (config("MediaFile.mediaTypeService") as $key => $service) {
+            if ($key == $media->type){
+                $service["handler"]::delete($media);
+            }
         }
 
     }
@@ -56,7 +57,6 @@ class MediaService
     private static function getFileExtension($file)
     {
         return strtolower($file->getClientOriginalExtension());
-
     }
 
     private static function handleUploadMedia(FileServcieContract $service, $key)

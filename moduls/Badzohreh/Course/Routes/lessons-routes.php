@@ -4,6 +4,7 @@ Route::group(['namespace'=>'Badzohreh\Course\Http\Controllers',
 
     $router->get("{course}/course/create/lesson","LessonController@create")->name("lessons.create");
     $router->post("{course}/course/create/lesson","LessonController@store")->name("lessons.store");
+    $router->delete("{course}/course/{lesson}/lesson/delete","LessonController@destroy")->name("lesson.destroy");
 
 //    todo delete extra routes
     $router->get("{course}/seassions","SeasonController@index")->name("seassons.index");

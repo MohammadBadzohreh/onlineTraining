@@ -54,6 +54,7 @@ class CourseRepo
 
     public function destory($id)
     {
+
         $course = $this->findById($id);
         if ($course->banner) {
             $course->banner->delete();

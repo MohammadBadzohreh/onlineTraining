@@ -5,8 +5,10 @@ namespace Badzohreh\Course\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Badzohreh\Common\Responses\AjaxResponses;
 use Badzohreh\Course\Http\Requests\SeasonStoreRequest;
+use Badzohreh\Course\Models\Lesson;
 use Badzohreh\Course\Models\Season;
 use Badzohreh\Course\Repositories\CourseRepo;
+use Badzohreh\Course\Repositories\LessonRepo;
 use Badzohreh\Course\Repositories\SeassonRepo;
 
 class SeasonController extends Controller
@@ -27,7 +29,9 @@ class SeasonController extends Controller
     {
         $this->authorize("detail", $this->courseRepo->findById($id));
         $course = $this->courseRepo->findById($id);
-        return view("Course::seasons.detail", compact("course"));
+        $lessons = $course->lessons;
+
+        return view("Course::seasons.detail", compact("course","lessons"));
     }
 
     public function store($id, SeasonStoreRequest $request)

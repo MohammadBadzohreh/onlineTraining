@@ -2,6 +2,7 @@
 
 namespace Badzohreh\Course\Models;
 
+use Badzohreh\Media\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 
 class Lesson extends Model
@@ -18,5 +19,19 @@ class Lesson extends Model
     public function course()
     {
         return $this->belongsTo(Course::class, "course_id", "id");
+    }
+
+    public function seasson()
+    {
+        return $this->belongsTo(Season::class, "season_id", "id");
+    }
+
+    public function getSeasonTitleAttribute()
+    {
+        return !is_null($this->seasson) ? $this->seasson->title : "__";
+    }
+
+    public function banner(){
+        return $this->belongsTo(Media::class,"media_id","id");
     }
 }

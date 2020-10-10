@@ -48,7 +48,7 @@ class CourseController extends Controller
     {
         $this->authorize("create",Course::class);
         $request->request
-            ->add(['banner_id' => MediaService::privateUpload($request->file("image"))->id]);
+            ->add(['banner_id' => MediaService::publicUplaod($request->file("image"))->id]);
         $this->CourseRepo->store($request);
         return redirect()->route("course.index");
     }
@@ -70,7 +70,7 @@ class CourseController extends Controller
         $this->authorize("edit",$course);
         if ($request->file("image")) {
             $this->CourseRepo->findById($id)->banner->delete();
-            $request->image_id = MediaService::privateUpload($request->file("image"))->id;
+            $request->image_id = MediaService::publicUplaod($request->file("image"))->id;
         } else {
             $request->banner_id = $this->CourseRepo->findById($id)->banner_id;
         }
