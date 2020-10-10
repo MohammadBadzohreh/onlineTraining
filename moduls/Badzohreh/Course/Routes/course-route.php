@@ -6,6 +6,4 @@ Route::group(['namespace'=>'Badzohreh\Course\Http\Controllers',
     $router->patch("/course_reject/{course}","CourseController@reject")->name("course.change.rejected");
 
     $router->patch("/course_lock/{course}","CourseController@lock")->name("course.change.locked");
-
-
 });

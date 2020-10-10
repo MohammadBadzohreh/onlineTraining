@@ -8,29 +8,29 @@ use Illuminate\Database\Eloquent\Model;
 
 class Media extends Model
 {
-    protected $casts=[
-        'files'=>"json"
+    protected $casts = [
+        'files' => "json"
     ];
 
     public function getThumbAttribute()
     {
-        return "/storage/".$this->files[300];
+        return "/storage/" . $this->files[300];
     }
 
 
     public function user()
     {
 //        todo maybe need to chnage
-        return $this->hasOne(User::class,"user_id","id");
+        return $this->hasOne(User::class, "user_id", "id");
 
     }
 
-protected static function booted()
-{
-    static::deleting(function ($media){
-        MediaService::delete($media);
+    protected static function booted()
+    {
+        static::deleting(function ($media) {
+            MediaService::delete($media);
 
-    });
-}
+        });
+    }
 
 }

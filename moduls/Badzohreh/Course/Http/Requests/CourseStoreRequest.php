@@ -22,7 +22,7 @@ class CourseStoreRequest extends FormRequest
             "priority" => "nullable|numeric",
             "price" => "required|numeric|min:0|max:10000000",
             "percent" => "required|numeric|min:0|max:100",
-            "teacher_id" => ["required", "exists:users,id"],
+            "teacher_id" => ["required", "exists:users,id"], //todo  validate teacher
             "type" => ["required", Rule::in(Course::$TYPES)],
             "status" => ["required", Rule::in(Course::$STATUSES)],
             "category_id" => "required|exists:categories,id",

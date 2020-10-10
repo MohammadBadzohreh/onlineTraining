@@ -3,23 +3,30 @@
 namespace Badzohreh\Course\Repositories;
 
 
+use Badzohreh\Course\Models\Lesson;
 use Badzohreh\Course\Models\Season;
 use Doctrine\DBAL\Schema\View;
+use Illuminate\Support\Str;
 
-class SeassonRepo
+class LessonRepo
 {
     public function findById($id)
     {
-        return Season::find($id);
+        return Lesson::find($id);
     }
 
     public function create($id, $values)
     {
-        Season::create([
+        Lesson::create([
             "title" => $values->title,
-            "number" => $this->generate_number($values->number, $id),
-            "user_id" => auth()->id(),
-            "course_id" => $id,
+            "slug" => $values->slug ? Str::slug($values->slug) : Str::slug($values->title),
+            "number" => $this->generate_number($id),
+            "time" => $values->time,
+            "free" => $values->free,
+            "season_id" => $values->season_id,
+            "media_id" => $values->media_id,
+            "user_id"=>auth()->id(),
+            "course_id"=>$id
         ]);
 
     }
@@ -63,20 +70,11 @@ class SeassonRepo
     }
 
 
-    public function findByCourseAndSeason($season_id, $course_id)
-    {
-        return Season::query()->where([
-            "id" => $season_id,
-            "course_id" => $course_id
-        ])->get();
-
-    }
-
-    private function generate_number($number, $id)
+    private function generate_number($id, $number = null)
     {
         $courseRepo = new CourseRepo();
         if (is_null($number)) {
-            $number = $courseRepo->findById($id)->seassons()->orderBy("number", "desc")->firstOrNew([])->number ?: 0;
+            $number = $courseRepo->findById($id)->lessons()->orderBy("number", "desc")->firstOrNew([])->number ?: 0;
             $number++;
         }
         return $number;
