@@ -57,7 +57,7 @@ class CourseTest extends TestCase
 
     public function test_permitted_user_can_store_course()
     {
-
+        $this->withoutExceptionHandling();
         $this->actAsAdmin();
         $this->create_categroy();
         $response = $this->post(route("course.store"), $this->CourseData());

@@ -19,6 +19,7 @@ class CreateMediaTable extends Migration
             $table->json("files");
             $table->enum("type",["image","video","audio","doc","zip"]);
             $table->string("file_name",255);
+            $table->boolean("is_private");
             $table->timestamps();
 
             $table->foreign("user_id")

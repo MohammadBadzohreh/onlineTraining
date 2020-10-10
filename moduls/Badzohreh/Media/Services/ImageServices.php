@@ -4,48 +4,31 @@
 namespace Badzohreh\Media\Services;
 
 
+use Badzohreh\Media\Contract\FileServcieContract;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
-class ImageServices
+class ImageServices extends DefaultMediaService implements FileServcieContract
 {
     protected static $sizes = ['300', '450', '600'];
-
-    public static function upload($file)
+    public static function upload($file, $dir, $filename): array
     {
-        $filename = uniqid();
-        $extention = $file->getClientOriginalExtension();
-        $dir = "app\public\\";
-
-        $file->move(storage_path($dir), $filename . "." . $extention);
-
-        $path = $dir . "\\" . $filename . "." . $extention;
-
-        return self::resize(storage_path($path), storage_path($dir), $filename, $extention);
-
-
+        Storage::putFileAs($dir, $file, $filename . "." . $file->getClientOriginalExtension());
+        $path = $dir . "\\" . $filename . "." . $file->getClientOriginalExtension();
+        return self::resize(Storage::path($path), $dir, $filename, $file->getClientOriginalExtension());
     }
 
     public static function resize($img, $dir, $filename, $extention)
     {
-
         $img = Image::make($img);
-
         $imgs["original"] = $filename . "." . $extention;
         foreach (self::$sizes as $size) {
             $imgs[$size] = $filename . "_" . $size . "." . $extention;
             $img->resize($size, null, function ($aspect) {
                 $aspect->aspectRatio();
-            })->save($dir . $filename . "_" . $size . "." . $extention);
+            })->save(Storage::path($dir) . '/' . $filename . '_' . $size . '.' . $extention);
         }
         return $imgs;
-    }
-
-    public static function delete($files){
-        foreach ($files as $file) {
-            Storage::delete("public\\".$file);
-        }
-
     }
 
 }

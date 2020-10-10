@@ -7,18 +7,14 @@ use Badzohreh\Media\Contract\FileServcieContract;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-class CompressServcie implements FileServcieContract
+class CompressServcie extends DefaultMediaService implements FileServcieContract
 {
-    public static function upload(UploadedFile $file): array
+    public static function upload(UploadedFile $file,$dir,$filename): array
     {
-        $filename = uniqid();
-        $extention = $file->getClientOriginalExtension();
-        $dir = 'private\\';
-        Storage::putFileAs($dir, $file, $filename . '.' . $extention);
-        return ['video' => $dir . $filename . "." . $extention];
+        Storage::putFileAs($dir, $file, $filename . '.' . $file->getClientOriginalExtension());
+        return ['zip' => $filename . "." . $file->getClientOriginalExtension()];
     }
-    public static function delete()
-    {
-    }
+
+
 
 }

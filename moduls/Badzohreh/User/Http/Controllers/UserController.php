@@ -71,7 +71,7 @@ class UserController extends Controller
             if ($user->banner) {
                 $user->banner->delete();
             }
-            $request->image_id = MediaService::uplaod($request->file("image"))->id;
+            $request->image_id = MediaService::publicUplaod($request->file("image"))->id;
         } else {
             $request->image_id = $user->image_id;
         }
@@ -103,7 +103,7 @@ class UserController extends Controller
         if ($user->banner){
             $user->banner->delete();
         }
-        $user->image_id = MediaService::uplaod($request->file("image"))->id;
+        $user->image_id = MediaService::publicUplaod($request->file("image"))->id;
         $user->save();
         return redirect()->back();
     }

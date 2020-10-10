@@ -3,16 +3,15 @@
 namespace Badzohreh\Media\Services;
 
 
+use Badzohreh\Media\Contract\FileServcieContract;
 use Illuminate\Support\Facades\Storage;
 
-class VideoServices
+class VideoServices extends DefaultMediaService implements FileServcieContract
 {
-    public static function upload($file)
+    public static function upload($file, $dir, $filename): array
     {
-        $filename = uniqid();
-        $extention = $file->getClientOriginalExtension();
-        $dir = 'private\\';
-        Storage::putFileAs($dir, $file, $filename . '.' . $extention);
-        return ['video' => $dir . $filename . "." . $extention];
+        Storage::putFileAs($dir, $file, $filename . '.' . $file->getClientOriginalExtension());
+        return ['video' => $filename . "." . $file->getClientOriginalExtension()];
     }
+
 }
