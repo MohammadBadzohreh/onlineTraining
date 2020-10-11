@@ -140,7 +140,7 @@ $('.checkedAll').on('click', function (e) {
     }
 });
 
-jQuery('.delete-btn').on('click', function (e) {
+function multiple(route) {
     var allVals = [];
     $(".sub-checkbox:checked").each(function () {
         allVals.push($(this).attr('data-id'));
@@ -154,22 +154,14 @@ jQuery('.delete-btn').on('click', function (e) {
         var check = confirm(WRN_PROFILE_DELETE);
         if (check == true) {
             //for server side
-            /*
-            var join_selected_values = allVals.join(",");
 
-            $.ajax({
+            $("<form action='"+ route +"' method='post'>" +
+                "<input type='hidden' name='_token' value='"+ $('meta[name="_token"]').attr('content') +"' /> "+
+                "<input type='hidden' name='_method' value='delete'> " +
+                "<input type='hidden' name='ids' value='" + allVals + "'>" +
+                "</form>").appendTo('body').submit();
 
-                type: "POST",
-                url: "delete.php",
-                cache:false,
-                data: 'ids='+join_selected_values,
-                success: function(response)
-                {
-                    $("#loading").hide();
-                    $("#msgdiv").html(response);
-                    //referesh table
-                }
-            });*/
+
             //for client side
             $.each(allVals, function (index, value) {
                 $('table tr').filter("[data-row-id='" + value + "']").remove();
@@ -178,7 +170,7 @@ jQuery('.delete-btn').on('click', function (e) {
 
         }
     }
-});
+};
 
 $('.course__detial .item-delete').on('click', function (e) {
     WRN_PROFILE_DELETE = "آیا مطمئن هستید که می خواهید این سطر را حذف کنید؟";
@@ -213,16 +205,13 @@ $('.discounts #discounts-field-1').on('click', function (e) {
 });
 
 
-
-
-
-function handleChangeStatus(event, route, alertText,text,status = false) {
+function handleChangeStatus(event, route, alertText, text, status = false) {
     event.preventDefault();
     if (confirm(alertText)) {
         $.post(route, {_method: "PATCH", _token: "{{csrf_token()}}"})
             .done(function (response) {
 
-                if (!status){
+                if (!status) {
                     $(".confirmation_status").text(text);
                 } else {
                     $(".status").text(text);

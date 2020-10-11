@@ -10,6 +10,7 @@ use Badzohreh\Course\Repositories\CourseRepo;
 use Badzohreh\Course\Repositories\LessonRepo;
 use Badzohreh\Course\Repositories\SeassonRepo;
 use Badzohreh\Media\Services\MediaService;
+use Illuminate\Http\Client\Request;
 
 class LessonController extends Controller
 {
@@ -47,5 +48,15 @@ class LessonController extends Controller
         return AjaxResponses::successResponses();
     }
 
-
+    public function deleteMultiple(\Illuminate\Http\Request $request){
+        $ids = explode(",",$request->ids);
+        foreach ($ids as $id) {
+            $lesson = $this->lessonRepo->findById($id);
+            if ($lesson->banner){
+                $lesson->banner->delete();
+            }
+            $lesson->delete();
+        }
+        return redirect()->back();
+    }
 }
