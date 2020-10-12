@@ -20,7 +20,9 @@
                         <button class="btn all-confirm-btn">تایید همه جلسات</button>
                         <button class="btn confirm-btn">تایید جلسات</button>
                         <button class="btn reject-btn">رد جلسات</button>
-                        <button class="btn delete-btn" onclick="multiple('{{route("delete.multiple.lessons")}}')">حذف جلسات</button>
+                        <button class="btn delete-btn" onclick="multiple('{{route("delete.multiple.lessons")}}')">حذف
+                            جلسات
+                        </button>
 
                     </div>
                     <div class="table__box">
@@ -55,18 +57,57 @@
                                     <td><a href="">{{$lesson->title}}</a></td>
                                     <td>{{$lesson->seasonTitle}}</td>
                                     <td>{{$lesson->time}}</td>
-                                    <td>@lang($lesson->confirmation_staus)</td>
-                                    <td>@if($lesson->free)
-                                            رایگان
+                                    <td class="confirmation_status">@lang($lesson->confirmation_staus)</td>
+                                    <td class="status">
+                                        @if($lesson->status == \Badzohreh\Course\Models\Lesson::STATUS_OPENED)
+                                            @if($lesson->free)
+                                                رایگان
+                                            @else
+                                                شرکت کنندگان
+                                            @endif
                                         @else
-                                            شرکت کنندگان
+                                            قفل
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="" onclick="handleDeleteItem(event,'{{route('lesson.destroy',[$course->id,$lesson->id])}}')" class="item-delete mlg-15" data-id="1" title="حذف"></a>
-                                        <a href="" class="item-reject mlg-15" title="رد"></a>
-                                        <a href="" class="item-lock mlg-15" title="قفل "></a>
-                                        <a href="" class="item-confirm mlg-15" title="تایید"></a>
+                                        <a href=""
+                                           onclick="handleDeleteItem(event,'{{route('lesson.destroy',[$course->id,$lesson->id])}}')"
+                                           class="item-delete mlg-15" data-id="1" title="حذف"></a>
+                                        <a href="" class="item-reject mlg-15" onclick="handleChangeStatus(event,
+                                                '{{route("lesson.reject",
+                                                   $lesson->id)}}',
+                                                'ایا از رد این دوره مطمئن هستید؟',
+                                                'رد'
+                                                )" title="رد"></a>
+                                        <a href="" class="item-lock mlg-15 text-success"
+                                           onclick="handleChangeStatus(event,
+                                                   '{{route("lesson.unlock",
+                                                   $lesson->id)}}',
+                                                   'ایا از باز این دوره مطمئن هستید؟',
+                                                   'باز',
+                                                   true
+                                                   )"
+                                           title="باز"></a>
+                                        <a href="" onclick="handleChangeStatus(event,
+                                                '{{route("lesson.accpet",
+                                                   $lesson->id)}}',
+                                                'ایا از تایید این دوره مطمئن هستید؟',
+                                                'تایید'
+                                                )" class="item-confirm mlg-15 " title="تایید"></a>
+
+
+                                        <a href="" class="item-lock mlg-15 text-error"
+
+                                           onclick="handleChangeStatus(event,
+                                                   '{{route("lesson.lock",
+                                                   $lesson->id)}}',
+                                                   'ایا از قفل این دوره مطمئن هستید؟',
+                                                   'قفل',
+                                                   true
+                                                   )"
+                                           title="قفل کردن"></a>
+
+
                                         <a href="" class="item-edit " title="ویرایش"></a>
                                     </td>
                                 </tr>

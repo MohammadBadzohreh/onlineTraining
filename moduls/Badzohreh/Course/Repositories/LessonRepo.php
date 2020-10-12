@@ -44,7 +44,7 @@ class LessonRepo
     public function updateConfirmationStatus($id, $status)
     {
         $season = $this->findById($id);
-        if ($season->update(["confirmation_status" => $status])) {
+        if ($season->update(["confirmation_staus" => $status])) {
             return true;
         }
         return false;
@@ -52,8 +52,8 @@ class LessonRepo
 
     public function updateStatus($id, $status)
     {
-        $season = $this->findById($id);
-        if ($season->update(["status" => $status])) {
+        $lesson = $this->findById($id);
+        if ($lesson->update(["status" => $status])) {
             return true;
         }
         return false;
