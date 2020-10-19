@@ -29,7 +29,6 @@ class Media extends Model
     {
         static::deleting(function ($media) {
             MediaService::delete($media);
-
         });
     }
 

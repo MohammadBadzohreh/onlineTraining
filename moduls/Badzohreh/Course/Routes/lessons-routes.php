@@ -11,4 +11,11 @@ Route::group(['namespace'=>'Badzohreh\Course\Http\Controllers',
     $router->patch("{lesson}/lessons/reject","LessonController@reject")->name("lesson.reject");
     $router->patch("{lesson}/lessons/lock","LessonController@lock")->name("lesson.lock");
     $router->patch("{lesson}/lessons/unlock","LessonController@unlock")->name("lesson.unlock");
+
+    $router->get("{course}/lesson/{lesson}/edit","LessonController@edit")->name("lesson.edit");
+    $router->patch("{course}/lesson/{lesson}/update","LessonController@update")->name("lesson.update");
+
+
+
+
 });

@@ -10,6 +10,7 @@ use Badzohreh\Course\Repositories\CourseRepo;
 use Badzohreh\Course\Repositories\LessonRepo;
 use Badzohreh\Course\Repositories\SeassonRepo;
 use Badzohreh\Media\Services\MediaService;
+use Badzohreh\RolePermissions\Models\Permission;
 use Illuminate\Http\Request;
 
 class LessonController extends Controller
@@ -51,6 +52,7 @@ class LessonController extends Controller
             return AjaxResponses::failResponses();
         }
     }
+
     public function reject($id)
     {
         if ($this->lessonRepo->
@@ -61,7 +63,8 @@ class LessonController extends Controller
         }
     }
 
-    public function lock($id){
+    public function lock($id)
+    {
         if ($this->lessonRepo->
         updateStatus($id, Lesson::STATUS_CLOSED)) {
             return AjaxResponses::successResponses();
@@ -71,7 +74,8 @@ class LessonController extends Controller
     }
 
 
-    public function unlock($id){
+    public function unlock($id)
+    {
         if ($this->lessonRepo->
         updateStatus($id, Lesson::STATUS_OPENED)) {
             return AjaxResponses::successResponses();
@@ -103,5 +107,30 @@ class LessonController extends Controller
             $lesson->delete();
         }
         return redirect()->back();
+    }
+
+    public function edit($courseId, $lessonId, SeassonRepo $seassonRepo)
+    {
+        $course = $this->courseRepo->findById($courseId);
+        $lesson = $this->lessonRepo->findById($lessonId);
+        $seassons = $seassonRepo->getCourseSeassons($courseId);
+        return view("Course::lessons.edit", compact('lesson', 'seassons', "course"));
+    }
+
+    public function update($courseId, $lessonId, LessonRequest $request)
+    {
+        $lesson = $this->lessonRepo->findById($lessonId);
+        if ($request->file("lesson-upload")) {
+            if ($lesson->media) {
+                $lesson->media->delete();
+            }
+            $request->request->add(["media_id" =>
+                MediaService::privateUpload($request->file("lesson-upload"))->id]);
+        } else {
+            $request->media_id = $lesson->media_id;
+        }
+        $this->lessonRepo->update($courseId,$lessonId,$request);
+        showFeedbacks();
+        return redirect()->route("seassons.index",$courseId);
     }
 }

@@ -60,7 +60,7 @@
                                     <td class="confirmation_status">@lang($lesson->confirmation_staus)</td>
                                     <td class="status">
                                         @if($lesson->status == \Badzohreh\Course\Models\Lesson::STATUS_OPENED)
-                                            @if($lesson->free)
+                                            @if($lesson->is_free)
                                                 رایگان
                                             @else
                                                 شرکت کنندگان
@@ -108,7 +108,7 @@
                                            title="قفل کردن"></a>
 
 
-                                        <a href="" class="item-edit " title="ویرایش"></a>
+                                        <a href="{{route("lesson.edit",[$course->id,$lesson->id])}}" class="item-edit " title="ویرایش"></a>
                                     </td>
                                 </tr>
 

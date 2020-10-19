@@ -31,7 +31,9 @@ class Lesson extends Model
         return !is_null($this->seasson) ? $this->seasson->title : "__";
     }
 
-    public function banner(){
-        return $this->belongsTo(Media::class,"media_id","id");
+    public function media()
+    {
+        return $this->belongsTo(Media::class, "media_id", "id");
     }
+
 }

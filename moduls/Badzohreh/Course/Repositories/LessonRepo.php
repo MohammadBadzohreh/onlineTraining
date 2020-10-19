@@ -22,22 +22,30 @@ class LessonRepo
             "slug" => $values->slug ? Str::slug($values->slug) : Str::slug($values->title),
             "number" => $this->generate_number($id),
             "time" => $values->time,
-            "free" => $values->free,
+            "is_free" => $values->is_free,
             "season_id" => $values->season_id,
             "media_id" => $values->media_id,
-            "user_id"=>auth()->id(),
-            "course_id"=>$id
+            "user_id" => auth()->id(),
+            "course_id" => $id,
+            "body" => $values->body,
         ]);
 
     }
 
-    public function update($id, $values)
+    public function update($courseId, $lessonId, $values)
     {
-
-        $season = $this->findById($id);
-        $season->update([
+        $lesson = $this->findById($lessonId);
+        $lesson->update([
             "title" => $values->title,
-            "number" => $this->generate_number($values->number, $id),
+            "slug" => $values->slug ? Str::slug($values->slug) : Str::slug($values->title),
+            "number" => $this->generate_number($courseId),
+            "time" => $values->time,
+            "is_free" => $values->is_free,
+            "season_id" => $values->season_id,
+            "media_id" => $values->media_id,
+            "user_id" => auth()->id(),
+            "course_id" => $courseId,
+            "body" => $values->body,
         ]);
     }
 

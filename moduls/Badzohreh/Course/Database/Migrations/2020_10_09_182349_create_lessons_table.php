@@ -18,12 +18,13 @@ class CreateLessonsTable extends Migration
             $table->bigInteger("course_id")->unsigned();
             $table->bigInteger("user_id")->unsigned()->nullable();
             $table->bigInteger("season_id")->unsigned()->nullable();
-            $table->bigInteger("media_id")->unsigned();
+            $table->bigInteger("media_id")->unsigned()->nullable();
             $table->string("title",255);
             $table->string("slug")->nullable();
             $table->float("number")->nullable();
             $table->tinyInteger("time")->nullable();
-            $table->boolean("free")->default(true);
+            $table->boolean("is_free")->default(true);
+            $table->text("body")->nullable();
             $table->enum("confirmation_staus",\Badzohreh\Course\Models\Lesson::$CONFIRMATION_STATUS)->default(\Badzohreh\Course\Models\Lesson::CONFIRMATION_STATUS_PENDING);
             $table->enum("status",\Badzohreh\Course\Models\Lesson::$STATUSES)->default(\Badzohreh\Course\Models\Lesson::STATUS_OPENED);
             $table->timestamps();
@@ -47,7 +48,7 @@ class CreateLessonsTable extends Migration
             $table->foreign("media_id")
                 ->references("id")
                 ->on("media")
-                ->onDelete("CASCADE");
+                ->onDelete("SET NULL");
 
 
         });

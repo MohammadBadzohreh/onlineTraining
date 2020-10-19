@@ -69,10 +69,14 @@ class CourseController extends Controller
         $course = $this->CourseRepo->findById($id);
         $this->authorize("edit",$course);
         if ($request->file("image")) {
-            $this->CourseRepo->findById($id)->banner->delete();
-            $request->image_id = MediaService::publicUplaod($request->file("image"))->id;
+            if ($course->banner){
+                $course->banner->delete();
+            }
+            $request->request
+                ->add(["banner_id"=>MediaService::publicUplaod($request->file("image"))->id]);
+
         } else {
-            $request->banner_id = $this->CourseRepo->findById($id)->banner_id;
+            $request->banner_id = $course->banner_id;
         }
         $this->CourseRepo->update($id, $request);
         return redirect()->route("course.index");

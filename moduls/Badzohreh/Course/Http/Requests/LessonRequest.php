@@ -16,7 +16,7 @@ class LessonRequest extends FormRequest
     public function rules()
     {
 
-        return [
+        $rules =  [
             "title" => "required|string|min:3",
             "slug" => "nullable|string|min:3|max:200",
             "number" => "nullable|numeric|min:0|max:500",
@@ -25,6 +25,11 @@ class LessonRequest extends FormRequest
             "season_id" => ["nullable",new createLessonSeasonIdRule()],
             "lesson-upload" => "required|mimes:avi,mkv,mp4,zip",
         ];
+
+        if (request()->method() =="PATCH"){
+            $rules['lesson-upload'] = "nullable|mimes:avi,mkv,mp4,zip";
+        }
+        return $rules;
     }
 
     public function attributes()

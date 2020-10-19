@@ -36,20 +36,15 @@ class Course extends Model
         return $this->belongsTo(User::class, "teacher_id", "id");
     }
 
-
-    public function banner()
-    {
-        return $this->belongsTo(Media::class, "banner_id", "id");
-    }
-
     public function seassons()
     {
         return $this->hasMany(Season::class,"course_id","id");
     }
-
     public function lessons(){
         return $this->hasMany(Lesson::class,"course_id","id");
-
+    }
+    public function banner(){
+        return $this->belongsTo(Media::class,"banner_id","id");
     }
 
 
