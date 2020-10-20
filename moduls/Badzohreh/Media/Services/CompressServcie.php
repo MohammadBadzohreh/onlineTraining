@@ -14,7 +14,10 @@ class CompressServcie extends DefaultMediaService implements FileServcieContract
         Storage::putFileAs($dir, $file, $filename . '.' . $file->getClientOriginalExtension());
         return ['zip' => $filename . "." . $file->getClientOriginalExtension()];
     }
-
+    public static function thumb($file)
+    {
+        return url("img/zipBanner.png");
+    }
 
 
 }

@@ -11,6 +11,7 @@ use Intervention\Image\Facades\Image;
 class ImageServices extends DefaultMediaService implements FileServcieContract
 {
     protected static $sizes = ['300', '450', '600'];
+
     public static function upload($file, $dir, $filename): array
     {
         Storage::putFileAs($dir, $file, $filename . "." . $file->getClientOriginalExtension());
@@ -29,6 +30,11 @@ class ImageServices extends DefaultMediaService implements FileServcieContract
             })->save(Storage::path($dir) . '/' . $filename . '_' . $size . '.' . $extention);
         }
         return $imgs;
+    }
+
+    public static function thumb($media)
+    {
+        return '/storage/' . $media->files["300"];
     }
 
 }

@@ -34,7 +34,6 @@ class MediaService
         foreach (config("MediaFile.mediaTypeService") as $key => $service) {
             if (in_array(self::getFileExtension(self::$file), $service["extentions"])) {
                 return self::handleUploadMedia(new $service['handler'], $key);
-
             }
         }
     }
@@ -47,6 +46,13 @@ class MediaService
             }
         }
 
+    }
+    public static function thumb(Media $media){
+        foreach (config("MediaFile.mediaTypeService") as $type=>$service) {
+            if ($type == $media->type){
+                return $service["handler"]::thumb($media);
+            }
+        }
     }
 
     private static function generateFileName()
@@ -70,6 +76,4 @@ class MediaService
         $media->save();
         return $media;
     }
-
-
 }

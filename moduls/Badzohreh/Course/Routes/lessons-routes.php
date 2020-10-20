@@ -14,8 +14,4 @@ Route::group(['namespace'=>'Badzohreh\Course\Http\Controllers',
 
     $router->get("{course}/lesson/{lesson}/edit","LessonController@edit")->name("lesson.edit");
     $router->patch("{course}/lesson/{lesson}/update","LessonController@update")->name("lesson.update");
-
-
-
-
 });

@@ -1,3 +1,4 @@
+
 @extends("Dashboard::master")
 
 @section("content")
@@ -51,7 +52,7 @@
                                 @endforeach
                             </x-select-box>
                         @endif
-                        <x-uploaded-file name="lesson-upload" title="آپلود درس"/>
+                        <x-uploaded-file name="lesson-upload" title="آپلود درس" :value="$lesson->media" />
                         <x-textarea placeholder="توضیحات درس" name="body">
                             {{$lesson->body}}
                         </x-textarea>

@@ -14,13 +14,12 @@ class Media extends Model
 
     public function getThumbAttribute()
     {
-        return "/storage/" . $this->files[300];
+        return MediaService::thumb($this);
     }
 
 
     public function user()
     {
-//        todo maybe need to chnage
         return $this->hasOne(User::class, "user_id", "id");
 
     }
