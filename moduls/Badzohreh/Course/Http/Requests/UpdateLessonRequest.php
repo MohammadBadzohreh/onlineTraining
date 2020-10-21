@@ -14,6 +14,7 @@ class UpdateLessonRequest extends FormRequest
 
     public function rules()
     {
+//        add rules to this
         return [
 
         ];
