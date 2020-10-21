@@ -14,4 +14,9 @@ Route::group(['namespace'=>'Badzohreh\Course\Http\Controllers',
 
     $router->get("{course}/lesson/{lesson}/edit","LessonController@edit")->name("lesson.edit");
     $router->patch("{course}/lesson/{lesson}/update","LessonController@update")->name("lesson.update");
+
+    $router->patch("{course}/lesson/accept-all","LessonController@accpetAll")->name("lesson.accpetAll");
+    $router->patch("{course}/lesson/accept-selected","LessonController@acceptSelected")->name("lesson.accpetSelected");
+    $router->patch("{course}/lesson/reject-selected","LessonController@rejectSelected")->name("lesson.rejectSelected");
+
 });

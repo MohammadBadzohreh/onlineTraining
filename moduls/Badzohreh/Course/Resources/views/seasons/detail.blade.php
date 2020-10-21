@@ -17,9 +17,13 @@
                         <a class="color-2b4a83" href="{{route("lessons.create",$course->id)}}">آپلود جلسه جدید</a>
                     </div>
                     <div class="d-flex item-center flex-wrap margin-bottom-15 operations__btns">
-                        <button class="btn all-confirm-btn">تایید همه جلسات</button>
-                        <button class="btn confirm-btn">تایید جلسات</button>
-                        <button class="btn reject-btn">رد جلسات</button>
+                        <button onclick="handleAcceptAll('{{route("lesson.accpetAll",$course->id)}}');"
+                                class="btn all-confirm-btn">تایید همه جلسات
+                        </button>
+                        <button onclick="accpetMultiPle('{{route("lesson.accpetSelected",$course->id)}}')"
+                                class="btn confirm-btn">تایید جلسات
+                        </button>
+                        <button  onclick="rejectMutiple('{{route("lesson.rejectSelected",$course->id)}}')" class="btn reject-btn">رد جلسات</button>
                         <button class="btn delete-btn" onclick="multiple('{{route("delete.multiple.lessons")}}')">حذف
                             جلسات
                         </button>
@@ -108,7 +112,8 @@
                                            title="قفل کردن"></a>
 
 
-                                        <a href="{{route("lesson.edit",[$course->id,$lesson->id])}}" class="item-edit " title="ویرایش"></a>
+                                        <a href="{{route("lesson.edit",[$course->id,$lesson->id])}}" class="item-edit "
+                                           title="ویرایش"></a>
                                     </td>
                                 </tr>
 
@@ -259,6 +264,14 @@
                         })
                     });
             }
+        }
+
+        function handleAcceptAll(route) {
+
+            $("<form action='" + route + "' method='post'>" +
+                "<input type='hidden' name='_token' value='" + $('meta[name="_token"]').attr('content') + "' /> " +
+                "<input type='hidden' name='_method' value='patch'> " +
+                "</form>").appendTo('body').submit();
         }
     </script>
 @endsection

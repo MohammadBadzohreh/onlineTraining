@@ -155,8 +155,8 @@ function multiple(route) {
         if (check == true) {
             //for server side
 
-            $("<form action='"+ route +"' method='post'>" +
-                "<input type='hidden' name='_token' value='"+ $('meta[name="_token"]').attr('content') +"' /> "+
+            $("<form action='" + route + "' method='post'>" +
+                "<input type='hidden' name='_token' value='" + $('meta[name="_token"]').attr('content') + "' /> " +
                 "<input type='hidden' name='_method' value='delete'> " +
                 "<input type='hidden' name='ids' value='" + allVals + "'>" +
                 "</form>").appendTo('body').submit();
@@ -171,6 +171,64 @@ function multiple(route) {
         }
     }
 };
+
+function accpetMultiPle(route) {
+
+
+    var allVals = [];
+    $(".sub-checkbox:checked").each(function () {
+        allVals.push($(this).attr('data-id'));
+    });
+    if (allVals.length <= 0) {
+        alert("یک سطر انتخاب کنید");
+    } else {
+        WAN_ACCEPT_MULTIPLE = "آیا مطمئن هستید که می خواهید این سطر را حذف کنید؟";
+        var check = confirm(WAN_ACCEPT_MULTIPLE);
+        if (check == true) {
+            $("<form action='" + route + "' method='post'>" +
+                "<input type='hidden' name='_token' value='" + $('meta[name="_token"]').attr('content') + "' /> " +
+                "<input type='hidden' name='_method' value='patch'> " +
+                "<input type='hidden' name='ids' value='" + allVals + "'>" +
+                "</form>").appendTo('body').submit();
+
+            $.each(allVals, function (index, value) {
+                $('table tr').filter("[data-row-id='" + value + "']").remove();
+            });
+
+
+        }
+    }
+
+
+}
+
+
+function rejectMutiple(route) {
+
+
+    var allVals = [];
+    $(".sub-checkbox:checked").each(function () {
+        allVals.push($(this).attr('data-id'));
+    });
+    if (allVals.length <= 0) {
+        alert("یک سطر انتخاب کنید");
+    } else {
+        WAN_ACCEPT_MULTIPLE = "آیا مطمئن هستید که می خواهید این سطر را رد کنید؟";
+        var check = confirm(WAN_ACCEPT_MULTIPLE);
+        if (check == true) {
+            $("<form action='" + route + "' method='post'>" +
+                "<input type='hidden' name='_token' value='" + $('meta[name="_token"]').attr('content') + "' /> " +
+                "<input type='hidden' name='_method' value='patch'> " +
+                "<input type='hidden' name='ids' value='" + allVals + "'>" +
+                "</form>").appendTo('body').submit();
+
+            $.each(allVals, function (index, value) {
+                $('table tr').filter("[data-row-id='" + value + "']").remove();
+            });
+        }
+    }
+}
+
 
 $('.course__detial .item-delete').on('click', function (e) {
     WRN_PROFILE_DELETE = "آیا مطمئن هستید که می خواهید این سطر را حذف کنید؟";

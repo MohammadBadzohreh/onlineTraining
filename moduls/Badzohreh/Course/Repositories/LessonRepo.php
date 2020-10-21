@@ -49,6 +49,8 @@ class LessonRepo
         ]);
     }
 
+
+
     public function updateConfirmationStatus($id, $status)
     {
         $season = $this->findById($id);
@@ -86,6 +88,18 @@ class LessonRepo
             $number++;
         }
         return $number;
+    }
+
+    public function acceptSelected($courseId, array $ids)
+    {
+        return Lesson::query()->where("course_id",$courseId)->whereIn('id',$ids)
+            ->update(["confirmation_staus"=>Lesson::CONFIRMATION_STATUS_ACCEPTED]);
+    }
+
+    public function rejectselected($courseId, array $ids)
+    {
+        return Lesson::query()->where("course_id",$courseId)->whereIn('id',$ids)
+            ->update(["confirmation_staus"=>Lesson::CONFIRMATION_STATUS_REJECTED]);
     }
 
 

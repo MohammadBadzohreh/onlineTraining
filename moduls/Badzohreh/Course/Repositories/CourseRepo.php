@@ -3,6 +3,7 @@
 namespace Badzohreh\Course\Repositories;
 
 use Badzohreh\Course\Models\Course;
+use Badzohreh\Course\Models\Lesson;
 
 class CourseRepo
 {
@@ -60,6 +61,17 @@ class CourseRepo
             $course->banner->delete();
         }
         $course->delete();
+    }
+
+
+    public function acceptAll($courseId){
+        $course = $this->findById($courseId);
+        $course->lessons()->update([
+            "confirmation_staus"=>Lesson::CONFIRMATION_STATUS_ACCEPTED
+        ]);
+
+
+
     }
 
 

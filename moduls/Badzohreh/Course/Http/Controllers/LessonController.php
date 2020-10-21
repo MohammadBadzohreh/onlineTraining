@@ -133,4 +133,23 @@ class LessonController extends Controller
         showFeedbacks();
         return redirect()->route("seassons.index",$courseId);
     }
+
+    public function accpetAll($courseId){
+        $this->courseRepo->acceptAll($courseId);
+        showFeedbacks();
+        return back();
+    }
+
+    public function acceptSelected($courseId,Request $request){
+        $ids = explode(',',$request->ids);
+        $this->lessonRepo->acceptSelected($courseId,$ids);
+        return back();
+    }
+
+    public function rejectSelected($courseId,Request $request){
+        $ids = explode(',',$request->ids);
+        $this->lessonRepo->rejectselected($courseId,$ids);
+        return back();
+    }
+
 }
