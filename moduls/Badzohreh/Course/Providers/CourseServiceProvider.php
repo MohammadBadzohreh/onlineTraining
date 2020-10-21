@@ -3,8 +3,10 @@
 namespace Badzohreh\Course\Providers;
 
 use Badzohreh\Course\Models\Course;
+use Badzohreh\Course\Models\Lesson;
 use Badzohreh\Course\Models\Season;
 use Badzohreh\Course\Policies\CoursePolicy;
+use Badzohreh\Course\Policies\LessonPolicy;
 use Badzohreh\Course\Policies\SeasonPolicy;
 use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\User\Models\User;
@@ -22,11 +24,12 @@ class CourseServiceProvider extends ServiceProvider
         $this->loadJsonTranslationsFrom(__DIR__ . "./../Resources/Lang");
         $this->loadViewsFrom(__DIR__ . './../Resources/views', "Course");
         $this->loadTranslationsFrom(__DIR__ . '/../Resources/Lang', "Course");
-        Gate::policy(Course::class, CoursePolicy::class);
-        Gate::policy(Season::class,SeasonPolicy::class);
         Gate::before(function (User $user) {
             return $user->hasPermissionTo(Permission::PERMISSION_SUPER_ADMIN) ? true : null;
         });
+        Gate::policy(Course::class, CoursePolicy::class);
+        Gate::policy(Season::class,SeasonPolicy::class);
+        Gate::policy(Lesson::class,LessonPolicy::class);
     }
     public function boot()
     {

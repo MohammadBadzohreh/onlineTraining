@@ -3,6 +3,7 @@
 namespace Badzohreh\Course\Policies;
 
 use Badzohreh\Course\Models\Course;
+use Badzohreh\Course\Models\Lesson;
 use Badzohreh\Course\Repositories\CourseRepo;
 use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\User\Models\User;
@@ -71,6 +72,28 @@ class CoursePolicy
         }
         if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_OWN_COURSE) &&
             $course->teacher_id == $user->id) {
+            return true;
+        }
+        return null;
+    }
+
+    public function createLesson(User $user, Course $course)
+    {
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES)) return true;
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_OWN_COURSE)
+            && $course->teacher_id == $user->id) return true;
+        return null;
+    }
+
+    public function accpetLessons(User $user,Lesson $lesson){
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES)){
+            return true;
+        }
+        return null;
+    }
+
+    public function change_confirmation_status(User $user,Course $course){
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES)){
             return true;
         }
         return null;
