@@ -40,4 +40,16 @@ class LessonPolicy
         return null;
     }
 
+    public function delete(User $user, $lesson)
+    {
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES)) {
+            return true;
+        }
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_OWN_COURSE) && $user->id == $lesson->course->teacher_id) {
+            return true;
+        }
+        return null;
+    }
+
+
 }

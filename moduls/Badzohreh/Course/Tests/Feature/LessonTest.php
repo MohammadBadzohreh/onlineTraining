@@ -219,9 +219,9 @@ class LessonTest extends TestCase
         ])->assertRedirect();
         $lesson = Lesson::query()->first();
         $this->assertEquals(1, Lesson::query()->count());
-        $this->patch(route("lesson.update",[$course->id,$lesson->id]), [
+        $this->patch(route("lesson.update", [$course->id, $lesson->id]), [
             "title" => "karimi",
-            "is_free"=>1,
+            "is_free" => 1,
         ])->assertRedirect();
         $this->assertEquals("karimi", Lesson::query()->first()->title);
 
@@ -238,9 +238,9 @@ class LessonTest extends TestCase
         ])->assertRedirect();
         $lesson = Lesson::query()->first();
         $this->assertEquals(1, Lesson::query()->count());
-        $this->patch(route("lesson.update",[$course->id,$lesson->id]), [
+        $this->patch(route("lesson.update", [$course->id, $lesson->id]), [
             "title" => "karimi",
-            "is_free"=>1,
+            "is_free" => 1,
         ])->assertRedirect();
         $this->assertEquals("karimi", Lesson::query()->first()->title);
 
@@ -261,9 +261,9 @@ class LessonTest extends TestCase
         auth()->user()->givePermissionTo(Permission::PERMISSION_MANAGE_OWN_COURSE);
         $course->teacher_id = auth()->id();
         $course->save();
-        $this->patch(route("lesson.update",[$course->id,$lesson->id]), [
+        $this->patch(route("lesson.update", [$course->id, $lesson->id]), [
             "title" => "karimi",
-            "is_free"=>1,
+            "is_free" => 1,
         ])->assertRedirect();
         $this->assertEquals("karimi", Lesson::query()->first()->title);
 
@@ -282,9 +282,9 @@ class LessonTest extends TestCase
         $this->assertEquals(1, Lesson::query()->count());
         $this->actAsUser();
         auth()->user()->givePermissionTo(Permission::PERMISSION_MANAGE_OWN_COURSE);
-        $this->patch(route("lesson.update",[$course->id,$lesson->id]), [
+        $this->patch(route("lesson.update", [$course->id, $lesson->id]), [
             "title" => "karimi",
-            "is_free"=>1,
+            "is_free" => 1,
         ])->assertStatus(403);
         $this->assertEquals("mohammad", Lesson::query()->first()->title);
 
@@ -303,13 +303,361 @@ class LessonTest extends TestCase
         $lesson = Lesson::query()->first();
         $this->assertEquals(1, Lesson::query()->count());
         $this->actAsUser();
-        $this->patch(route("lesson.update",[$course->id,$lesson->id]), [
+        $this->patch(route("lesson.update", [$course->id, $lesson->id]), [
             "title" => "karimi",
-            "is_free"=>1,
+            "is_free" => 1,
         ])->assertStatus(403);
         $this->assertEquals("mohammad", Lesson::query()->first()->title);
+    }
+
+    public function test_admin_can_accpet_lessons()
+    {
+        $this->actAsAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->assertEquals(Lesson::CONFIRMATION_STATUS_PENDING, Lesson::query()->find(1)->confirmation_staus);
+        $this->patch(route("lesson.accpet", 1))->assertOk();
+        $this->assertEquals(Lesson::CONFIRMATION_STATUS_ACCEPTED, Lesson::query()->find(1)->confirmation_staus);
+    }
+
+    public function test_super_admin_can_accept_lesson()
+    {
+        $this->acAsSuperAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->assertEquals(Lesson::CONFIRMATION_STATUS_PENDING, Lesson::query()->find(1)->confirmation_staus);
+        $this->patch(route("lesson.accpet", 1))->assertOk();
+        $this->assertEquals(Lesson::CONFIRMATION_STATUS_ACCEPTED, Lesson::query()->find(1)->confirmation_staus);
+    }
+
+    public function test_normal_user_can_not_accept_lessons()
+    {
+        $this->acAsSuperAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->assertEquals(Lesson::CONFIRMATION_STATUS_PENDING, Lesson::query()->find(1)->confirmation_staus);
+        $this->actAsUser();
+        $this->patch(route("lesson.accpet", 1))->assertStatus(403);
+        $this->assertEquals(Lesson::CONFIRMATION_STATUS_PENDING, Lesson::query()->find(1)->confirmation_staus);
+    }
+
+
+//    reject
+    public function test_admin_can_reject_lessons()
+    {
+        $this->actAsAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->assertEquals(Lesson::CONFIRMATION_STATUS_PENDING, Lesson::query()->find(1)->confirmation_staus);
+        $this->patch(route("lesson.reject", 1))->assertOk();
+        $this->assertEquals(Lesson::CONFIRMATION_STATUS_REJECTED, Lesson::query()->find(1)->confirmation_staus);
+    }
+
+    public function test_super_admin_can_reject_lesson()
+    {
+        $this->acAsSuperAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->assertEquals(Lesson::CONFIRMATION_STATUS_PENDING, Lesson::query()->find(1)->confirmation_staus);
+        $this->patch(route("lesson.reject", 1))->assertOk();
+        $this->assertEquals(Lesson::CONFIRMATION_STATUS_REJECTED, Lesson::query()->find(1)->confirmation_staus);
+    }
+
+    public function test_normal_user_can_not_reject_lessons()
+    {
+        $this->acAsSuperAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->assertEquals(Lesson::CONFIRMATION_STATUS_PENDING, Lesson::query()->find(1)->confirmation_staus);
+        $this->actAsUser();
+        $this->patch(route("lesson.reject", 1))->assertStatus(403);
+        $this->assertEquals(Lesson::CONFIRMATION_STATUS_PENDING, Lesson::query()->find(1)->confirmation_staus);
+    }
+
+//lock
+
+    public function test_amin_can_lock_lessons()
+    {
+        $this->actAsAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->assertEquals(Lesson::STATUS_OPENED, Lesson::query()->find(1)->status);
+        $this->patch(route("lesson.lock", 1))->assertOk();
+        $this->assertEquals(Lesson::STATUS_CLOSED, Lesson::query()->find(1)->status);
+    }
+
+
+    public function test_super_admin_can_lock_lessons()
+    {
+        $this->acAsSuperAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->assertEquals(Lesson::STATUS_OPENED, Lesson::query()->find(1)->status);
+        $this->patch(route("lesson.lock", 1))->assertOk();
+        $this->assertEquals(Lesson::STATUS_CLOSED, Lesson::query()->find(1)->status);
+    }
+
+    public function test_normal_user_can_not_lock_lessons()
+    {
+        $this->acAsSuperAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->assertEquals(Lesson::STATUS_OPENED, Lesson::query()->find(1)->status);
+        $this->actAsUser();
+        $this->patch(route("lesson.lock", 1))->assertStatus(403);
+        $this->assertEquals(Lesson::STATUS_OPENED, Lesson::query()->find(1)->status);
+    }
+
+
+//    unlock
+
+
+    public function test_amin_can_unlock_lessons()
+    {
+        $this->actAsAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->assertEquals(Lesson::STATUS_OPENED, Lesson::query()->find(1)->status);
+        $this->patch(route("lesson.lock", 1))->assertOk();
+        $this->assertEquals(Lesson::STATUS_CLOSED, Lesson::query()->find(1)->status);
+        $this->patch(route("lesson.unlock", 1))->assertOk();
+        $this->assertEquals(Lesson::STATUS_OPENED, Lesson::query()->find(1)->status);
+    }
+
+
+    public function test_super_admin_can_unlock_lessons()
+    {
+        $this->acAsSuperAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->assertEquals(Lesson::STATUS_OPENED, Lesson::query()->find(1)->status);
+        $this->patch(route("lesson.lock", 1))->assertOk();
+        $this->assertEquals(Lesson::STATUS_CLOSED, Lesson::query()->find(1)->status);
+        $this->patch(route("lesson.unlock", 1))->assertOk();
+        $this->assertEquals(Lesson::STATUS_OPENED, Lesson::query()->find(1)->status);
+    }
+
+
+    public function test_normal_user_can_not_unlock_lessons()
+    {
+        $this->acAsSuperAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->assertEquals(Lesson::STATUS_OPENED, Lesson::query()->find(1)->status);
+        $this->patch(route("lesson.lock", 1))->assertOk();
+        $this->assertEquals(Lesson::STATUS_CLOSED, Lesson::query()->find(1)->status);
+        $this->actAsUser();
+        $this->patch(route("lesson.unlock", 1))->assertStatus(403);
+        $this->assertEquals(Lesson::STATUS_CLOSED, Lesson::query()->find(1)->status);
+    }
+
+    public function test_teacher_can_not_lock_lesson()
+    {
+        $this->acAsSuperAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->assertEquals(Lesson::STATUS_OPENED, Lesson::query()->find(1)->status);
+        $this->actAsUser();
+        auth()->user()->givePermissionTo(Permission::PERMISSION_MANAGE_OWN_COURSE);
+        $course->teacher_id = auth()->id();
+        $course->save();
+        $this->patch(route("lesson.lock", 1))->assertStatus(403);
+        $this->assertEquals(Lesson::STATUS_OPENED, Lesson::query()->find(1)->status);
 
     }
+
+
+    public function test_teacher_can_not_unlock_lesson()
+    {
+        $this->acAsSuperAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->assertEquals(Lesson::STATUS_OPENED, Lesson::query()->find(1)->status);
+        $this->patch(route("lesson.lock", 1))->assertOk();
+        $this->assertEquals(Lesson::STATUS_CLOSED, Lesson::query()->find(1)->status);
+        $this->actAsUser();
+        auth()->user()->givePermissionTo(Permission::PERMISSION_MANAGE_OWN_COURSE);
+        $course->teacher_id = auth()->id();
+        $course->save();
+        $this->patch(route("lesson.unlock", 1))->assertStatus(403);
+        $this->assertEquals(Lesson::STATUS_CLOSED, Lesson::query()->find(1)->status);
+
+    }
+
+    public function test_super_admin_can_delete_lessons()
+    {
+        $this->acAsSuperAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->delete(route("lesson.destroy", [1, 1]))->assertOk();
+        $this->assertEquals(0, Lesson::query()->count());
+    }
+
+
+    public function test_admin_can_delete_lessons()
+    {
+        $this->actAsAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->delete(route("lesson.destroy", [1, 1]))->assertOk();
+        $this->assertEquals(0, Lesson::query()->count());
+    }
+
+    public function test_teacher_can_delete_own_lesssons()
+    {
+        $this->actAsAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->actAsUser();
+        $course->teacher_id = auth()->id();
+        $course->save();
+        auth()->user()->givePermissionTo(Permission::PERMISSION_MANAGE_OWN_COURSE);
+        $this->delete(route("lesson.destroy", [1, 1]))->assertOk();
+        $this->assertEquals(0, Lesson::query()->count());
+    }
+
+
+    public function test_teacher_can_not_delete_nother_course_lessons()
+    {
+        $this->actAsAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->actAsUser();
+
+        auth()->user()->givePermissionTo(Permission::PERMISSION_MANAGE_OWN_COURSE);
+        $this->delete(route("lesson.destroy", [1, 1]))->assertStatus(403);
+        $this->assertEquals(1, Lesson::query()->count());
+    }
+
+    public function test_normal_user_can_not_delete_lessons()
+    {
+
+        $this->actAsAdmin();
+        $course = $this->create_course();
+        $this->post(route("lessons.store", $course->id), [
+            "title" => "mohammad",
+            "lesson-upload" => UploadedFile::fake()->create("wrfdmv.mp4", 10240),
+            "is_free" => 1
+        ])->assertRedirect();
+        $lesson = Lesson::query()->first();
+        $this->assertEquals(1, Lesson::query()->count());
+        $this->actAsUser();
+        $this->delete(route("lesson.destroy", [1, 1]))->assertStatus(403);
+        $this->assertEquals(1, Lesson::query()->count());
+
+    }
+
+
+
+//unlock
 
 
 //===================
