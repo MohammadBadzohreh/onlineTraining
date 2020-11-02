@@ -107,12 +107,12 @@ class CategoryTest extends TestCase
 
 
     private function actAsUser(){
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(User::factory()->create());
         $this->seed(RolePermissionTableSeeder::class);
 
     }
     private function act_as_admin(){
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(User::factory()->create());
         $this->seed(RolePermissionTableSeeder::class);
         auth()->user()->givePermissionTo(Permission::PERMISSION_MANAGE_CATEGORY);
     }
@@ -120,7 +120,7 @@ class CategoryTest extends TestCase
 
     private function actAsSuperAdmin()
     {
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(User::factory()->create());
         $this->seed(RolePermissionTableSeeder::class);
         auth()->user()->givePermissionTo(Permission::PERMISSION_SUPER_ADMIN);
 

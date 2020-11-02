@@ -410,20 +410,20 @@ class SeasonTest extends TestCase
 //    =========
     private function actAsAdmin()
     {
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(User::factory()->create());
         $this->seed(RolePermissionTableSeeder::class);
         auth()->user()->givePermissionTo(Permission::PERMISSION_MANAGE_COURSES);
     }
 
     private function actAsUser()
     {
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(User::factory()->create());
         $this->seed(RolePermissionTableSeeder::class);
     }
 
     private function acAsSuperAdmin()
     {
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(User::factory()->create());
         $this->seed(RolePermissionTableSeeder::class);
         auth()->user()->givePermissionTo(Permission::PERMISSION_SUPER_ADMIN);
     }

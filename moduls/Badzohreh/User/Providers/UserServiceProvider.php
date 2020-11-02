@@ -13,6 +13,7 @@ use Badzohreh\User\Database\Seeds\UserTableSeeder;
 use Badzohreh\User\Http\Middleware\StoreUserIp;
 use Badzohreh\User\Models\User;
 use Badzohreh\User\Policies\UserPollicy;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,11 +25,16 @@ class UserServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . "/../Database/Migrations");
         $this->loadFactoriesFrom(__DIR__ . "/../Database/Factories");
         $this->loadViewsFrom(__DIR__ . "./../Resources/Views", 'User');
-        $this->loadJsonTranslationsFrom(__DIR__."./../Resources/Lang");
+        $this->loadJsonTranslationsFrom(__DIR__ . "./../Resources/Lang");
         $this->app['router']->pushMiddlewareToGroup('web', StoreUserIp::class);
         config()->set("auth.providers.users.model", User::class);
         \DatabaseSeeder::$seeders[] = UserTableSeeder::class;
         Gate::policy(User::class, UserPollicy::class);
+        Factory::guessFactoryNamesUsing(function (string $modelName) {
+            $factoryPath = 'Badzohreh\User\Database\Factories\\' . class_basename($modelName) . 'Factory';
+            return $factoryPath;
+
+        });
 
     }
 
@@ -38,9 +44,9 @@ class UserServiceProvider extends ServiceProvider
             'icon' => 'i-users',
             'title' => 'کاربران',
             'link' => route("users.index"),
-            'permission'=>Permission::PERMISSION_MANAGE_USERS
+            'permission' => Permission::PERMISSION_MANAGE_USERS
         ]);
-        $this->app->booted(function (){
+        $this->app->booted(function () {
             config()->set("sidebar.items.profile", [
                 'icon' => 'i-users',
                 'title' => 'اطلاعات کاربری',

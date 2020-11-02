@@ -9,6 +9,7 @@ use Badzohreh\User\Notifications\sendForgotPasswordCodeNotification;
 use Badzohreh\User\Notifications\sendVerificationCodeNotification;
 use Badzohreh\User\Notifications\VerifyMail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -17,7 +18,8 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use HasRoles;
-    protected $guarded=[];
+    use HasFactory;
+    protected $guarded = [];
     const STATUS_ACTIVE = 'active';
     const STATUS_INACTIVE = 'inactive';
     const STATUS_BAN = 'ban';
@@ -48,17 +50,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function banner()
     {
-        return $this->belongsTo(Media::class,"image_id","id");
+        return $this->belongsTo(Media::class, "image_id", "id");
     }
 
     public function profilePath()
     {
-        return $this->username ? route("viewProfile",$this->username) : route("viewProfile",'username');
+        return $this->username ? route("viewProfile", $this->username) : route("viewProfile", 'username');
     }
 
     public function seassons()
     {
-        return $this->hasMany(Season::class,"user_id","id");
+        return $this->hasMany(Season::class, "user_id", "id");
     }
 
 
