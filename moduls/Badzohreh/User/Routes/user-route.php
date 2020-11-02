@@ -47,4 +47,3 @@ Route::group(['namespace' => 'Badzohreh\User\Http\Controllers',
 
 
 
-

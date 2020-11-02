@@ -22,14 +22,13 @@ class CoursePolicy
     public function manage(User $user)
     {
 
-        return $user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES);
+        return $user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES) || $user->hasPermissionTo(Permission::PERMISSION_MANAGE_OWN_COURSE);
     }
 
 
     public function create(User $user)
     {
-        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES)) return true;
-        return null;
+        return $user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES) || $user->hasPermissionTo(Permission::PERMISSION_MANAGE_OWN_COURSE);
     }
 
     public function edit(User $user, Course $course)
@@ -50,8 +49,7 @@ class CoursePolicy
     public function delete(User $user)
     {
         if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES)) return true;
-        return null;
-    }
+        return null;    }
 
     public function detail(User $user, Course $course)
     {

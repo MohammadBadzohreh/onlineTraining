@@ -9,6 +9,7 @@ use Badzohreh\Course\Http\Requests\CourseStoreRequest;
 use Badzohreh\Course\Models\Course;
 use Badzohreh\Course\Repositories\CourseRepo;
 use Badzohreh\Media\Services\MediaService;
+use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\User\Repositories\UserRepo;
 
 class CourseController extends Controller
@@ -28,25 +29,29 @@ class CourseController extends Controller
 
     public function index()
     {
-        $this->authorize('manage',Course::class);
-        $courses = $this->CourseRepo->all();
+        $this->authorize('manage', Course::class);
+        if (auth()->user()->hasPermissionTo(Permission::PERMISSION_MANAGE_OWN_COURSE) &&
+            !auth()->user()->hasPermissionTo(Permission::PERMISSION_SUPER_ADMIN)) {
+            $courses = auth()->user()->courses;
+        } else {
+            $courses = $this->CourseRepo->all();
+        }
         return view("Course::index", compact("courses"));
     }
 
 
     public function create()
     {
-        $this->authorize("create",Course::class);
+        $this->authorize("create", Course::class);
         $teachers = $this->UserRepo->getTeacher();
         $categories = $this->CategoryRepo->all();
         return view("Course::create", compact("teachers", "categories"));
     }
 
 
-
     public function store(CourseStoreRequest $request)
     {
-        $this->authorize("create",Course::class);
+        $this->authorize("create", Course::class);
         $request->request
             ->add(['banner_id' => MediaService::publicUplaod($request->file("image"))->id]);
         $this->CourseRepo->store($request);
@@ -56,7 +61,7 @@ class CourseController extends Controller
     public function edit($id)
     {
         $course = $this->CourseRepo->findById($id);
-        $this->authorize("edit",$course);
+        $this->authorize("edit", $course);
         $teachers = $this->UserRepo->getTeacher();
         $course = $this->CourseRepo->findById($id);
         $categories = $this->CategoryRepo->all();
@@ -67,13 +72,13 @@ class CourseController extends Controller
     public function update($id, CourseStoreRequest $request)
     {
         $course = $this->CourseRepo->findById($id);
-        $this->authorize("edit",$course);
+        $this->authorize("edit", $course);
         if ($request->file("image")) {
-            if ($course->banner){
+            if ($course->banner) {
                 $course->banner->delete();
             }
             $request->request
-                ->add(["banner_id"=>MediaService::publicUplaod($request->file("image"))->id]);
+                ->add(["banner_id" => MediaService::publicUplaod($request->file("image"))->id]);
 
         } else {
             $request->banner_id = $course->banner_id;
@@ -84,7 +89,7 @@ class CourseController extends Controller
 
     public function destroy($id)
     {
-        $this->authorize("delete",Course::class);
+        $this->authorize("delete", Course::class);
         $this->CourseRepo->destory($id);
         return AjaxResponses::successResponses();
     }
@@ -92,17 +97,18 @@ class CourseController extends Controller
 
     public function accpet($id)
     {
-        $this->authorize("change_status_confirmation",Course::class);
-        if ($this->CourseRepo->change_confirmation_status($id,Course::ACCEPTED_CONFIRMATION_STATUS)){
+        $this->authorize("change_status_confirmation", Course::class);
+        if ($this->CourseRepo->change_confirmation_status($id, Course::ACCEPTED_CONFIRMATION_STATUS)) {
             return AjaxResponses::successResponses();
         }
         return AjaxResponses::failResponses();
     }
+
     public function reject($id)
     {
-        $this->authorize("change_status_confirmation",Course::class);
+        $this->authorize("change_status_confirmation", Course::class);
 
-        if ($this->CourseRepo->change_confirmation_status($id,Course::REJECTED_CONFIRMATION_STATUS)){
+        if ($this->CourseRepo->change_confirmation_status($id, Course::REJECTED_CONFIRMATION_STATUS)) {
             return AjaxResponses::successResponses();
         }
         return AjaxResponses::failResponses();
@@ -110,9 +116,9 @@ class CourseController extends Controller
 
     public function lock($id)
     {
-        $this->authorize("change_status_confirmation",Course::class);
+        $this->authorize("change_status_confirmation", Course::class);
 
-        if ($this->CourseRepo->change_status($id,Course::STATUS_LOCKED)){
+        if ($this->CourseRepo->change_status($id, Course::STATUS_LOCKED)) {
             return AjaxResponses::successResponses();
         }
         return AjaxResponses::failResponses();

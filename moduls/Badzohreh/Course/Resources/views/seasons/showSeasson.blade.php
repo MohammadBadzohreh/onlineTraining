@@ -18,7 +18,9 @@
                 <td><a href="" class="status">@lang($season->status)</a></td>
                 <td>
 
-                    @can(\Badzohreh\RolePermissions\Models\Permission::PERMISSION_MANAGE_COURSES)
+                    @can(\Badzohreh\RolePermissions\Models\Permission::PERMISSION_MANAGE_COURSES
+                    || \Badzohreh\RolePermissions\Models\Permission::PERMISSION_SUPER_ADMIN
+                    )
                         <a href="" class="item-delete mlg-15" title="حذف"></a>
                         <a href="" class="item-reject mlg-15" title="رد"
                            onclick="handleChangeStatus(event,'{{route("season.reject",$season->id)}}','ایا مطمئن هستید؟','رد شده')"

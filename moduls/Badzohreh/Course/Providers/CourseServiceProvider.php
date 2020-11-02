@@ -28,16 +28,20 @@ class CourseServiceProvider extends ServiceProvider
             return $user->hasPermissionTo(Permission::PERMISSION_SUPER_ADMIN) ? true : null;
         });
         Gate::policy(Course::class, CoursePolicy::class);
-        Gate::policy(Season::class,SeasonPolicy::class);
-        Gate::policy(Lesson::class,LessonPolicy::class);
+        Gate::policy(Season::class, SeasonPolicy::class);
+        Gate::policy(Lesson::class, LessonPolicy::class);
     }
+
     public function boot()
     {
         config()->set("sidebar.items.course", [
             'icon' => 'i-courses',
             'title' => 'دوره ها',
             'link' => route("course.index"),
-            'permission'=>Permission::PERMISSION_MANAGE_COURSES,
+            'permission' => [
+                Permission::PERMISSION_MANAGE_COURSES,
+                Permission::PERMISSION_MANAGE_OWN_COURSE,
+            ],
         ]);
     }
 }

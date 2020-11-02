@@ -49,48 +49,52 @@
                                     <td>{{$course->percent}}</td>
                                     <td class="status">@lang($course->status)</td>
                                     <td>
-                                        <a href="" class="item-delete mlg-15"
-                                           onclick="handleDeleteItem(event,'{{route('course.destroy',$course->id)}}')"
-                                           title="حذف"></a>
+
                                         <a href="" target="_blank" class="item-eye mlg-15" title="مشاهده"></a>
                                         <a href="{{route("course.edit",$course->id)}}" class="item-edit mlg-15"
                                            title="ویرایش"></a>
 
-                                        <a href=""
-                                           onclick="handleChangeStatus(event,
-                                                   '{{route("course.change.accept",
+
+                                        @can(\Badzohreh\RolePermissions\Models\Permission::PERMISSION_MANAGE_COURSES
+                                                           || \Badzohreh\RolePermissions\Models\Permission::PERMISSION_SUPER_ADMIN
+                                                           )                                            <a href="" class="item-delete mlg-15"
+                                               onclick="handleDeleteItem(event,'{{route('course.destroy',$course->id)}}')"
+                                               title="حذف"></a>
+
+                                            <a href=""
+                                               onclick="handleChangeStatus(event,
+                                                       '{{route("course.change.accept",
                                                    $course->id)}}',
-                                                   'ایا از تایید این دوره مطمئن هستید؟',
-                                                   'تایید'
-                                                   )"
-                                           class="item-confirm mlg-15"
-                                           title="تایید"></a>
+                                                       'ایا از تایید این دوره مطمئن هستید؟',
+                                                       'تایید'
+                                                       )"
+                                               class="item-confirm mlg-15"
+                                               title="تایید"></a>
 
 
-                                        <a href=""
-                                           onclick="handleChangeStatus(event,
-                                                   '{{route("course.change.rejected",
+                                            <a href=""
+                                               onclick="handleChangeStatus(event,
+                                                       '{{route("course.change.rejected",
                                                    $course->id)}}',
-                                                   'ایا از رد این دوره مطمئن هستید؟',
-                                                   'رد'
-                                                   )"
-                                           class="item-reject mlg-15" title="رد"></a>
+                                                       'ایا از رد این دوره مطمئن هستید؟',
+                                                       'رد'
+                                                       )"
+                                               class="item-reject mlg-15" title="رد"></a>
 
 
-                                        <a href="" class="item-lock mlg-15"
+                                            <a href="" class="item-lock mlg-15"
 
-                                           onclick="handleChangeStatus(event,
-                                                   '{{route("course.change.locked",
+                                               onclick="handleChangeStatus(event,
+                                                       '{{route("course.change.locked",
                                                    $course->id)}}',
-                                                   'ایا از قفل این دوره مطمئن هستید؟',
-                                                   'قفل',
-                                                   true
-                                                   )"
+                                                       'ایا از قفل این دوره مطمئن هستید؟',
+                                                       'قفل',
+                                                       true
+                                                       )"
 
-                                           title="قفل کردن"></a>
-
+                                               title="قفل کردن"></a>
+                                        @endcan
                                     </td>
-
                                 </tr>
 
                             @endforeach

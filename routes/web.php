@@ -9,18 +9,9 @@ Route::get('/', function () {
 
 
 Route::get("/test",function (){
-    $user = auth()->user();
-    $user->givePermissionTo(\Badzohreh\RolePermissions\Models\Permission::PERMISSION_TEACH);
-    $user->givePermissionTo(\Badzohreh\RolePermissions\Models\Permission::PERMISSION_SUPER_ADMIN);
-    $user->assignRole(\Badzohreh\RolePermissions\Models\Role::ROLE_TEACHER);
-    return $user->roles;
-
+    auth()->user()->givePermissionTo(\Badzohreh\RolePermissions\Models\Permission::PERMISSION_MANAGE_OWN_COURSE);
 });
 
-Route::get("addRole",function (){
-    Role::findOrCreate("writer")->givePermissionTo(\Badzohreh\RolePermissions\Models\Permission::PERMISSION_MANAGE_COURSES);
-
-});
 
 Route::get("/getPermissions",function (){
    $user = auth()->user();
@@ -28,8 +19,7 @@ Route::get("/getPermissions",function (){
 });
 
 
-Route::get("per",function (){
-})->name("user.permissions");
+
 
 
 

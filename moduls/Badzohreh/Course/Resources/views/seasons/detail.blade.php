@@ -16,19 +16,25 @@
                         <p class="mlg-15">دوره مقدماتی تا پیشرفته لاراول</p>
                         <a class="color-2b4a83" href="{{route("lessons.create",$course->id)}}">آپلود جلسه جدید</a>
                     </div>
-                    <div class="d-flex item-center flex-wrap margin-bottom-15 operations__btns">
-                        <button onclick="handleAcceptAll('{{route("lesson.accpetAll",$course->id)}}');"
-                                class="btn all-confirm-btn">تایید همه جلسات
-                        </button>
-                        <button onclick="accpetMultiPle('{{route("lesson.accpetSelected",$course->id)}}')"
-                                class="btn confirm-btn">تایید جلسات
-                        </button>
-                        <button  onclick="rejectMutiple('{{route("lesson.rejectSelected",$course->id)}}')" class="btn reject-btn">رد جلسات</button>
-                        <button class="btn delete-btn" onclick="multiple('{{route("delete.multiple.lessons")}}')">حذف
-                            جلسات
-                        </button>
 
-                    </div>
+                    @can(\Badzohreh\RolePermissions\Models\Permission::PERMISSION_MANAGE_COURSES
+                                                         || \Badzohreh\RolePermissions\Models\Permission::PERMISSION_SUPER_ADMIN
+                                                         )
+                    <div class="d-flex item-center flex-wrap margin-bottom-15 operations__btns">
+                            <button onclick="handleAcceptAll('{{route("lesson.accpetAll",$course->id)}}');"
+                                    class="btn all-confirm-btn">تایید همه جلسات
+                            </button>
+                            <button onclick="accpetMultiPle('{{route("lesson.accpetSelected",$course->id)}}')"
+                                    class="btn confirm-btn">تایید جلسات
+                            </button>
+                            <button  onclick="rejectMutiple('{{route("lesson.rejectSelected",$course->id)}}')" class="btn reject-btn">رد جلسات</button>
+                            <button class="btn delete-btn" onclick="multiple('{{route("delete.multiple.lessons")}}')">حذف
+                                جلسات
+                            </button>
+
+                        </div>
+                        @endcan
+
                     <div class="table__box">
                         <table class="table">
                             <thead role="rowgroup">
@@ -77,39 +83,44 @@
                                         <a href=""
                                            onclick="handleDeleteItem(event,'{{route('lesson.destroy',[$course->id,$lesson->id])}}')"
                                            class="item-delete mlg-15" data-id="1" title="حذف"></a>
-                                        <a href="" class="item-reject mlg-15" onclick="handleChangeStatus(event,
-                                                '{{route("lesson.reject",
+                                        @can(\Badzohreh\RolePermissions\Models\Permission::PERMISSION_MANAGE_COURSES
+                                                           || \Badzohreh\RolePermissions\Models\Permission::PERMISSION_SUPER_ADMIN
+                                                           )                                            <a href="" class="item-reject mlg-15" onclick="handleChangeStatus(event,
+                                                    '{{route("lesson.reject",
                                                    $lesson->id)}}',
-                                                'ایا از رد این دوره مطمئن هستید؟',
-                                                'رد'
-                                                )" title="رد"></a>
-                                        <a href="" class="item-lock mlg-15 text-success"
-                                           onclick="handleChangeStatus(event,
-                                                   '{{route("lesson.unlock",
+                                                    'ایا از رد این دوره مطمئن هستید؟',
+                                                    'رد'
+                                                    )" title="رد"></a>
+                                            <a href="" class="item-lock mlg-15 text-success"
+                                               onclick="handleChangeStatus(event,
+                                                       '{{route("lesson.unlock",
                                                    $lesson->id)}}',
-                                                   'ایا از باز این دوره مطمئن هستید؟',
-                                                   'باز',
-                                                   true
-                                                   )"
-                                           title="باز"></a>
-                                        <a href="" onclick="handleChangeStatus(event,
-                                                '{{route("lesson.accpet",
+                                                       'ایا از باز این دوره مطمئن هستید؟',
+                                                       'باز',
+                                                       true
+                                                       )"
+                                               title="باز"></a>
+                                            <a href="" onclick="handleChangeStatus(event,
+                                                    '{{route("lesson.accpet",
                                                    $lesson->id)}}',
-                                                'ایا از تایید این دوره مطمئن هستید؟',
-                                                'تایید'
-                                                )" class="item-confirm mlg-15 " title="تایید"></a>
+                                                    'ایا از تایید این دوره مطمئن هستید؟',
+                                                    'تایید'
+                                                    )" class="item-confirm mlg-15 " title="تایید"></a>
 
 
-                                        <a href="" class="item-lock mlg-15 text-error"
+                                            <a href="" class="item-lock mlg-15 text-error"
 
-                                           onclick="handleChangeStatus(event,
-                                                   '{{route("lesson.lock",
+                                               onclick="handleChangeStatus(event,
+                                                       '{{route("lesson.lock",
                                                    $lesson->id)}}',
-                                                   'ایا از قفل این دوره مطمئن هستید؟',
-                                                   'قفل',
-                                                   true
-                                                   )"
-                                           title="قفل کردن"></a>
+                                                       'ایا از قفل این دوره مطمئن هستید؟',
+                                                       'قفل',
+                                                       true
+                                                       )"
+                                               title="قفل کردن"></a>
+
+                                            @endcan
+
 
 
                                         <a href="{{route("lesson.edit",[$course->id,$lesson->id])}}" class="item-edit "

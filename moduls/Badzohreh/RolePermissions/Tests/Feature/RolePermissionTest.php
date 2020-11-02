@@ -200,5 +200,4 @@ class RolePermissionTest extends TestCase
         $this->seed(RolePermissionTableSeeder::class);
         auth()->user()->givePermissionTo(Permission::PERMISSION_SUPER_ADMIN);
     }
-
 }
