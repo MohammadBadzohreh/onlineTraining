@@ -49,7 +49,8 @@ class CoursePolicy
     public function delete(User $user)
     {
         if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES)) return true;
-        return null;    }
+        return null;
+    }
 
     public function detail(User $user, Course $course)
     {
@@ -83,15 +84,17 @@ class CoursePolicy
         return null;
     }
 
-    public function accpetLessons(User $user,Lesson $lesson){
-        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES)){
+    public function accpetLessons(User $user, Course $course)
+    {
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES)) {
             return true;
         }
         return null;
     }
 
-    public function change_confirmation_status(User $user,Course $course){
-        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES)){
+    public function change_confirmation_status(User $user, Course $course)
+    {
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES)) {
             return true;
         }
         return null;

@@ -160,7 +160,7 @@ class LessonController extends Controller
     public function acceptSelected($courseId, Request $request)
     {
         $course = $this->courseRepo->findById($courseId);
-        $this->authorize("c",$course);
+        $this->authorize("accpetLessons",$course);
         $ids = explode(',', $request->ids);
         $this->lessonRepo->acceptSelected($courseId, $ids);
         return back();
