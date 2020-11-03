@@ -45,7 +45,8 @@
             "Badzohreh\\RolePermissions\\": "moduls/Badzohreh/RolePermissions/",
             "Badzohreh\\Course\\": "moduls/Badzohreh/Course/",
             "Badzohreh\\Media\\": "moduls/Badzohreh/Media/",
-            "Badzohreh\\Common\\": "moduls/Badzohreh/Common/"
+            "Badzohreh\\Common\\": "moduls/Badzohreh/Common/",
+            "Badzohreh\\Front\\": "moduls/Badzohreh/Front/"
         },
         "classmap": [
             "database/seeds",
