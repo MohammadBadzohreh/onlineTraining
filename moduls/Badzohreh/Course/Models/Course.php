@@ -22,8 +22,7 @@ class Course extends Model
     const PENDING_CONFIRMATION_STATUS = 'pending';
 
 
-    static $CONFIRMATION_STATUS = [self::PENDING_CONFIRMATION_STATUS,self::ACCEPTED_CONFIRMATION_STATUS,self::REJECTED_CONFIRMATION_STATUS];
-
+    static $CONFIRMATION_STATUS = [self::PENDING_CONFIRMATION_STATUS, self::ACCEPTED_CONFIRMATION_STATUS, self::REJECTED_CONFIRMATION_STATUS];
 
 
     public function getTeacherAttributes()
@@ -38,13 +37,33 @@ class Course extends Model
 
     public function seassons()
     {
-        return $this->hasMany(Season::class,"course_id","id");
+        return $this->hasMany(Season::class, "course_id", "id");
     }
-    public function lessons(){
-        return $this->hasMany(Lesson::class,"course_id","id");
+
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class, "course_id", "id");
     }
-    public function banner(){
-        return $this->belongsTo(Media::class,"banner_id","id");
+
+    public function banner()
+    {
+        return $this->belongsTo(Media::class, "banner_id", "id");
+    }
+
+
+    public function getTime()
+    {
+        return $this->lessons
+            ->where("confirmation_staus", Lesson::CONFIRMATION_STATUS_ACCEPTED)
+            ->sum("time");
+    }
+
+    public function getFormattedTime()
+    {
+        $time = $this->getTime();
+        $hour = round($time / 60) < 10 ? "0" . round($time / 60) : round($time / 60);
+        $minute = $time % 60 < 10 ? "0" . $time % 60 : $time % 60;
+        return $hour . ":" . $minute . ":00";
     }
 
 

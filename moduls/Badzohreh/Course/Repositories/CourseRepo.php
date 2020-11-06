@@ -26,7 +26,7 @@ class CourseRepo
             "type" => $values->type,
             "status" => $values->status,
             "body" => $values->body,
-            "confirmation_status"=>Course::PENDING_CONFIRMATION_STATUS,
+            "confirmation_status" => Course::PENDING_CONFIRMATION_STATUS,
         ]);
         return $course;
     }
@@ -64,32 +64,40 @@ class CourseRepo
     }
 
 
-    public function acceptAll($courseId){
+    public function acceptAll($courseId)
+    {
         $course = $this->findById($courseId);
         $course->lessons()->update([
-            "confirmation_staus"=>Lesson::CONFIRMATION_STATUS_ACCEPTED
+            "confirmation_staus" => Lesson::CONFIRMATION_STATUS_ACCEPTED
         ]);
 
 
-
     }
 
 
-    public function change_confirmation_status($id,$status)
+    public function change_confirmation_status($id, $status)
     {
         $course = $this->findById($id);
-        if ($course->update(["confirmation_status" =>$status])) {
+        if ($course->update(["confirmation_status" => $status])) {
             return true;
         }
         return false;
     }
 
-    public function change_status($id,$status)
+    public function change_status($id, $status)
     {
         $course = $this->findById($id);
-        if ($course->update(["status" =>$status])) {
+        if ($course->update(["status" => $status])) {
             return true;
         }
         return false;
+    }
+
+    public function latest_course()
+    {
+        return Course::query()
+            ->where("confirmation_status",
+                Course::ACCEPTED_CONFIRMATION_STATUS)
+            ->latest()->take(8)->get();
     }
 }
