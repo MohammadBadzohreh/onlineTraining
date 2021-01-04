@@ -5,10 +5,8 @@
 
 @include("Front::layouts.header")
 
-<main id="index">
-    @yield("content")
 
-</main>
+    @yield("content")
 @include("Front::layouts.footer")
 
 <div class="overlay"></div>

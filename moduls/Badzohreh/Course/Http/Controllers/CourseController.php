@@ -9,6 +9,8 @@ use Badzohreh\Course\Http\Requests\CourseStoreRequest;
 use Badzohreh\Course\Models\Course;
 use Badzohreh\Course\Repositories\CourseRepo;
 use Badzohreh\Media\Services\MediaService;
+use Badzohreh\Payment\Gateways\Gateway;
+use Badzohreh\Payment\Services\PaymentServices;
 use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\User\Repositories\UserRepo;
 
@@ -124,4 +126,57 @@ class CourseController extends Controller
         return AjaxResponses::failResponses();
     }
 
+    public function buy($courseId, CourseRepo $courseRepo)
+    {
+        $course = $courseRepo->findById($courseId);
+        if (!$this->canPuchasedCourse($course)) {
+            return back();
+        }
+        if (!$this->authUserCanPurchaseCourse($course)) {
+            return back();
+        }
+        $amount = $course->getFinalPrice();
+        if ($amount <= 0) {
+            $courseRepo->addStudentToCourse($course, auth()->id());
+            showFeedbacks("موفقیت آمیز", "شما با موفقیت در دور ثبت نام کردید.");
+            return redirect()->to($course->path());
+        }
+        $payment = PaymentServices::generate($amount, $course, auth()->user());
+        resolve(Gateway::class)->redirect();
+    }
+
+    private function canPuchasedCourse(Course $course)
+    {
+        if ($course->type == Course::TYPE_FREE) {
+            showFeedbacks("خطا در عملیات", "دوره های رایگان قابل خریداری نیستند");
+            return false;
+        }
+        if ($course->confirmation_status != Course::ACCEPTED_CONFIRMATION_STATUS) {
+            showFeedbacks("خطا در عملیات", "دوره توسط مدیر تایید نشده است.");
+            return false;
+        }
+        if ($course->status == Course::STATUS_LOCKED) {
+            showFeedbacks("خطا در عملیات", "دوره های قفل شده قابل خریدداری نیستند");
+            return false;
+        }
+        return true;
+    }
+
+    private function authUserCanPurchaseCourse(Course $course)
+    {
+        if (auth()->user() && auth()->user()->hasAceesToCourse($course)) {
+            showFeedbacks("خطا در عملیات", "شما به این دوره دسترسی دارید.");
+            return false;
+        }
+        return true;
+    }
+
+
+    public function downloadLinks($course_id)
+    {
+        $course = $this->CourseRepo->findById($course_id);
+        $this->authorize("download" , $course);
+        $links = $course->downloadLinks();
+        return implode("<br>" , $links);
+    }
 }

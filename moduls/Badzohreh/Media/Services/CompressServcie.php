@@ -19,5 +19,11 @@ class CompressServcie extends DefaultMediaService implements FileServcieContract
         return url("img/zipBanner.png");
     }
 
+    public static function getFileName()
+    {
+        return (self::$media->is_private ? "private/" : "public/") . self::$media->files["zip"];
+    }
+
+
 
 }

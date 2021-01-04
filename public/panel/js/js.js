@@ -155,7 +155,8 @@ function multiple(route) {
         if (check == true) {
             //for server side
 
-            $("<form action='" + route + "' method='post'>" +
+            $("<form action='" + route + "' method='p" +
+                "ost'>" +
                 "<input type='hidden' name='_token' value='" + $('meta[name="_token"]').attr('content') + "' /> " +
                 "<input type='hidden' name='_method' value='delete'> " +
                 "<input type='hidden' name='ids' value='" + allVals + "'>" +
@@ -293,3 +294,5 @@ function handleChangeStatus(event, route, alertText, text, status = false) {
     }
 
 }
+
+

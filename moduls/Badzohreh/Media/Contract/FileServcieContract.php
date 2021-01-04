@@ -11,4 +11,6 @@ interface FileServcieContract
     public static function delete($file);
 
     public static function thumb($file);
+
+    public static function stream($media);
 }

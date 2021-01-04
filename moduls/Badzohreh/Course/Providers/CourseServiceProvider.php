@@ -8,6 +8,7 @@ use Badzohreh\Course\Models\Season;
 use Badzohreh\Course\Policies\CoursePolicy;
 use Badzohreh\Course\Policies\LessonPolicy;
 use Badzohreh\Course\Policies\SeasonPolicy;
+use Badzohreh\Payment\Providers\EventServiceProvider;
 use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\User\Models\User;
 use Illuminate\Support\Facades\Gate;
@@ -17,6 +18,7 @@ class CourseServiceProvider extends ServiceProvider
 {
     public function register()
     {
+        $this->app->register(EventServiceProvider::class);
         $this->loadRoutesFrom(__DIR__ . './../Routes/course-route.php');
         $this->loadRoutesFrom(__DIR__ . './../Routes/season-route.php');
         $this->loadRoutesFrom(__DIR__ . './../Routes/lessons-routes.php');

@@ -76,4 +76,14 @@ class MediaService
         $media->save();
         return $media;
     }
+
+    public static function stream(Media $media)
+    {
+        foreach (config("MediaFile.mediaTypeService") as $type=>$service) {
+            if ($type == $media->type){
+                return $service["handler"]::stream($media);
+            }
+        }
+
+    }
 }

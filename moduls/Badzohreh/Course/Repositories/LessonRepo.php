@@ -50,7 +50,6 @@ class LessonRepo
     }
 
 
-
     public function updateConfirmationStatus($id, $status)
     {
         $season = $this->findById($id);
@@ -92,14 +91,40 @@ class LessonRepo
 
     public function acceptSelected($courseId, array $ids)
     {
-        return Lesson::query()->where("course_id",$courseId)->whereIn('id',$ids)
-            ->update(["confirmation_staus"=>Lesson::CONFIRMATION_STATUS_ACCEPTED]);
+        return Lesson::query()->where("course_id", $courseId)->whereIn('id', $ids)
+            ->update(["confirmation_staus" => Lesson::CONFIRMATION_STATUS_ACCEPTED]);
     }
 
     public function rejectselected($courseId, array $ids)
     {
-        return Lesson::query()->where("course_id",$courseId)->whereIn('id',$ids)
-            ->update(["confirmation_staus"=>Lesson::CONFIRMATION_STATUS_REJECTED]);
+        return Lesson::query()->where("course_id", $courseId)->whereIn('id', $ids)
+            ->update(["confirmation_staus" => Lesson::CONFIRMATION_STATUS_REJECTED]);
+    }
+
+
+    public function getCourseLessons($course_id)
+    {
+        return Lesson::query()->where([
+            "course_id" => $course_id,
+            "confirmation_staus" => Lesson::CONFIRMATION_STATUS_ACCEPTED,
+        ])->get();
+    }
+
+    public function getFirstLessonCourse(int $course_id)
+    {
+        return Lesson::query()->where([
+            "course_id" => $course_id,
+            "confirmation_staus" => Lesson::CONFIRMATION_STATUS_ACCEPTED,
+        ])->orderBy('number', 'asc')->first();
+    }
+
+    public function getLessonCourseById(int $course_id, int $lessonId)
+    {
+        return Lesson::query()->where([
+            "id" => $lessonId,
+            "course_id" => $course_id,
+            "confirmation_staus" => Lesson::CONFIRMATION_STATUS_ACCEPTED,
+        ])->first();
     }
 
 

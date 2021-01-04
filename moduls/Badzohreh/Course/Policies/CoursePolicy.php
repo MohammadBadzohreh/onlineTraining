@@ -3,7 +3,6 @@
 namespace Badzohreh\Course\Policies;
 
 use Badzohreh\Course\Models\Course;
-use Badzohreh\Course\Models\Lesson;
 use Badzohreh\Course\Repositories\CourseRepo;
 use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\User\Models\User;
@@ -98,5 +97,16 @@ class CoursePolicy
             return true;
         }
         return null;
+    }
+
+    public function download(User $user, Course $course)
+    {
+        if ($course->teacher_id === $user->id ||
+            $user->hasPermissionTo(Permission::PERMISSION_SUPER_ADMIN) ||
+            $course->hasStudent($user->id)
+        ) {
+            return true;
+        }
+        return false;
     }
 }

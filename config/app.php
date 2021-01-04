@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -185,6 +185,7 @@ return [
         \Badzohreh\Media\Providers\MediaServiceProvider::class,
         \Badzohreh\Common\Providers\CommonServiceProvider::class,
         \Badzohreh\Front\Providers\FrontServiceProvider::class,
+        \Badzohreh\Payment\Providers\PaymentServiceProvider::class,
 
     ],
 

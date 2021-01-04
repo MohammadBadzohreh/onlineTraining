@@ -127,7 +127,7 @@
                 @auth()
                     <div class="user-menu-account">
                         <div class="user-image">
-                            <img src="img/profile.jpg" alt="desction">
+                            <img src="{{ auth()->user()->thumb }}" alt="desction">
                         </div>
                         <span>پروفایل کاربری من </span>
                         <div class="user-menu-account-dropdown">

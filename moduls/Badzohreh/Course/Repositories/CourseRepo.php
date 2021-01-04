@@ -4,6 +4,7 @@ namespace Badzohreh\Course\Repositories;
 
 use Badzohreh\Course\Models\Course;
 use Badzohreh\Course\Models\Lesson;
+use phpDocumentor\Reflection\Types\Integer;
 
 class CourseRepo
 {
@@ -100,4 +101,32 @@ class CourseRepo
                 Course::ACCEPTED_CONFIRMATION_STATUS)
             ->latest()->take(8)->get();
     }
+
+    public function lessonCount($course_id)
+    {
+        return Lesson::query()->where([
+            "course_id" => $course_id,
+            "confirmation_staus" => Lesson::CONFIRMATION_STATUS_ACCEPTED,
+        ])->count();
+    }
+
+    public function addStudentToCourse(Course $course, $studentId)
+    {
+        if (!$this->studentCourse($course, $studentId)) {
+            $course->students()->attach($studentId);
+        }
+    }
+
+    public function studentCourse(Course $course, $studentId)
+    {
+        return $course->students()->where("id", $studentId)->first();
+
+    }
+
+    public function hasStudent(Course $course,$student_id)
+    {
+        return $course->students->contains($student_id);
+    }
+
+
 }

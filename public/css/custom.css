@@ -1,0 +1,26 @@
+.modal-body table{
+    width: 100%;
+    text-align: right;
+    border-collapse: collapse;
+    background: #cccccc0a;
+}
+.modal-body table th , td{
+    border: 1px solid #cccccc59;
+    padding: 0.5em 0.7em;
+}
+.modal-content {
+    color: #7b868a !important;
+    font-size: 0.9em;
+}
+.text-white{
+    color: #ffffff !important;
+}
+.w-100{
+    width: 100% !important;
+}
+.text-blue{
+    color: #006fe2 !important;
+}
+.text-red{
+    color: #ff0909c9;
+}

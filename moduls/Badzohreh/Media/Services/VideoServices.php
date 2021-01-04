@@ -18,4 +18,10 @@ class VideoServices extends DefaultMediaService implements FileServcieContract
         return url("img\\videoBanner.png");
     }
 
+    public static function getFileName()
+    {
+        return (self::$media->is_private ? "private/" : "public/") . self::$media->files["video"];
+    }
+
+
 }

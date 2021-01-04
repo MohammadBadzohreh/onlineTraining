@@ -4,6 +4,7 @@ namespace Badzohreh\Course\Models;
 
 use Badzohreh\Media\Models\Media;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\URL;
 
 class Lesson extends Model
 {
@@ -35,5 +36,25 @@ class Lesson extends Model
     {
         return $this->belongsTo(Media::class, "media_id", "id");
     }
+
+    public function durationTime()
+    {
+        $hour = round($this->time / 60) < 10 ? "0" . round($this->time / 60) : round($this->time / 60);
+        $minute = $this->time % 60 < 10 ? "0" . $this->time % 60 : $this->time % 60;
+        return $hour . ":" . $minute . ":00";
+    }
+
+    public function path()
+    {
+        return $this->course->path() . "?lesson=l-" . $this->id . "-" . $this->slug;
+    }
+
+    public function downloadLink()
+    {
+        if ($this->media_id){
+            return URL::temporarySignedRoute("media.download", now()->addDay(), $this->media_id);
+        }
+    }
+
 
 }

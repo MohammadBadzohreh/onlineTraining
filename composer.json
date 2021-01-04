@@ -46,7 +46,8 @@
             "Badzohreh\\Course\\": "moduls/Badzohreh/Course/",
             "Badzohreh\\Media\\": "moduls/Badzohreh/Media/",
             "Badzohreh\\Common\\": "moduls/Badzohreh/Common/",
-            "Badzohreh\\Front\\": "moduls/Badzohreh/Front/"
+            "Badzohreh\\Front\\": "moduls/Badzohreh/Front/",
+            "Badzohreh\\Payment\\": "moduls/Badzohreh/Payment/"
         },
         "classmap": [
             "database/seeds",

@@ -2,7 +2,9 @@
 
 namespace Badzohreh\Category\Models;
 
+use Badzohreh\Course\Models\Course;
 use Illuminate\Database\Eloquent\Model;
+use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 
 class Category extends Model
 {
@@ -31,6 +33,18 @@ class Category extends Model
     public function category_parent()
     {
         return $this->belongsTo(Category::class, "parent_id", "id");
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class, "category_id", "id");
+    }
+
+
+    public function path()
+    {
+//        todo fix category path
+        return "asss";
     }
 
 

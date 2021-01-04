@@ -5,6 +5,7 @@ namespace Badzohreh\User\Models;
 use Badzohreh\Course\Models\Course;
 use Badzohreh\Course\Models\Season;
 use Badzohreh\Media\Models\Media;
+use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\User\Notifications\resetPasswordNotification;
 use Badzohreh\User\Notifications\sendForgotPasswordCodeNotification;
 use Badzohreh\User\Notifications\sendVerificationCodeNotification;
@@ -13,6 +14,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -20,6 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use HasRoles;
     use HasFactory;
+
     protected $guarded = [];
     const STATUS_ACTIVE = 'active';
     const STATUS_INACTIVE = 'inactive';
@@ -49,6 +52,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
+    public function purchases()
+    {
+        return $this->belongsToMany(Course::class, "course_user", "user_id", "course_id");
+    }
+
     public function banner()
     {
         return $this->belongsTo(Media::class, "image_id", "id");
@@ -69,11 +77,31 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Course::class, "teacher_id", "id");
     }
 
+
+    public function hasAceesToCourse(Course $course)
+    {
+        if (auth()->user()->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES) ||
+            $course->teacher_id == auth()->id() ||
+            $course->students->contains($this->id)
+        )
+            return true;
+        return false;
+    }
+
     public function getThumbAttribute()
     {
         if ($this->banner) {
             return $this->banner->thumb;
         }
         return "/panel/img/pro.jpg";
+    }
+
+    public function studentsCount()
+    {
+        return DB::table("courses")
+            ->where("teacher_id", $this->id)
+            ->where("confirmation_status", Course::ACCEPTED_CONFIRMATION_STATUS)
+            ->join("course_user", "courses.id", "=", "course_id")
+            ->count();
     }
 }
