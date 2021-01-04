@@ -11,6 +11,7 @@ class Permission extends \Spatie\Permission\Models\Permission
     const PERMISSION_MANAGE_COURSES = 'manage courses';
     const PERMISSION_TEACH = "teach";
     const PERMISSION_MANAGE_USERS = "manage users";
+    const PERMISSION_MANAGE_PAYMENTS = "manage payments";
     static $PERMISSIONS = [
         self::PERMISSION_MANAGE_CATEGORY,
         self::PERMISSION_MANAGE_ROLE_PERMISSION,
@@ -19,6 +20,7 @@ class Permission extends \Spatie\Permission\Models\Permission
         self::PERMISSION_SUPER_ADMIN,
         self::PERMISSION_TEACH,
         self::PERMISSION_MANAGE_USERS,
+        self::PERMISSION_MANAGE_PAYMENTS,
     ];
 
 }

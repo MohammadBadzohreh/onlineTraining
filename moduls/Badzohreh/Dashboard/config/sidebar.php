@@ -8,5 +8,6 @@ return [
         "course"=>[],
         "users"=>[],
         "profile"=>[],
+        "payments"=>[],
     ]
 ];

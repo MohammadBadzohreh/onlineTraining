@@ -22,7 +22,8 @@ class PaymentServices
             $seller_share = ($amount / 100) * $seller_percent;
             $site_share = $amount - $seller_share;
         } else {
-            $seller_percent = $seller_share = $site_share = 0;
+            $seller_percent = $seller_share = 0;
+            $site_share = $amount;
         }
 
         return resolve(PaymentRepo::class)->store([

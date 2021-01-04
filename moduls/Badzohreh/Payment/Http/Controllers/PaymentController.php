@@ -31,4 +31,22 @@ class PaymentController extends Controller
         }
         return redirect()->to($payment->paymentable->path());
     }
+
+    public function index(PaymentRepo $paymentRepo)
+    {
+        $payments = $paymentRepo->paginate();
+        $alllast30DaysPayments = $paymentRepo->allPayments(30);
+        $allPayments = $paymentRepo->allPayments();
+        $alllast30DaysPaymentsSite = $paymentRepo->allPaymentsSite(30);
+        $allPaymentsSite = $paymentRepo->allPaymentsSite();
+        return view("Payment::index",
+            compact(
+                "payments",
+                "alllast30DaysPayments",
+                "alllast30DaysPaymentsSite",
+                "allPaymentsSite",
+                "allPayments"
+            ));
+    }
+
 }

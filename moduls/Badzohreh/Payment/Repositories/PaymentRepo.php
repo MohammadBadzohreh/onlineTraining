@@ -33,4 +33,40 @@ class PaymentRepo
             "status" => $status
         ]);
     }
+
+    public function paginate()
+    {
+        return Payment::query()->latest()->paginate();
+    }
+
+
+    public function allPayments($days = null)
+    {
+        $query = $this->acceptedPaymentsQuery();
+        if (!is_null($days)) {
+            $query = $query->where("created_at", ">=", now()->subDays($days));
+        }
+        return $query->sum("amount");
+    }
+
+
+    public function allPaymentsSite($days = null)
+    {
+        $query = $this->acceptedPaymentsQuery();
+        if (!is_null($days)) {
+            $query = $query->where("created_at", ">=", now()->subDays($days));
+        }
+        return $query->sum("site_share");
+    }
+
+
+//privates
+
+    private function acceptedPaymentsQuery($status = Payment::STATUS_ACCEPTED)
+    {
+        return Payment::query()
+            ->where("status", $status);
+    }
+
+
 }

@@ -4,6 +4,7 @@ namespace Badzohreh\Payment\Providers;
 
 use Badzohreh\Payment\Gateways\Gateway;
 use Badzohreh\Payment\Gateways\Zarinpal\ZarinpalAdaptor;
+use Badzohreh\RolePermissions\Models\Permission;
 use Closure;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -18,6 +19,8 @@ class PaymentServiceProvider extends ServiceProvider
         Route::middleware("web")
             ->namespace($this->namespace)
             ->group(__DIR__ . "./../Routes/payment-routes.php");
+        $this->loadViewsFrom(__DIR__."./../Resources/Views","Payment");
+        $this->loadJsonTranslationsFrom(__DIR__.'./../Resources/Lang');
     }
 
     public function boot()
@@ -26,6 +29,15 @@ class PaymentServiceProvider extends ServiceProvider
             return new ZarinpalAdaptor();
 
         });
+
+        config()->set("sidebar.items.payments", [
+            'icon' => 'i-transactions',
+            'title' => 'تراکنش ها',
+            'link' => route("payments.index"),
+            'permission' => [
+                Permission::PERMISSION_MANAGE_PAYMENTS
+            ],
+        ]);
 
     }
 
