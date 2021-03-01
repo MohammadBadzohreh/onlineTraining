@@ -5,6 +5,7 @@ namespace Badzohreh\User\Models;
 use Badzohreh\Course\Models\Course;
 use Badzohreh\Course\Models\Season;
 use Badzohreh\Media\Models\Media;
+use Badzohreh\Payment\Models\Payment;
 use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\User\Notifications\resetPasswordNotification;
 use Badzohreh\User\Notifications\sendForgotPasswordCodeNotification;
@@ -55,6 +56,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function purchases()
     {
         return $this->belongsToMany(Course::class, "course_user", "user_id", "course_id");
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class,"buyer_id","id");
     }
 
     public function banner()

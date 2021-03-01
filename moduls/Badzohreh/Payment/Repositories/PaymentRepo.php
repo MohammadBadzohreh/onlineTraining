@@ -3,9 +3,22 @@
 namespace Badzohreh\Payment\Repositories;
 
 use Badzohreh\Payment\Models\Payment;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Morilog\Jalali\Jalalian;
+use Morilog\Jalali\Tests\JalalianTest;
 
 class PaymentRepo
 {
+
+    private $query;
+
+    public function __construct()
+    {
+        $this->query = Payment::query();
+
+    }
+
     public static function store($data)
     {
         return Payment::create([
@@ -34,9 +47,10 @@ class PaymentRepo
         ]);
     }
 
-    public function paginate()
+
+    public function paginate($per_page = 15)
     {
-        return Payment::query()->latest()->paginate();
+        return $this->query->paginate($per_page);
     }
 
 
@@ -59,14 +73,166 @@ class PaymentRepo
         return $query->sum("site_share");
     }
 
-
-//privates
-
     private function acceptedPaymentsQuery($status = Payment::STATUS_ACCEPTED)
     {
         return Payment::query()
             ->where("status", $status);
     }
 
+    public function get_payment_by_day($day)
+    {
+        return Payment::query()->whereDay("created_at", $day);
+    }
+
+    public function get_total_success_payment_by_day($day)
+    {
+
+        return $this
+            ->get_payment_by_day($day)
+            ->where("status", Payment::STATUS_ACCEPTED)->sum("amount");
+    }
+
+    public function get_success_site_share_total_payment_by_day($day)
+    {
+        return $this
+            ->get_payment_by_day($day)
+            ->where("status", Payment::STATUS_ACCEPTED)->sum("site_share");
+    }
+
+    public function get_success_seller_share_total_payment_by_day($day)
+    {
+        return $this
+            ->get_payment_by_day($day)
+            ->where("status", Payment::STATUS_ACCEPTED)->sum("seller_share");
+    }
+
+    public function allPamentsSellerShare()
+    {
+        return $this->acceptedPaymentsQuery()->sum("seller_share");
+    }
+
+    public function getsummary($dates)
+    {
+
+
+        $payments = Payment::query()->where("created_at", ">=", $dates->keys()->first())
+            ->orderBy("date")
+            ->groupBy("date")
+            ->get([
+                DB::raw("DATE(created_at) as date"),
+                DB::raw("SUM(site_share) as totalSiteShare"),
+                DB::raw("SUM(seller_share) as totalSellerShare"),
+                DB::raw("SUM(amount) as amount"),
+            ]);
+
+        return $payments;
+
+
+    }
+
+    public function searchEmail($email)
+    {
+        if (!is_null($email)) {
+            $this->query->select("payments.*", "users.email")->join("users", "users.id", "=", "payments.buyer_id")
+                ->where("email", "like", "%" . $email . "%");
+        }
+        return $this;
+    }
+
+    public function searchAmount($amount)
+    {
+        if (!is_null($amount)) {
+            $this->query->where("amount", $amount);
+        }
+        return $this;
+    }
+
+    public function searchInvoiceId($invoice_id)
+    {
+        if (!is_null($invoice_id)) {
+            $this->query->where("invoice_id", "like", "%" . $invoice_id . "%");
+        }
+        return $this;
+    }
+
+    public function searchStartDate($startDate)
+    {
+
+        $start_date = $startDate ? Jalalian::fromFormat("Y/m/d", $startDate)->toCarbon() : null;
+        if (!is_null($start_date)) {
+            $this->query->whereDate("payments.created_at", ">=", $start_date);
+        }
+        return $this;
+    }
+
+
+    public function searchEndDate($startDate)
+    {
+
+        $start_date = $startDate ? Jalalian::fromFormat("Y/m/d", $startDate)->toCarbon() : null;
+        if (!is_null($start_date)) {
+            $this->query->whereDate("payments.created_at", "<=", $start_date);
+        }
+        return $this;
+
+    }
+
+
+//    search by user payments
+
+    public function getSuccessPaymentsByUser($id)
+    {
+        return Payment::query()
+            ->where("seller_id", $id)
+            ->where("status", Payment::STATUS_ACCEPTED);
+    }
+
+
+    public function getUserTotalSales($id)
+    {
+        return $this->getSuccessPaymentsByUser($id)
+            ->sum("amount");
+    }
+
+    public function getUserTotalSiteShare($id)
+    {
+        return $this->getSuccessPaymentsByUser($id)
+            ->sum("site_share");
+    }
+
+
+    public function getUserTotalSellerShare($id)
+    {
+        return $this->getSuccessPaymentsByUser($id)
+            ->sum("seller_share");
+    }
+
+    public function getUserBenefit($id)
+    {
+        return $this->getSuccessPaymentsByUser($id)
+            ->whereDate("created_at", now())
+            ->sum("seller_share");
+    }
+
+    public function getUserTodaySuccessPaymensCount($id)
+    {
+        return $this->getSuccessPaymentsByUser($id)
+            ->whereDate("created_at", now())
+            ->count();
+    }
+
+    public function getUserTodaySales($id)
+    {
+        return $this->getSuccessPaymentsByUser($id)
+            ->whereDate("created_at", now())
+            ->sum("amount");
+    }
+
+    public function getUserPeriodDaysBenefit($id, $period = 30)
+    {
+        return $this->getSuccessPaymentsByUser($id)
+            ->whereDate("created_at", ">=", Carbon::now()->subDays($period))
+            ->sum("seller_share");
+    }
 
 }

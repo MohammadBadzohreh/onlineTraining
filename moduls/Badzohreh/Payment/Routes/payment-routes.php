@@ -6,4 +6,9 @@ Route::group([], function ($router) {
         "as" => "payments.index",
     ]);
 
+    $router->get("purchases", [
+        "uses" => "PaymentController@purchases",
+        "as" => "purchases.index",
+    ]);
+
 });

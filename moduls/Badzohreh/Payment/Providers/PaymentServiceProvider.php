@@ -39,6 +39,15 @@ class PaymentServiceProvider extends ServiceProvider
             ],
         ]);
 
+        config()->set("sidebar.items.purchases", [
+            'icon' => 'i-my__purchases',
+            'title' => 'خرید های من',
+            'link' => route("purchases.index"),
+            'permission' => [
+                Permission::PERMISSION_MANAGE_PAYMENTS
+            ],
+        ]);
+
     }
 
 }

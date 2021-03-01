@@ -32,21 +32,47 @@ class PaymentController extends Controller
         return redirect()->to($payment->paymentable->path());
     }
 
-    public function index(PaymentRepo $paymentRepo)
+    public function index(PaymentRepo $paymentRepo, Request $request)
     {
-        $payments = $paymentRepo->paginate();
+
+
+        $payments = $paymentRepo
+            ->searchEmail($request->email)
+            ->searchAmount($request->amount)
+            ->searchInvoiceId($request->invoice_id)
+            ->searchStartDate($request->start_date)
+            ->searchEndDate($request->end_date)
+            ->paginate();
         $alllast30DaysPayments = $paymentRepo->allPayments(30);
         $allPayments = $paymentRepo->allPayments();
         $alllast30DaysPaymentsSite = $paymentRepo->allPaymentsSite(30);
         $allPaymentsSite = $paymentRepo->allPaymentsSite();
+        $allPaymentsSellerShare = $paymentRepo->allPamentsSellerShare();
+
+        $dates = collect();
+        foreach (range(-30, 0) as $i) {
+            $dates->put(now()->addDays($i)->format("Y-m-d"), 0);
+        }
+        $summry = $paymentRepo->getsummary($dates);
         return view("Payment::index",
             compact(
                 "payments",
                 "alllast30DaysPayments",
                 "alllast30DaysPaymentsSite",
                 "allPaymentsSite",
-                "allPayments"
+                "allPayments",
+                "paymentRepo",
+                "allPaymentsSellerShare",
+                "summry",
+                "dates"
             ));
+    }
+
+
+    public function purchases()
+    {
+        $payments = auth()->user()->payments()->with("paymentable")->get();
+        return view("Payment::purchases",compact("payments"));
     }
 
 }

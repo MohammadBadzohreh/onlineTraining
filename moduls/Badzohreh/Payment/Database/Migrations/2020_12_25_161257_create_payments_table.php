@@ -12,8 +12,10 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId("buyer_id");//
+            $table->bigInteger("sellder_id")->nullable();
             $table->foreignId("paymentable_id");//
             $table->string("paymentable_type");//
+            $table->bigInteger("balance")->default(0);
             $table->string("amount", 10);//
             $table->string("invoice_id", 255);
             $table->string("getway");
@@ -22,6 +24,13 @@ class CreatePaymentsTable extends Migration
             $table->string("seller_share", 10);//
             $table->string("site_share", 10);//
             $table->timestamps();
+
+            $table->foreignId("seller_id")
+                ->references("id")
+                ->on("users")
+                ->onDelete("SET NULL")
+                ->onUpdate("CASCADE");
+
         });
     }
 

@@ -9,45 +9,44 @@
             <div class="row no-gutters font-size-13 margin-bottom-10">
                 <div class="col-3 padding-20 border-radius-3 bg-white margin-left-10 margin-bottom-10">
                     <p> موجودی حساب فعلی </p>
-                    <p>2,500,000 تومان</p>
+                    <p>0 تومان</p>
                 </div>
                 <div class="col-3 padding-20 border-radius-3 bg-white margin-left-10 margin-bottom-10">
                     <p> کل فروش دوره ها</p>
-                    <p>2,500,000 تومان</p>
+                    <p>{{ number_format($totalUserSales) }} تومان</p>
                 </div>
                 <div class="col-3 padding-20 border-radius-3 bg-white margin-left-10 margin-bottom-10">
                     <p> کارمزد کسر شده </p>
-                    <p>2,500,000 تومان</p>
+                    <p>{{ number_format($totalUserSiteShare) }} تومان</p>
                 </div>
                 <div class="col-3 padding-20 border-radius-3 bg-white margin-bottom-10">
                     <p> درآمد خالص </p>
-                    <p>2,500,000 تومان</p>
+                    <p>{{ number_format($getUserTotalSellerShare) }} تومان</p>
                 </div>
             </div>
             <div class="row no-gutters font-size-13 margin-bottom-10">
                 <div class="col-3 padding-20 border-radius-3 bg-white margin-left-10 margin-bottom-10">
                     <p> درآمد امروز </p>
-                    <p>500,000 تومان</p>
+                    <p>{{ number_format($getUserToadySales) }} تومان</p>
                 </div>
                 <div class="col-3 padding-20 border-radius-3 bg-white margin-left-10 margin-bottom-10">
                     <p> درآمد 30 روز گذاشته</p>
-                    <p>2,500,000 تومان</p>
+                    <p>{{ number_format($getUser30DaysBenefit) }} تومان</p>
                 </div>
                 <div class="col-3 padding-20 border-radius-3 bg-white margin-left-10 margin-bottom-10">
                     <p> تسویه حساب در حال انجام </p>
                     <p>0 تومان </p>
                 </div>
                 <div class="col-3 padding-20 border-radius-3 bg-white  margin-bottom-10">
-                    <p>تراکنش های موفق امروز (0) تراکنش </p>
-                    <p>2,500,000 تومان</p>
+                    <p>تراکنش های موفق امروز ({{ $todaySUseruccessCount }}) تراکنش </p>
+                    <p>{{ $getUserTodaySales }} تومان</p>
                 </div>
             </div>
             <div class="row no-gutters font-size-13 margin-bottom-10">
                 <div class="col-8 padding-20 bg-white margin-bottom-10 margin-left-10 border-radius-3">
-                    محل قرار گیری نمودار
+                    <div id="container"></div>
                 </div>
                 <div class="col-4 info-amount padding-20 bg-white margin-bottom-12-p margin-bottom-10 border-radius-3">
-
                     <p class="title icon-outline-receipt">موجودی قابل تسویه </p>
                     <p class="amount-show color-444">600,000<span> تومان </span></p>
                     <p class="title icon-sync">در حال تسویه</p>
@@ -110,4 +109,7 @@
             </div>
         </div>
     </div>
+@endsection
+@section("js")
+    @include("Dashboard::index")
 @endsection
