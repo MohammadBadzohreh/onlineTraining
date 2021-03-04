@@ -111,5 +111,5 @@
     </div>
 @endsection
 @section("js")
-    @include("Dashboard::index")
+    @include("Dashboard::chart")
 @endsection
