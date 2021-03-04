@@ -10,7 +10,7 @@ class DashboardController extends Controller
 {
     public function index(PaymentRepo $paymentRepo)
     {
-
+        return view("Dashboard::index");
         $totalUserSales = $paymentRepo->getUserTotalSales(auth()->id());
 
         $totalUserSiteShare = $paymentRepo->getUserTotalSiteShare(auth()->id());
