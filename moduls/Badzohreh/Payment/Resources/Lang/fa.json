@@ -2,5 +2,7 @@
     "pending": "در حال انتظار",
     "canceled": "لغو شده",
     "accepted": "موفق",
-    "fail": "ناموفق"
+    "fail": "ناموفق",
+    "satteled": "تسویه شده",
+    "cancelled": "لغو شده"
 }

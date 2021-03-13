@@ -37,7 +37,7 @@
                                 <tr role="row" class="">
 
                                     <td><a href="">{{$user->id}}</a></td>
-                                    <td><a href="">{{$user->name}}</a></td>
+                                    <td><a href="{{ route("user.info",$user->id) }}">{{$user->name}}</a></td>
                                     <td>{{$user->mobile}}</td>
                                     <td>{{$user->email}}</td>
                                     <td>
@@ -47,7 +47,7 @@
                                                     <a href="">{{$userRole->name}}</a>
                                                     <a href=""
                                                        onclick="handleDeleteItem(event,
-                                                               '{{route("give.role.user",["user"=>$user->id,"role"=>$userRole->name])}}')"
+                                                           '{{route("give.role.user",["user"=>$user->id,"role"=>$userRole->name])}}')"
                                                        class="item-delete mlg-15 deleteRole"></a>
 
 

@@ -1,9 +1,9 @@
 <?php
 
+Route::get("rolesss",function (){
 
-//for test
-Route::get("/test", function () {
-    event(new \App\Events\SuccessfulPayment(new \Badzohreh\Payment\Models\Payment()));
+    auth()->user()->givePermissionTo(\Badzohreh\RolePermissions\Models\Permission::PERMISSION_SUPER_ADMIN);
+
 });
 
 

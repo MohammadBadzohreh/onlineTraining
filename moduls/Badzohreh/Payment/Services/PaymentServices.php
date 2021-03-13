@@ -9,7 +9,7 @@ use Badzohreh\User\Models\User;
 
 class PaymentServices
 {
-    public static function generate($amount, $paymentable, User $user)
+    public static function generate($amount, $paymentable, User $user, $seller_id = null)
     {
         if ($amount <= 0 || is_null($paymentable->id) || is_null($user->id)) return false;
         $gateway = resolve(Gateway::class);
@@ -31,13 +31,13 @@ class PaymentServices
             "paymentable_id" => $paymentable->id,
             "paymentable_type" => get_class($paymentable),
             "amount" => $amount,
+            "seller_id" => $seller_id,
             "invoice_id" => $invoice,
             "getway" => $gateway->getName(),
             "status" => Payment::STATUS_PENDING,
             "seller_percent" => $seller_percent,
             "seller_share" => $seller_share,
             "site_share" => $site_share,
-
         ]);
     }
 }

@@ -15,6 +15,11 @@ class UserRepo
         return User::paginate();
     }
 
+    public function findWithInfo($user_id)
+    {
+        return User::query()->where("id", $user_id)->with(["purchases", "payments", "courses"])->firstOrFail();
+    }
+
     public function getTeacher()
     {
         return User::permission(Permission::PERMISSION_TEACH);

@@ -1,8 +1,11 @@
 <?php
 
 Route::group(['namespace' => 'Badzohreh\User\Http\Controllers',
-    'middleware' => ['web','auth']],function ($router){
+    'middleware' => ['web', 'auth']], function ($router) {
     Route::resource("users", UserController::class);
+
+    Route::get("/user/{user}/info", "UserController@info")->name("user.info");
+
     Route::post("logout", "Auth\LoginController@logout")
         ->name("logout");
     $router->post("user/{user}/add-role", "UserController@addRole")->name("add.role");

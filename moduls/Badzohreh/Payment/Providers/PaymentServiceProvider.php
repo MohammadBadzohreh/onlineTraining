@@ -19,8 +19,15 @@ class PaymentServiceProvider extends ServiceProvider
         Route::middleware("web")
             ->namespace($this->namespace)
             ->group(__DIR__ . "./../Routes/payment-routes.php");
-        $this->loadViewsFrom(__DIR__."./../Resources/Views","Payment");
-        $this->loadJsonTranslationsFrom(__DIR__.'./../Resources/Lang');
+
+        Route::middleware("web")
+            ->namespace($this->namespace)
+            ->group(__DIR__ . "./../Routes/settlement-routes.php");
+
+        $this->loadMigrationsFrom(__DIR__ . "./../Database/Migrations");
+
+        $this->loadViewsFrom(__DIR__ . "./../Resources/Views", "Payment");
+        $this->loadJsonTranslationsFrom(__DIR__ . './../Resources/Lang');
     }
 
     public function boot()
@@ -43,8 +50,23 @@ class PaymentServiceProvider extends ServiceProvider
             'icon' => 'i-my__purchases',
             'title' => 'خرید های من',
             'link' => route("purchases.index"),
+        ]);
+
+        config()->set("sidebar.items.settlement_pruchases", [
+            'icon' => 'i-checkout__request',
+            'title' => 'تسویه',
+            'link' => route("settlement.create"),
             'permission' => [
-                Permission::PERMISSION_MANAGE_PAYMENTS
+                Permission::PERMISSION_TEACH
+            ],
+        ]);
+
+        config()->set("sidebar.items.settlement", [
+            'icon' => 'i-checkouts',
+            'title' => 'تسویه حساب ها',
+            'link' => route("settlement.index"),
+            'permission' => [
+                Permission::PERMISSION_SUPER_ADMIN
             ],
         ]);
 

@@ -6,6 +6,7 @@ use Badzohreh\Course\Models\Course;
 use Badzohreh\Course\Models\Season;
 use Badzohreh\Media\Models\Media;
 use Badzohreh\Payment\Models\Payment;
+use Badzohreh\Payment\Models\Settlement;
 use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\User\Notifications\resetPasswordNotification;
 use Badzohreh\User\Notifications\sendForgotPasswordCodeNotification;
@@ -60,7 +61,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function payments()
     {
-        return $this->hasMany(Payment::class,"buyer_id","id");
+        return $this->hasMany(Payment::class, "buyer_id", "id");
     }
 
     public function banner()
@@ -110,4 +111,10 @@ class User extends Authenticatable implements MustVerifyEmail
             ->join("course_user", "courses.id", "=", "course_id")
             ->count();
     }
+
+    public function settlemens()
+    {
+        return $this->hasMany(Settlement::class, "user_id", "id");
+    }
+
 }

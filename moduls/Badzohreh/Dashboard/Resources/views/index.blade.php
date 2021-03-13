@@ -9,7 +9,7 @@
             <div class="row no-gutters font-size-13 margin-bottom-10">
                 <div class="col-3 padding-20 border-radius-3 bg-white margin-left-10 margin-bottom-10">
                     <p> موجودی حساب فعلی </p>
-                    <p>0 تومان</p>
+                    <p>{{ number_format(auth()->user()->balance) }} تومان</p>
                 </div>
                 <div class="col-3 padding-20 border-radius-3 bg-white margin-left-10 margin-bottom-10">
                     <p> کل فروش دوره ها</p>
@@ -75,34 +75,22 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr role="row">
-                            <td><a href=""> 1</a></td>
-                            <td><a href="">mohammadnio3@gmail.com</a></td>
-                            <td><a href="">600,000</a></td>
-                            <td><a href="">400,000</a></td>
-                            <td><a href="">400,000</a></td>
-                            <td><a href="">خرید دوره - دوره متخصص php سطح مقدماتی</a></td>
-                            <td><a href=""> 22:14:48 1399/02/23</a></td>
-                            <td><a href="" class="text-success">پرداخت موفق</a></td>
-                            <td class="i__oprations">
-                                <a href="" class="item-delete margin-left-10" title="حذف"></a>
-                                <a href="edit-transaction.html" class="item-edit" title='ویرایش'></a>
-                            </td>
-                        </tr>
-                        <tr role="row">
-                            <td><a href=""> 1</a></td>
-                            <td><a href="">mohammadniko3@gmail.com</a></td>
-                            <td><a href="">600,000</a></td>
-                            <td><a href="">400,000</a></td>
-                            <td><a href="">400,000</a></td>
-                            <td><a href="">خرید دوره - دوره متخصص php سطح مقدماتی</a></td>
-                            <td><a href=""> 22:14:48 1399/02/23</a></td>
-                            <td><a href="" class="text-error">پرداخت ناموفق</a></td>
-                            <td class="i__oprations">
-                                <a href="" class="item-delete margin-left-10" title="حذف"></a>
-                                <a href="edit-transaction.html" class="item-edit" title='ویرایش'></a>
-                            </td>
-                        </tr>
+
+                        @foreach($payments as $payment)
+                            <tr role="row">
+                                <td>{{ $payment->id }}</td>
+                                <td>{{ $payment->buyer->email }}</td>
+                                <td>{{ $payment->amount }}</td>
+                                <td>{{ $payment->seller_share }}</td>
+                                <td>{{ $payment->site_share }}</td>
+                                <td>{{ $payment->paymentable->title }}</td>
+                                <td style="direction: ltr">{{ \Morilog\Jalali\Jalalian::fromCarbon($payment->created_at)->format("Y/m/d H:i:s") }}</td>
+                                <td><span class="text-success">@lang($payment->status)</span></td>
+                                <td class="i__oprations">
+                                    <a href="" class="item-delete margin-left-10" title="حذف"></a>
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>

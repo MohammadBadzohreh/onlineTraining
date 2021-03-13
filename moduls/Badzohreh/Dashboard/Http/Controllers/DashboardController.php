@@ -24,11 +24,13 @@ class DashboardController extends Controller
 
         $getUserTodaySales = $paymentRepo->getUserTodaySales(auth()->id());
 
+        $payments = $paymentRepo->findLastetPaymentsUser(auth()->id());
+
         $dates = collect();
         foreach (range(-30, 0) as $i) {
             $dates->put(now()->addDays($i)->format("Y-m-d"), 0);
         }
-        $summry = $paymentRepo->getsummary($dates);
+        $summry = $paymentRepo->getsummary($dates, auth()->id());
 
         return view('Dashboard::index', compact("totalUserSales",
                 "totalUserSiteShare",
@@ -38,7 +40,9 @@ class DashboardController extends Controller
                 "todaySUseruccessCount",
                 "dates",
                 "summry",
-                "getUserTodaySales")
+                "getUserTodaySales",
+                "payments"
+            )
         );
     }
 }

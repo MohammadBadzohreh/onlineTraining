@@ -35,7 +35,7 @@ class UserController extends Controller
 
     public function addRole($userId, AddRoleRequest $request)
     {
-        $this->authorize("addRole",User::class);
+        $this->authorize("addRole", User::class);
         $user = $this->userRepo->findById($userId);
         $user->assignRole($request->role);
         showFeedbacks("عملیات موفقیت آمیز", "با موفقیت اضافه شد.");
@@ -44,7 +44,7 @@ class UserController extends Controller
 
     public function giveRole($user, $role)
     {
-        $this->authorize("removeRole",User::class);
+        $this->authorize("removeRole", User::class);
         $user = $this->userRepo->findById($user);
         if ($user->removeRole($role)) {
             return AjaxResponses::successResponses();
@@ -55,7 +55,7 @@ class UserController extends Controller
     public function edit($userId)
     {
 
-        $this->authorize("update",User::class);
+        $this->authorize("update", User::class);
 
         $user = $this->userRepo->findById($userId);
 
@@ -64,7 +64,7 @@ class UserController extends Controller
 
     public function update($userId, UpdateUserRequest $request)
     {
-        $this->authorize("update",User::class);
+        $this->authorize("update", User::class);
 
         $user = $this->userRepo->findById($userId);
         if ($request->file("image")) {
@@ -82,13 +82,13 @@ class UserController extends Controller
 
     public function destroy($userId)
     {
-        $this->authorize("delete",User::class);
+        $this->authorize("delete", User::class);
         $this->userRepo->delete($userId);
     }
 
     public function manualConfirm($userId)
     {
-        $this->authorize("manaualConfirm",User::class);
+        $this->authorize("manaualConfirm", User::class);
         $user = $this->userRepo->findById($userId);
         $user->markEmailAsVerified();
         return AjaxResponses::successResponses();
@@ -100,7 +100,7 @@ class UserController extends Controller
     public function userProfileImage(UpdateUserProfile $request)
     {
         $user = auth()->user();
-        if ($user->banner){
+        if ($user->banner) {
             $user->banner->delete();
         }
         $user->image_id = MediaService::publicUplaod($request->file("image"))->id;
@@ -119,5 +119,13 @@ class UserController extends Controller
         showFeedbacks();
         return back();
     }
+
+    public function info($user_id)
+    {
+        $this->authorize("index", User::class);
+        $user = $this->userRepo->findWithInfo($user_id);
+        return view("User::users.info", compact("user"));
+    }
+
 
 }

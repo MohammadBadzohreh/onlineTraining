@@ -32,6 +32,7 @@ class PaymentRepo
             "seller_percent" => $data["seller_percent"],
             "seller_share" => $data["seller_share"],
             "site_share" => $data["site_share"],
+            "seller_id" => $data["seller_id"]
         ]);
     }
 
@@ -111,12 +112,16 @@ class PaymentRepo
         return $this->acceptedPaymentsQuery()->sum("seller_share");
     }
 
-    public function getsummary($dates)
+    public function getsummary($dates, $user_id = null)
     {
 
 
-        $payments = Payment::query()->where("created_at", ">=", $dates->keys()->first())
-            ->orderBy("date")
+        $query = Payment::query()->where("created_at", ">=", $dates->keys()->first());
+
+        if (!is_null($user_id)) {
+            $query = $query->where("seller_id", $user_id);
+        }
+        $payments = $query->orderBy("date")
             ->groupBy("date")
             ->get([
                 DB::raw("DATE(created_at) as date"),
@@ -233,6 +238,15 @@ class PaymentRepo
         return $this->getSuccessPaymentsByUser($id)
             ->whereDate("created_at", ">=", Carbon::now()->subDays($period))
             ->sum("seller_share");
+    }
+
+    public function findLastetPaymentsUser($user_id)
+    {
+        return Payment::query()
+            ->with(["paymentable", "buyer"])
+            ->where("seller_id", $user_id)
+            ->latest()
+            ->get();
     }
 
 }

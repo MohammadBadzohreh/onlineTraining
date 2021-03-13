@@ -141,7 +141,7 @@ class CourseController extends Controller
             showFeedbacks("موفقیت آمیز", "شما با موفقیت در دور ثبت نام کردید.");
             return redirect()->to($course->path());
         }
-        $payment = PaymentServices::generate($amount, $course, auth()->user());
+        $payment = PaymentServices::generate($amount, $course, auth()->user(),$course->teacher_id);
         resolve(Gateway::class)->redirect();
     }
 

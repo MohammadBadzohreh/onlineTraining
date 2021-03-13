@@ -35,7 +35,6 @@ class PaymentController extends Controller
     public function index(PaymentRepo $paymentRepo, Request $request)
     {
 
-
         $payments = $paymentRepo
             ->searchEmail($request->email)
             ->searchAmount($request->amount)

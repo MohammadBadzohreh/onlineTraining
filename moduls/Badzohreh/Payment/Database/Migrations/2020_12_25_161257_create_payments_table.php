@@ -15,7 +15,6 @@ class CreatePaymentsTable extends Migration
             $table->bigInteger("seller_id")->unsigned()->nullable();
             $table->foreignId("paymentable_id");//
             $table->string("paymentable_type");//
-            $table->bigInteger("balance")->default(0);
             $table->string("amount", 10);//
             $table->string("invoice_id", 255);
             $table->string("getway");
