@@ -1,0 +1,15 @@
+{
+    "name": "badzohreh/media",
+    "autoload": {
+        "psr-4": {
+            "Badzohreh\\Media\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\Badzohreh\\Media\\Providers\\MediaServiceProvider"
+            ]
+        }
+    }
+}

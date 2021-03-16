@@ -1,0 +1,15 @@
+{
+    "name": "badzohreh/course",
+    "autoload": {
+        "psr-4": {
+            "Badzohreh\\Course\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\Badzohreh\\Course\\Providers\\CourseServiceProvider"
+            ]
+        }
+    }
+}

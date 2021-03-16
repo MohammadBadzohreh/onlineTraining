@@ -1,0 +1,15 @@
+{
+    "name": "badzohreh/front",
+    "autoload": {
+        "psr-4": {
+            "Badzohreh\\Front\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\Badzohreh\\Front\\Providers\\FrontServiceProvider"
+            ]
+        }
+    }
+}

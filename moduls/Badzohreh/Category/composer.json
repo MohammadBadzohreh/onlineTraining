@@ -1,0 +1,15 @@
+{
+    "name": "badzohreh/category",
+    "autoload": {
+        "psr-4": {
+            "Badzohreh\\Category\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\Badzohreh\\Category\\Providers\\CategoryServiceProvider"
+            ]
+        }
+    }
+}

@@ -177,15 +177,6 @@ return [
         App\Providers\RouteServiceProvider::class,
 
 
-        \Badzohreh\User\Providers\UserServiceProvider::class,
-        \Badzohreh\Dashboard\Providers\DashboardServiceProvider::class,
-        \Badzohreh\Category\Providers\CategoryServiceProvider::class,
-        \Badzohreh\RolePermissions\Providers\RolePermissionsProvider::class,
-        \Badzohreh\Course\Providers\CourseServiceProvider::class,
-        \Badzohreh\Media\Providers\MediaServiceProvider::class,
-        \Badzohreh\Common\Providers\CommonServiceProvider::class,
-        \Badzohreh\Front\Providers\FrontServiceProvider::class,
-        \Badzohreh\Payment\Providers\PaymentServiceProvider::class,
 
     ],
 

@@ -1,0 +1,15 @@
+{
+    "name": "badzohreh/user",
+    "autoload": {
+        "psr-4": {
+            "Badzohreh\\User\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\Badzohreh\\User\\Providers\\UserServiceProvider"
+            ]
+        }
+    }
+}

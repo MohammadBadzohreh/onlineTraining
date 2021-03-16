@@ -1,0 +1,15 @@
+{
+    "name": "badzohreh/payment",
+    "autoload": {
+        "psr-4": {
+            "Badzohreh\\Payment\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\Badzohreh\\Payment\\Providers\\PaymentServiceProvider"
+            ]
+        }
+    }
+}

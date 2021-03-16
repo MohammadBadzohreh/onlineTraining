@@ -1,0 +1,15 @@
+{
+    "name": "badzohreh/rolepermissions",
+    "autoload": {
+        "psr-4": {
+            "Badzohreh\\RolePermissions\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\Badzohreh\\RolePermissions\\Providers\\RolePermissionsProvider"
+            ]
+        }
+    }
+}

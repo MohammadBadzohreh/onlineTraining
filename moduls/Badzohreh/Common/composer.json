@@ -1,0 +1,15 @@
+{
+    "name": "badzohreh/common",
+    "autoload": {
+        "psr-4": {
+            "Badzohreh\\Common\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\Badzohreh\\Common\\Providers\\CommonServiceProvider"
+            ]
+        }
+    }
+}

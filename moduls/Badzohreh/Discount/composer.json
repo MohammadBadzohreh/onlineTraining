@@ -1,0 +1,15 @@
+{
+    "name": "badzohreh/discount",
+    "autoload": {
+        "psr-4": {
+            "Badzohreh\\Discount\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\Badzohreh\\Discount\\Providers\\DiscountServiceProvider"
+            ]
+        }
+    }
+}

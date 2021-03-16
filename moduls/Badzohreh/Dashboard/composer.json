@@ -1,0 +1,15 @@
+{
+    "name": "badzohreh/dashboard",
+    "autoload": {
+        "psr-4": {
+            "Badzohreh\\Dashboard\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\Badzohreh\\Dashboard\\Providers\\DashboardServiceProvider"
+            ]
+        }
+    }
+}
