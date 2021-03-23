@@ -9,6 +9,7 @@ use Badzohreh\Payment\Models\Settlement;
 use Badzohreh\Payment\Repositories\SattlementRepo;
 use Badzohreh\Payment\Services\PaymentServices;
 use Badzohreh\Payment\Services\SettlementServices;
+use Badzohreh\RolePermissions\Models\Permission;
 use Illuminate\Http\Request;
 
 class SettlementController extends Controller
@@ -23,19 +24,23 @@ class SettlementController extends Controller
 
     public function index(Request $request)
     {
-        $this->authorize("index",Settlement::class);
+        $this->authorize("index", Settlement::class);
         $query = $this->sattlementRepo;
-
-        if ($request->has("status") && $request->status = Settlement::STATUS_SATTELED) {
+        if ($request->has("status") && $request->status == "satteled") {
             $query = $query->sattled();
         }
+        if (!auth()->user()->hasPermissionTo(Permission::PERMISSION_SUPER_ADMIN))
+            $query = $query->findMylatestSattlements(auth()->id());
+
         $settlements = $query->lastet()->paginate();
+
         return view("Payment::settlements.index", compact("settlements"));
     }
 
 
     public function create()
     {
+        $this->authorize("create", Settlement::class);
         if (auth()->user()->exsitsPendingSettlement(auth()->id())) {
             showFeedbacks("َشما یک درخواست تسویه قابل اجرا دارید!");
             return back();
@@ -46,6 +51,7 @@ class SettlementController extends Controller
 
     public function store(StoreSattlementRequest $request)
     {
+        $this->authorize("create", Settlement::class);
         if (auth()->user()->exsitsPendingSettlement(auth()->id())) {
             showFeedbacks("َشما یک درخواست تسویه قابل اجرا دارید!");
             return back();
@@ -56,6 +62,8 @@ class SettlementController extends Controller
 
     public function edit($sattlement)
     {
+
+        $this->authorize("edit", Settlement::class);
         $sattlement = $this->sattlementRepo->find($sattlement);
 
         $lastSattlement = $this->sattlementRepo->getLastSattlement($sattlement->user->id);
@@ -71,6 +79,8 @@ class SettlementController extends Controller
 
     public function update($settlement, UpdateSattlemetnRequest $request)
     {
+        $this->authorize("edit", Settlement::class);
+
         SettlementServices::update($settlement, $request->all());
 
         return redirect()->route("settlement.index");

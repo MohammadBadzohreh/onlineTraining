@@ -4,6 +4,7 @@ namespace Badzohreh\Course\Models;
 
 use Badzohreh\Category\Models\Category;
 use Badzohreh\Course\Repositories\CourseRepo;
+use Badzohreh\Discount\Models\Discount;
 use Badzohreh\Media\Models\Media;
 use Badzohreh\Payment\Models\Payment;
 use Badzohreh\User\Models\User;
@@ -102,6 +103,11 @@ class Course extends Model
     public function payments()
     {
         return $this->morphMany(Payment::class, "paymentable");
+    }
+
+    public function discount()
+    {
+        return $this->morphToMany(Discount::class, 'discountable', "discountables");
     }
 
     public function students()

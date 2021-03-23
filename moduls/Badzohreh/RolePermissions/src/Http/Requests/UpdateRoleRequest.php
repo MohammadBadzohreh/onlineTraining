@@ -25,8 +25,15 @@ class UpdateRoleRequest extends FormRequest
     {
 
         return [
-            "name"=>"required|min:3|unique:roles,name,".$this->permission,
-            "permissions"=>"required|array|min:1",
+            "name" => "required|min:3|unique:roles,name," . $this->permission,
+            "permissions" => "nullable|array|min:1",
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            "permissions" => "نقش کاربری"
         ];
     }
 }

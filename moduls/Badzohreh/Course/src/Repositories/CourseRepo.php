@@ -123,9 +123,18 @@ class CourseRepo
 
     }
 
-    public function hasStudent(Course $course,$student_id)
+    public function hasStudent(Course $course, $student_id)
     {
         return $course->students->contains($student_id);
+    }
+
+    public function allCourseBylatest(string $confirmation_status = Course::ACCEPTED_CONFIRMATION_STATUS)
+    {
+
+        return Course::query()
+            ->where("confirmation_status", $confirmation_status)
+            ->latest()
+            ->get();
     }
 
 

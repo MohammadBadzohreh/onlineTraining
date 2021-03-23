@@ -32,6 +32,9 @@ class PaymentServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . "./../Resources/Views", "Payment");
         $this->loadJsonTranslationsFrom(__DIR__ . './../Resources/Lang');
 
+
+        Gate::policy(PaymentPolicy::class, PaymentPolicy::class);
+
         Gate::policy(Settlement::class, SettlementPolicy::class);
 
 
@@ -72,8 +75,8 @@ class PaymentServiceProvider extends ServiceProvider
             'title' => 'تسویه حساب ها',
             'link' => route("settlement.index"),
             'permission' => [
-                Permission::PERMISSION_SUPER_ADMIN,
                 Permission::PERMISSION_MANAGE_SETTLEMENTS,
+                Permission::PERMISSION_TEACH,
             ],
         ]);
 

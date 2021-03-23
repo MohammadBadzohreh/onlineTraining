@@ -70,4 +70,17 @@ class SattlementRepo
             ->latest()
             ->first();
     }
+
+    public function ownSettlements(int $user_id)
+    {
+
+        return $this->query->where("user_id", $user_id);
+    }
+
+    public function findMylatestSattlements($user_id)
+    {
+        $this->query = $this->query->where("user_id", $user_id);
+        return $this;
+    }
+
 }

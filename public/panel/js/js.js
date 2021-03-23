@@ -52,7 +52,7 @@ function create_custom_dropdowns() {
         }
     });
 
-    $('.dropdown-select ul').before('<div class="dd-search"><input id="txtSearchValue" autocomplete="off" onkeyup="filter()" class="dd-searchbox" type="text"></div>');
+    // $('.dropdown-select ul').before('<div class="dd-search"><input id="txtSearchValue" autocomplete="off" onkeyup="filter()" class="dd-searchbox" type="text"></div>');
 }
 
 $(document).on('click', '.dropdown-select', function (event) {
@@ -256,6 +256,10 @@ $('.create-ads .ads-field-pn').on('click', function (e) {
 $('.create-ads .ads-field-banner').on('click', function (e) {
     $('.file-upload').show()
 });
+
+if ($('#discounts-field-2').is(':checked')){
+    $('.discounts .dropdown-select').addClass('is-active')
+}
 $('.discounts #discounts-field-2').on('click', function (e) {
     $('.discounts .dropdown-select').addClass('is-active')
 });

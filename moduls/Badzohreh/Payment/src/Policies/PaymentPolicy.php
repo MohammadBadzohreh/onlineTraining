@@ -1,28 +1,23 @@
 <?php
 
-namespace Badzohreh\Category\Policies;
+namespace Badzohreh\Payment\Policies;
 
 use Badzohreh\RolePermissions\Models\Permission;
 use Badzohreh\User\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CategoryPolicy
+class PaymentPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Create a new policy instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         //
     }
 
-
     public function manage(User $user)
     {
-        return $user->hasPermissionTo(Permission::PERMISSION_MANAGE_CATEGORY);
+        if ($user->hasPermissionTo(Permission::PERMISSION_MANAGE_PAYMENTS)) return true;
+        return null;
     }
 }

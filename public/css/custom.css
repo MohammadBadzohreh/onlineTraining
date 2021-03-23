@@ -1,26 +1,48 @@
-.modal-body table{
+.modal-body table {
     width: 100%;
     text-align: right;
     border-collapse: collapse;
     background: #cccccc0a;
 }
-.modal-body table th , td{
+
+.modal-body table th, td {
     border: 1px solid #cccccc59;
     padding: 0.5em 0.7em;
 }
+
 .modal-content {
     color: #7b868a !important;
     font-size: 0.9em;
 }
-.text-white{
+
+.text-white {
     color: #ffffff !important;
 }
-.w-100{
+
+.w-100 {
     width: 100% !important;
 }
-.text-blue{
+
+.text-blue {
     color: #006fe2 !important;
 }
-.text-red{
+
+.text-red {
     color: #ff0909c9;
+}
+
+.selection {
+    width: 100% !important;
+}
+
+textarea.select2-search__field {
+    resize: none;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: solid 2px #e2e2e2;
+    border-radius: 3px;
+    width: 100%;
+    font-family: irs;
+    font-size: 13px;
+    height: 32px !important;
 }
