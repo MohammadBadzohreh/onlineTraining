@@ -22,5 +22,11 @@ Route::group(["middleware" => ["auth"]], function ($router) {
         "uses" => "DiscountController@update",
         "as" => "discount.update"
     ]);
+
+
+    $router->delete("/discount/{id}/delete", [
+        "uses" => "DiscountController@delete",
+        "as" => "discount.delete"
+    ]);
 });
 

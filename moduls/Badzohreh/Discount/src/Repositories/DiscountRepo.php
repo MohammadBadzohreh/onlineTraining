@@ -59,4 +59,11 @@ class DiscountRepo
             $discount->courses()->sync([]);
         }
     }
+
+    public function delete($discount_id)
+    {
+        $discount = $this->findOrFail($discount_id);
+
+        $discount->delete();
+    }
 }

@@ -2,7 +2,10 @@
 
 namespace Badzohreh\Discount\Providers;
 
+use Badzohreh\Discount\Models\Discount;
+use Badzohreh\Discount\Policies\DiscountPolicy;
 use Badzohreh\RolePermissions\Models\Permission;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,6 +20,8 @@ class DiscountServiceProvider extends ServiceProvider
             ->group(__DIR__ . "./../Routes/discount-routes.php");
         $this->loadMigrationsFrom(__DIR__ . "./../Database/Migrations");
         $this->loadViewsFrom(__DIR__ . "./../Resources/Views", "Discount");
+
+        Gate::policy(Discount::class, DiscountPolicy::class);
     }
 
     public function boot()

@@ -32,7 +32,8 @@
                                         <td>{{ $discount->discription }}</td>
                                         <td>{{ $discount->uses }}نفر</td>
                                         <td>
-                                            <a href="" class="item-delete mlg-15"></a>
+                                            <a href="#" onclick="handleDeleteDiscount(event,'{{ $discount->id }}')"
+                                               class="item-delete mlg-15"></a>
                                             <a href="{{ route('discount.edit',$discount->id) }}" class="item-edit "
                                                title="ویرایش"></a>
                                         </td>
@@ -105,10 +106,41 @@
         $("#date_picker").persianDatepicker({
             formatDate: "YYYY/MM/DD hh:mm"
         });
-    </script>
-
-    <script>
         $("#js_select_2").select2({width: '100%'});
+
+
+        function handleDeleteDiscount(e, discount_id) {
+            e.preventDefault();
+            $.ajax(
+                {
+                    url: '/discount/' + discount_id + '+/delete',
+                    type: 'DELETE',
+                    data: {
+                        "_token": '{{ csrf_token() }}',
+                    },
+                    success: function (respose) {
+                        e.target.closest("tr").remove();
+                        $.toast({
+                            heading: "موفقیت آمیز",
+                            text: 'ایتم مورد نظر با موفقیت حذف شد.',
+                            showHideTransition: 'slide',
+                            icon: 'success'
+                        });
+                    },
+                    error: function (respose) {
+                        $.toast({
+                            heading: 'خطایی به وجود آمده است',
+                            showHideTransition: 'fade',
+                            icon: 'error'
+                        });
+                    }
+                });
+
+
+            console.log(discount_id);
+        }
+
+
     </script>
 @endsection
 
