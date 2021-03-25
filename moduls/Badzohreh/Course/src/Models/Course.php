@@ -5,6 +5,7 @@ namespace Badzohreh\Course\Models;
 use Badzohreh\Category\Models\Category;
 use Badzohreh\Course\Repositories\CourseRepo;
 use Badzohreh\Discount\Models\Discount;
+use Badzohreh\Discount\Repositories\DiscountRepo;
 use Badzohreh\Media\Models\Media;
 use Badzohreh\Payment\Models\Payment;
 use Badzohreh\User\Models\User;
@@ -90,7 +91,7 @@ class Course extends Model
 
     public function format_price()
     {
-        return number_format($this->price);
+        return number_format($this->getFinalPrice());
 
     }
 
@@ -122,19 +123,30 @@ class Course extends Model
 
     public function getDiscountPercent()
     {
-//        todo
-        return 0;
+
+        $percent = 0;
+        $discountRepo = new DiscountRepo();
+        $allDiscount = $discountRepo->getAllDiscount();
+
+        if ($allDiscount && $allDiscount->percent) $percent = $allDiscount->percent;
+
+        $specificDiscount = $discountRepo->getSprecificDiscount($this->id);
+
+        if ($specificDiscount && $specificDiscount->percent)
+            $percent = $specificDiscount->percent;
+
+        return $percent;
+
     }
 
     public function getDiscountAmont()
     {
-//        todo
-        return 0;
+
+        return ($this->price * $this->getDiscountPercent()) / 100;
     }
 
     public function getFinalPrice()
     {
-//        todo
         return $this->price - $this->getDiscountAmont();
     }
 

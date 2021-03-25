@@ -28,7 +28,11 @@
 }
 
 .text-red {
-    color: #ff0909c9;
+    color: #ff0909c9 !important;
+}
+
+.text-success {
+    color: #00b894 !important;
 }
 
 .selection {
@@ -45,4 +49,13 @@ textarea.select2-search__field {
     font-family: irs;
     font-size: 13px;
     height: 32px !important;
+}
+
+.loading {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
 }

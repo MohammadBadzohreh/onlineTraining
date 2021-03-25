@@ -78,7 +78,7 @@
     <script src="{{ asset('/js/select2.js') }}"></script>
     <script>
         $("#date_picker").persianDatepicker({
-            formatDate: "YYYY/MM/DD hh:mm"
+            formatDate: "YYYY/0M/0D hh:mm"
         });
     </script>
 

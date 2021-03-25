@@ -30,7 +30,7 @@ class Discount extends Model
 
     public static function booted()
     {
-        static::deleting(function ($discount) {
+        static::deleted(function ($discount) {
             $discount->courses()->sync([]);
         });
     }

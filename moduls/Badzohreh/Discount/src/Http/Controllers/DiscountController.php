@@ -9,9 +9,8 @@ use Badzohreh\Discount\Http\Requests\StoreDiscountRequest;
 use Badzohreh\Discount\Http\Requests\UpdateDiscountRequest;
 use Badzohreh\Discount\Models\Discount;
 use Badzohreh\Discount\Repositories\DiscountRepo;
+use Badzohreh\Discount\Services\DiscountServices;
 use Illuminate\Http\Request;
-use Morilog\Jalali\Jalalian;
-use function React\Promise\reduce;
 
 class DiscountController extends Controller
 {
@@ -33,7 +32,6 @@ class DiscountController extends Controller
         return view("Discount::index", compact("courses", "discounts"));
     }
 
-//todo store discount request
     public function store(StoreDiscountRequest $request)
     {
         $this->authorize("manage", Discount::class);
@@ -63,5 +61,16 @@ class DiscountController extends Controller
         $this->authorize("manage", Discount::class);
         $this->discountRepo->delete($discount_id);
         return AjaxResponses::successResponses();
+    }
+
+    public function check_discount_by_code(Request $request)
+    {
+        $discount = $this->discountRepo->CheckValidDiscountByCode($request->course, $request->code);
+
+        if ($discount) {
+            return DiscountServices::checkDiscountCodeSuccessAjaxReponse($request->course, $discount->percent);
+        } else {
+            return DiscountServices::checkDiscountCodeFailAjaxReponse();
+        }
     }
 }

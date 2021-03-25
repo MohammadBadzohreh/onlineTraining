@@ -28,5 +28,9 @@ Route::group(["middleware" => ["auth"]], function ($router) {
         "uses" => "DiscountController@delete",
         "as" => "discount.delete"
     ]);
+
+    $router->get("/discount/{code}/{course}/check","DiscountController@check_discount_by_code")->name("discount.check");
+
+
 });
 

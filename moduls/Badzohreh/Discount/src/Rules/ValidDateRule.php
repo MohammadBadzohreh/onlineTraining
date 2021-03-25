@@ -12,14 +12,13 @@ class ValidDateRule implements Rule
 
     public function passes($attribute, $value)
     {
-           try {
-            Jalalian::fromFormat("Y/n/d H:i", $value)->toCarbon();
+        try {
+            Jalalian::fromFormat("Y/m/d H:i", $value)->toCarbon();
             return true;
         } catch (\Exception $exception) {
             return false;
         }
     }
-
 
     public function message()
     {

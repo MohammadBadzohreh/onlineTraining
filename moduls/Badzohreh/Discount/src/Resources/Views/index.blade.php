@@ -16,6 +16,7 @@
                                 <tr role="row" class="title-row">
                                     <th>شناسه</th>
                                     <th>درصد</th>
+                                    <th>برای</th>
                                     <th>محدودیت زمانی</th>
                                     <th>توضیحات</th>
                                     <th>استفاده شده</th>
@@ -26,10 +27,11 @@
 
                                 @foreach($discounts as $discount)
                                     <tr role="row" class="">
-                                        <td><a href="">{{ $discount->id }}</a></td>
-                                        <td><a href="">{{ $discount->percent }}%</a></td>
+                                        <td>{{ $discount->id }}</td>
+                                        <td>{{ $discount->percent }}%</td>
+                                        <td>{{ $discount->type == \Badzohreh\Discount\Models\Discount::DISCOUNT_ALL_TYPE ? "همه دوره ها" : "دوره های خاص" }}</td>
                                         <td>{{ $discount->expire_at->diffForHumans() }}</td>
-                                        <td>{{ $discount->discription }}</td>
+                                        <td>{{ $discount->description }}</td>
                                         <td>{{ $discount->uses }}نفر</td>
                                         <td>
                                             <a href="#" onclick="handleDeleteDiscount(event,'{{ $discount->id }}')"
@@ -104,7 +106,7 @@
     <script src="{{ asset('/js/select2.js') }}"></script>
     <script>
         $("#date_picker").persianDatepicker({
-            formatDate: "YYYY/MM/DD hh:mm"
+            formatDate: "YYYY/0M/0D hh:mm"
         });
         $("#js_select_2").select2({width: '100%'});
 

@@ -52,10 +52,13 @@
                                 @elseif(auth()->user()->can("download",$course))
                                     <p class="mycourse">شما این دوره رو خریداری کرده اید</p>
                                 @else
-                                    <div class="discountBadge">
-                                        <p>45%</p>
-                                        تخفیف
-                                    </div>
+                                    @if($course->getDiscountPercent())
+                                        <div class="discountBadge">
+                                            <p>{{ $course->getDiscountPercent() }}%</p>
+                                            تخفیف
+                                        </div>
+                                    @endif
+
                                     <div class="sell_course">
                                         <strong>قیمت :</strong>
                                         <del class="discount-Price">{{  $course->getDiscountAmont()  }}</del>
@@ -226,8 +229,15 @@
                     <form method="post" action="{{ route("course.buy" , $course->id) }}">
                         @csrf
 
-                        <div><input type="text" class="txt" placeholder="کد تخفیف را وارد کنید"></div>
-                        <button class="btn i-t ">اعمال</button>
+                        <div><input type="text" id="code" class="txt" placeholder="کد تخفیف را وارد کنید"></div>
+
+                        <p id="response_check_discount_message" class="font-size-15"></p>
+
+                        <button class="btn i-t" onclick="handleCheckDiscountCode(event)">
+                            <span>اعمال</span>
+                            <img src="{{ asset('/img/loading.gif') }}" alt="loading" class="loading d-none">
+                        </button>
+
 
                         <table class="table text-center table-bordered table-striped">
                             <tbody>
@@ -237,15 +247,15 @@
                             </tr>
                             <tr>
                                 <th>درصد تخفیف</th>
-                                <td>{{ $course->getDiscountPercent() }}%</td>
+                                <td id="discount_percent">{{ $course->getDiscountPercent() }}%</td>
                             </tr>
                             <tr>
                                 <th> مبلغ تخفیف</th>
-                                <td class="text-red"> {{ $course->getDiscountAmont() }} تومان</td>
+                                <td class="text-red" id="discount_amount"> {{ $course->getDiscountAmont() }} تومان</td>
                             </tr>
                             <tr>
                                 <th> قابل پرداخت</th>
-                                <td class="text-blue"> {{ $course->getFinalPrice() }} تومان</td>
+                                <td class="text-blue" id="payable"> {{ $course->getFinalPrice() }} تومان</td>
                             </tr>
                             </tbody>
                         </table>
@@ -261,4 +271,30 @@
 
 @section("js")
     <script src="/js/modal.js"></script>
+
+    <script>
+        function handleCheckDiscountCode(e) {
+            e.preventDefault();
+            var code = $("#code").val();
+            $(".loading").removeClass("d-none");
+            $.get("/discount/" + code + "/" + {{ $course->id }} +"/check")
+                .done(function (response) {
+                    $("#discount_percent").text(response.discountPercent + "%");
+                    $("#discount_amount").text(response.discountAmount);
+                    $("#payable").text(response.payable);
+                    $("#response_check_discount_message").removeClass("text-red").addClass("text-success").text("کد تخفیف با موفقیت اعمال شد.");
+                })
+                .fail(function (response) {
+
+                    $("#discount_percent").text("0%");
+                    $("#discount_amount").text("0تومان");
+                    $("#payable").text('{{ $course->price }}');
+                    $("#response_check_discount_message").removeClass("text-success").addClass("text-red").text("کد تخفیف معتبر نیست.");
+                })
+                .always(function () {
+                    $(".loading").addClass("d-none");
+                });
+        }
+    </script>
+
 @endsection
